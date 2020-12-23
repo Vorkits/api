@@ -7,6 +7,8 @@ import Matches from '../views/Matches.vue'
 import About from '../views/About.vue'
 import Smash from '../views/Smash.vue'
 import Login from '../views/Login.vue'
+import Profile from '../views/Profile.vue'
+
 
 
 Vue.use(VueRouter)
@@ -50,6 +52,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: Profile
+    
   }
 ]
 
