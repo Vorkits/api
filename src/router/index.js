@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '../store/index.js'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Tournaments from '../views/Tournaments.vue'
@@ -7,6 +8,7 @@ import Matches from '../views/Matches.vue'
 import About from '../views/About.vue'
 import Smash from '../views/Smash.vue'
 import Login from '../views/Login.vue'
+import User from '../views/User.vue'
 
 
 Vue.use(VueRouter)
@@ -50,6 +52,14 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: User,
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
@@ -57,6 +67,18 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
