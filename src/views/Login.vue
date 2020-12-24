@@ -15,15 +15,15 @@
                         Or login with username and password
                       </p>
                     </div>
-                    <v-form v-model="valid" ref="formAuth">
+                    <v-form v-model="validAuth" ref="formAuth">
                       <v-row>
                         <v-col cols="12" md="12">
-                          <v-text-field v-model="email" hide-details single-line outlined
+                          <v-text-field v-model="form.email" hide-details single-line outlined
                                         autocomplete="off" type="email" placeholder="E-mail"
                                         :rules="rules.email" required></v-text-field>
                         </v-col>
                         <v-col cols="12" md="12">
-                          <v-text-field v-model="password" hide-details single-line outlined
+                          <v-text-field v-model="form.password" hide-details single-line outlined
                                         placeholder="Password" min="8" type="password"
                                         :rules="rules.password" autocomplete="off" required>
                           </v-text-field>
@@ -43,7 +43,7 @@
 
                       <p class="text-caption mb-7">Login with e-mail</p>
                     </div>
-                    <v-form v-model="valid" ref="formReg">
+                    <v-form v-model="validReg" ref="formReg">
                       <v-row>
                         <v-col cols="12">
                           <v-text-field v-model="form.firstName" :rules="rules.name" hide-details single-line outlined
@@ -118,14 +118,8 @@
 export default {
   data() {
     return {
-      valid: false,
-      password: '',
-      passwordRules: [
-        (v) => !!v || 'Password is required',
-        v => (v || '').length > 8 ||
-            `min 8 `
-      ],
-      email: '',
+      validAuth: false,
+      validReg: false,
       form: {
         firstName: '',
         lastName: '',
@@ -159,13 +153,11 @@ export default {
   methods: {
     login() {
       if (this.$refs.formAuth.validate()) {
-        this.$store.dispatch('register', {
-          name: this.form.firstName + this.form.lastName,
-          city: this.form.city,
+        this.$store.dispatch('login', {
           email: this.form.email,
           password: this.form.password,
         }).then(() => {
-          this.$router.push('/players')
+          this.$router.push('/user')
         }).catch(err => {
           console.log(err)
         })
@@ -174,7 +166,7 @@ export default {
     register() {
       if (this.$refs.formReg.validate()) {
         this.$store.dispatch('register', {
-          name: this.form.firstName + this.form.lastName,
+          name: this.form.firstName +' '+ this.form.lastName,
           city: this.form.city,
           email: this.form.email,
           password: this.form.password,

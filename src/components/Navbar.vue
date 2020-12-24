@@ -4,10 +4,14 @@
             <v-app-bar-nav-icon class="grey--text" @click="drawer=!drawer"></v-app-bar-nav-icon>
             <v-toolbar-title class="text-uppercase grey--text">
                 <span class="font-weight-light">Company</span>
-                <span>Name</span>        
+                <span>Name</span>
             </v-toolbar-title>
             <v-spacer/>
-            <v-btn text dark>
+            <v-btn v-if="isLoggedIn" v-show="user.name" href="/user" text dark>
+              <span>{{ user.name }}</span>
+              <v-icon>mdi-login</v-icon>
+            </v-btn>
+            <v-btn href="/login" v-else text dark>
                 <span>Login</span>
                 <v-icon>mdi-login</v-icon>
             </v-btn>
@@ -20,12 +24,12 @@
                         <v-list-item-title class="text-center">Levels</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                
+
                 <v-col cols="12" sm="6" class="py-2 pl-md-8">
                 <v-btn-toggle v-model="toggle_none">
                     <v-btn x-small v-for='level in levels' :key=level.abbr :color="level.color">
                         <span>{{level.abbr}}</span>
-                    </v-btn>                    
+                    </v-btn>
                 </v-btn-toggle>
                 </v-col>
 
@@ -44,6 +48,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
     data(){
         return{
@@ -60,6 +65,7 @@ export default {
         }
     },
     computed:{
+        ...mapGetters(['isLoggedIn','user']),
         levels(){
             return this.$store.state.levels
         },

@@ -10,8 +10,6 @@ import Smash from '../views/Smash.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 
-
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -59,6 +57,7 @@ const routes = [
     name: 'user',
     component: Profile,
     meta: {
+      showSideBar: true,
       requiresAuth: true
     }
   }
@@ -71,6 +70,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  store.commit('setShowSideBar', to.matched.some(record => record.meta.showSideBar))
+
+
+
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next()

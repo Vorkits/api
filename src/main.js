@@ -5,11 +5,11 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import axios from 'axios';
 
-Vue.prototype.$http = axios;
+Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 const token = localStorage.getItem('token')
 if (token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+  Vue.prototype.$axios.defaults.headers.common['Authorization'] = token
 }
 
 new Vue({
