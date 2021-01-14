@@ -52,3 +52,25 @@ def change_field():
     else:
         print('non args')
         return{'status':'error'},401
+    
+@user_route.route('/get_city',methods=['GET'])
+def get_city():
+    
+    form=dict(request.args)
+    city=form.get('city',False)
+    if city:
+        city=city.lower()
+        return f.get_city(city)
+    else:
+        print('non args')
+        return{'status':'error'},401
+    
+@user_route.route('/get_user/<id>',methods=['GET'])
+def get_f_user(id):
+    
+    print(id)
+    if id:
+        return f.get_user(id)
+    else:
+        print('non args')
+        return{'status':'error'},401

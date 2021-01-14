@@ -28,8 +28,10 @@ def create_user(password,email,name,city):
         email=email.replace('.','&&')
         photo='standart.jpg'
         photo=storage.child(f"avatars/{photo}").get_url(user['idToken'])
-        db.child("users").child(email).set({'name':name,'city':city,'token':token,'score':0,'level':0,'photo':photo})
+        user_form={'name':name,'city':city,'token':token,'score':20,'level':1,'photo':photo}
+        db.child("users").child(email).set(user_form)
         db.child("tokens").child(token).set({'user':email})
+        db.child('cityes').child(city).child(email).set({'id':email,'name':name})
         return {'status':'success','token':token},200
     except Exception as e:
         print(e)
@@ -133,8 +135,73 @@ def upload_photo(token,photo):
         return {'status':'error'},401
         
 
+def get_city(city):
+    try:
+        
+        data=db.child("cityes").child(city).get().val()
+        return dict(data)
+        
+    except Exception as e:
+        print(e)
+        return {'status':'error'},401
+def get_user(email):
+    try:
+        
+        data=db.child("users").child(email).get().val()
+        return dict(data)
+        
+    except Exception as e:
+        print(e)
+        return {'status':'error'},401
 
 
+def c_create(phone,token,city,addres,photo):
+    # try:
+        
+        storage.child("coarts").child(f'{photo}').put(photo)
+        os.remove(photo)
+        photo_url=storage.child("coarts").child(f'{photo}').get_url('2')
+        coart_id=uuid.uuid4().hex
+        print(coart_id)
+        user=get_data(token)
+        email=get_email(token)
+        data={'user':email,'owner':user['name'],'phone':phone,'photo':photo_url,'addr':addres,'city':city,'id':coart_id,'reservs':[]}
+        db.child("coarts").child(coart_id).set(data)
+        db.child("cityes").child(city).child('coarts').child(coart_id).set(data)
+        try:
+            coar=db.child("users").child(data['user']).child('coarts').get().val()
+            if  not coar:coar={}
+        except:
+            coar={}
+        coar[coart_id]=coart_id
+        db.child("users").child(data['user']).child('coarts').set(coar)
+        return {'status': 'success','coart_id':coart_id}
+    # except Exception as e:
+    #     print(e)
+    #     return {'status':'error'},401
+    
+def set_field_coart(token,coart_id,field,value):
+    try:
+    
+        data=dict(db.child("coarts").child(coart_id).get().val())
+        if data['user']==get_email(token):
+            data[field]=value
+            db.child("coarts").child(coart_id).set(data)
+            return {'status':'success'},200
+        else:
+            return {'status':'error','desc':'not rules'},401
+    except Exception as e:
+        print(e)
+        return {'status':'error'},401
+    
+def get_coart(coart_id):
+    try:
+    
+        data=dict(db.child("coarts").child(coart_id).get().val())
+        return data
+    except Exception as e:
+        print(e)
+        return {'status':'error'},401
 # def check_token(token)
 #     try:
 #         auth = firebase.auth()
