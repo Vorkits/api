@@ -11,10 +11,10 @@
               <span>{{ user.name }}</span>
               <v-icon>mdi-login</v-icon>
             </v-btn>
-            <v-btn href="/login" v-else text dark>
+            <router-link to="/login" v-else text dark>
                 <span>Login</span>
                 <v-icon>mdi-login</v-icon>
-            </v-btn>
+            </router-link>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" class="py-md-4" color="#272727" temporary dark app ma-6>

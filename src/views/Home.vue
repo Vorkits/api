@@ -146,8 +146,7 @@
           <v-responsive width="100%"></v-responsive>
         </template>
         <div class="d-flex justify-start mb-6">
-          <v-btn class="mt-8 mr-2 d-inline red darken-1" dark>Sign up for free</v-btn>
-          <v-btn class="mt-8 d-inline indigo darken-1" dark>Login with facebook</v-btn>
+         
         </div>
       </v-row>
     </v-container>

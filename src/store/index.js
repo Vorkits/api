@@ -18,15 +18,15 @@ export default new Vuex.Store({
         },
         companyName: 'Company Name',
         levels: [
-            {name: 'Total Beginner', abbr: 'T', color: '#467E32'}, {name: 'Beginner', abbr: 'B', color: '#8BC34A'},
-            {name: 'Intermediate', abbr: 'I', color: '#F6C02D'}, {name: 'Advanced', abbr: 'A', color: '#EA7A00'},
-            {name: 'Pro', abbr: 'P', color: '#BF3B0C'}
+            { name: 'Total Beginner', abbr: 'T', color: '#467E32' }, { name: 'Beginner', abbr: 'B', color: '#8BC34A' },
+            { name: 'Intermediate', abbr: 'I', color: '#F6C02D' }, { name: 'Advanced', abbr: 'A', color: '#EA7A00' },
+            { name: 'Pro', abbr: 'P', color: '#BF3B0C' }
         ],
         info: [
-            {category: 'Tennis Players', val: '32.111'}, {
+            { category: 'Tennis Players', val: '32.111' }, {
                 category: 'Tennis Players Chat',
                 val: '277.380'
-            }, {category: 'Scheduled Matches', val: '105.781'}
+            }, { category: 'Scheduled Matches', val: '105.781' }
         ]
     },
     mutations: {
@@ -52,12 +52,12 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        getUser({commit, state}) {
+        getUser({ commit, state }) {
             const token = state.token
             return new Promise((resolve, reject) => {
                 const formData = new FormData()
                 formData.append('token', token)
-                axios({url: '/api/user/get_user', data: formData, method: 'POST'})
+                axios({ url: 'http://127.0.0.1:5000/api/user/get_user', data: formData, method: 'POST' })
                     .then(resp => {
                         localStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
@@ -71,7 +71,7 @@ export default new Vuex.Store({
                     })
             })
         },
-        login({commit, dispatch}, user) {
+        login({ commit, dispatch }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
 
@@ -80,7 +80,7 @@ export default new Vuex.Store({
                     formData.append(key, user[key])
                 })
 
-                axios({url: '/api/auth/sign_in', data: formData, method: 'POST'})
+                axios({ url: 'http://127.0.0.1:5000/api/auth/sign_in', data: formData, method: 'POST' })
                     .then(resp => {
                         commit('auth_success', resp.data.token)
                         dispatch('getUser')
@@ -99,7 +99,7 @@ export default new Vuex.Store({
                     })
             })
         },
-        register({commit, dispatch}, user) {
+        register({ commit, dispatch }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
 
@@ -109,10 +109,10 @@ export default new Vuex.Store({
                 })
 
                 axios({
-                    method: 'post',
-                    url: '/api/auth/create_user',
-                    data: formData,
-                })
+                        method: 'post',
+                        url: 'http://127.0.0.1:5000/api/auth/create_user',
+                        data: formData,
+                    })
                     .then(resp => {
                         commit('auth_success', resp.data.token)
                         dispatch('getUser')
