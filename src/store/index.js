@@ -57,7 +57,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 const formData = new FormData()
                 formData.append('token', token)
-                axios({ url: 'http://127.0.0.1:5000/api/user/get_user', data: formData, method: 'POST' })
+                axios({ url: 'http://82.146.45.20/api/user/get_user', data: formData, method: 'POST' })
                     .then(resp => {
                         localStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
@@ -80,7 +80,7 @@ export default new Vuex.Store({
                     formData.append(key, user[key])
                 })
 
-                axios({ url: 'http://127.0.0.1:5000/api/auth/sign_in', data: formData, method: 'POST' })
+                axios({ url: 'http://82.146.45.20/api/auth/sign_in', data: formData, method: 'POST' })
                     .then(resp => {
                         commit('auth_success', resp.data.token)
                         dispatch('getUser')
@@ -110,7 +110,7 @@ export default new Vuex.Store({
 
                 axios({
                         method: 'post',
-                        url: 'http://127.0.0.1:5000/api/auth/create_user',
+                        url: 'http://82.146.45.20/api/auth/create_user',
                         data: formData,
                     })
                     .then(resp => {
