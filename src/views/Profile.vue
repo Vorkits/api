@@ -138,9 +138,11 @@
     }
 </script>
 <style lang="sass">
+
+.theme--light.v-application
+    background-color: #edecec
     .main
         background-color: #edecec
-        height: 100vh
         .prediction
             width: 1280px
             margin: auto
@@ -162,7 +164,6 @@
             width: 1280px
             margin: auto
             margin-top: 1%
-            margin-bottom: 5%
             background-color: #dddd
             .ten
                 display: flex
@@ -192,6 +193,7 @@
             margin-bottom: 3%
             flex-direction: row
             justify-content: center
+            align-items: center
             .image-block
                 background-color: #e5e5e5
                 position: fixed
@@ -271,5 +273,32 @@
                     .text
                         color: white
                         padding: 1vw
+        @media(max-width: 1280px)
+            .prediction
+                width: 720px
+            .player
+                flex-direction: column
+                width: 720px
+                .profile
+                    width: 100%
+                .matches
+                    width: 100%
+                    margin-top: 3%
+                    display: flex
+                    flex-direction: column
+                    align-items: center
+                .image-block
+                    width: 600px
+                    height: 400px
+                    margin-top: -10%
+            .infoPl
+                width: 720px
+                flex-direction: column
+                .tennis-players
+                    width: 100%
+                .tennis-players-chat
+                    width: 100%
+                .scheduled-matches
+                    width: 100%
 
 </style>
