@@ -60,7 +60,7 @@ export default {
                 { icon: 'mdi-run', text: 'Matches', route: '/matches' },
                 { icon: 'mdi-account', text: 'Tennis Players', route: '/players' },
                 { icon: 'mdi-bullseye', text: 'Smash', route: '/smash' },
-                { icon: 'mdi-help', text: 'How does it work', route: '/abour' },
+                { icon: 'mdi-help', text: 'How does it work', route: '/about' },
             ]
         }
     },
