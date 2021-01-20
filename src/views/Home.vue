@@ -18,7 +18,6 @@
           </v-col>
         </v-sheet>
       </v-carousel-item>
-      
         <v-overlay :absolute="true" :z-index="0" opacity="0" class="mt-10">
           <v-container>
             <v-layout row class="d-flex align-content-end pt-10 ">
@@ -41,7 +40,6 @@
               <v-col class="d-flex px-1" cols="12" sm="4">
                <v-btn block id="find" large color="warning" :elevation="0" class="rounded-sm pt-1" htight="48px">Find Player</v-btn>
               </v-col>
-              
             </v-layout>
           </v-container>
         </v-overlay>
@@ -108,7 +106,6 @@
     </v-row>
   </v-container>
 </v-parallax>
- 
  <!--Block with button-->
   <v-container class="d-flex align-center mb-6" style="height: 400px;" >
     <v-row no-gutters  justify="center" align="center">
@@ -133,7 +130,6 @@
     </div>
     </v-row>
   </v-container>
-  
   <!--Block with parallax background image and buttons-->
   <v-parallax :src="require('@/bg-cta.jpg')" id="my-lax" style="height: 700px;">
     <v-container class="d-flex justify-start  mb-6">
@@ -146,7 +142,6 @@
           <v-responsive width="100%"></v-responsive>
         </template>
         <div class="d-flex justify-start mb-6">
-         
         </div>
       </v-row>
     </v-container>
@@ -165,51 +160,13 @@
     </v-container>
 
     <!--Footer-->
-    <template>
-    <v-footer
-      light
-      padless
-    >
-      <v-card
-        flat
-        tile
-        class="grey lighten-4 text-center"
-      >
-        <v-card-text>
-          <v-btn
-            v-for="icon in icons"
-            :key="icon"
-            class="mx-4"
-            icon
-          >
-            <v-icon size="24px">
-              {{ icon }}
-            </v-icon>
-          </v-btn>
-        </v-card-text>
-
-        <v-card-text>
-          Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-text class="black--text">
-          {{ new Date().getFullYear() }} — <strong>{{this.$store.state.companyName}}</strong>
-        </v-card-text>
-      </v-card>
-    </v-footer>
-  </template>
-  
-
-
-
+    <VFooter/>
   </div>
 </template>
 
 <script>
-
- export default {
+import VFooter from '@/components/VFooter'
+export default {
     data: () => ({
       title: '',
       model: 0,
@@ -253,12 +210,14 @@
       info(){
         return this.$store.state.info
       }
+    },
+    components: {
+      VFooter
     }
   }
 </script>
 
 <style>
-  
   .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot{
     box-shadow: none !important;
   }
