@@ -86,6 +86,8 @@
             background-color: #f8f8f8
             width: 1280px
             margin: auto
+            display: flex
+            flex-direction: row
             margin-top: 5%
             margin-bottom: 3%
             justify-content: center
@@ -122,15 +124,16 @@
                 background-color: white
                 .title
                     margin-top: 2%
-                    margin-left: 4%
+                    margin-left: 3%
                     font-size: 2em
                 .text
-                    margin: 3vh 0 4vh 4%
+                    margin: 3vh 0 4vh 3%
         @media(max-width: 1280px)
             .prediction
                 width: 720px
             .player
                 width: 720px
+                flex-direction: column
                 .profile
                     width: 100%
                 .matches
@@ -141,8 +144,8 @@
                     align-items: center
                     .title
                         margin-left: 0
-                    .action-but
-                        margin-left: 0
+                    .text
+                        margin: 3vh 0 4vh 0
                 .image-block
                     width: 65%
                     height: 500px
@@ -152,6 +155,7 @@
                 width: 100vw
             .player
                 width: 100vw
+                flex-direction: column
                 .profile
                     width: 100%
                 .matches

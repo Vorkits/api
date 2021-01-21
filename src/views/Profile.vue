@@ -21,9 +21,13 @@
                 <div class="level">Level: {{level}}</div>
             </div>
             <div class="matches">
-                <div class="title">Matches</div>
+                <div class="titleM">Info</div>
+                <div class="textInfo">Player`s name: {{name}}</div>
+                <div class="textInfo">Player`s city: {{city}}</div>
+                <div class="textInfo">Player`s level: {{level}}</div>
+                <div class="titleM">Matches</div>
                 <div class="action-but">
-                    <div class="text">Organize the game by contacting a tennis player from {{city}}</div>
+                    <div class="text2">Organize the game by contacting a tennis player from {{city}}</div>
                 </div>
             </div>
         </div>
@@ -55,31 +59,6 @@
     export default {
         data() {
             return {
-                items: [{
-                        title: 'Home',
-                        icon: 'mdi-view-dashboard'
-                    },
-                    {
-                        title: 'Tournaments',
-                        icon: 'mdi-image'
-                    },
-                    {
-                        title: 'Matches',
-                        icon: 'mdi-help-box'
-                    },
-                    {
-                        title: 'Tennis players',
-                        icon: 'mdi-help-box'
-                    },
-                    {
-                        title: 'Smash',
-                        icon: 'mdi-help-box'
-                    },
-                    {
-                        title: 'How does it work',
-                        icon: 'mdi-help-box'
-                    },
-                ],
                 image: null,
                 IsImage: false,
                 fileName: 'Выберите фото'
@@ -107,19 +86,6 @@
                 }
             },
             click () {
-                // axios.get('http://82.146.45.20/api/user/get_city', {
-                //     params: {
-                //         city: 'almaty'
-                //     }
-                // })
-                // .then(function (response) {
-                //     // handle success
-                //     console.log(response);
-                // })
-                // .catch(function (error) {
-                //     // handle error
-                //     console.log(error);
-                // })
                 if (this.image)  {
                     console.log('start')
                     const formData = new FormData()
@@ -225,7 +191,7 @@
             .image-block
                 background-color: #999999
                 position: fixed
-                width: 70%
+                width: 60%
                 height: 500px
                 margin: -10% auto
                 display: flex
@@ -247,6 +213,7 @@
                 width: 40%
                 text-align: center
                 align-items: center
+                float: left
                 display: flex
                 flex-direction: column
                 img
@@ -283,19 +250,20 @@
             .matches
                 width: 60%
                 background-color: white
-                .title
+                .titleM
                     margin-top: 2%
-                    margin-left: 4%
+                    margin-left: 3%
                     font-size: 2em
                 .action-but
-                    max-width: 70%
-                    margin: 3vh 0 4vh 4%
+                    max-width: 90%
+                    margin: 3vh 0 4vh 3%
                     background-color: red
                     text-align: center
-                    border-radius: 7px
-                    .text
+                    .text2
                         color: white
                         padding: 1vw
+                .textInfo
+                    margin: 2vh 0 2vh 3%
         @media(max-width: 1280px)
             .prediction
                 width: 720px
@@ -310,14 +278,17 @@
                     display: flex
                     flex-direction: column
                     align-items: center
-                    .title
+                    .titleM
                         margin-left: 0
                     .action-but
-                        margin-left: 0
+                        width: 90%
+                        margin: 1vh 0 1vh 0
+                        .textInfo
+                            margin: 3vh 0 4vh 0
                 .image-block
-                    width: 55%
+                    top: 40%
+                    width: 720px
                     height: 400px
-                    margin: 0 auto
             .infoPl
                 width: 720px
                 flex-direction: column
@@ -327,7 +298,7 @@
                     width: 100%
                 .scheduled-matches
                     width: 100%
-        @media(max-width: 780px)
+        @media(max-width: 760px)
             .prediction
                 width: 100vw
             .player
@@ -341,14 +312,14 @@
                     display: flex
                     flex-direction: column
                     align-items: center
-                    .title
+                    .titleM
                         margin-left: 0
                     .action-but
                         margin-left: 0
                 .image-block
-                    width: 60%
+                    top: 40%
+                    width: 100%
                     height: 400px
-                    margin: 0 auto
             .infoPl
                 width: 100vw
 </style>
