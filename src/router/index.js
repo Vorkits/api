@@ -8,6 +8,7 @@ import Matches from '../views/Matches.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
+import OtherProfile from '../views/OtherProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [{
         path: '/',
         name: 'home',
         component: Home
+    },
+    {
+        path: '/OtherProfile/:id',
+        name: 'OtherProfile',
+        component: OtherProfile
     },
     {
         path: '/tournaments',

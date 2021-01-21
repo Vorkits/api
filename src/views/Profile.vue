@@ -225,10 +225,9 @@
             .image-block
                 background-color: #999999
                 position: fixed
-                width: 800px
-                height: 600px
-                margin: auto
-                margin-top: -10%
+                width: 70%
+                height: 500px
+                margin: -10% auto
                 display: flex
                 flex-direction: column
                 align-items: center
@@ -316,9 +315,9 @@
                     .action-but
                         margin-left: 0
                 .image-block
-                    width: 600px
+                    width: 55%
                     height: 400px
-                    margin: -30% 0 0 60px
+                    margin: 0 auto
             .infoPl
                 width: 720px
                 flex-direction: column
@@ -347,9 +346,9 @@
                     .action-but
                         margin-left: 0
                 .image-block
-                    width: 70%
-                    height: 50%
-                    margin-left: 18%
+                    width: 60%
+                    height: 400px
+                    margin: 0 auto
             .infoPl
                 width: 100vw
 </style>
