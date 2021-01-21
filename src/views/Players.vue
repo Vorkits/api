@@ -16,6 +16,7 @@
           </div>
         </div>
       </section>
+      <userCard/>
       {{ responseUsers }}
     </div>
   </div>
@@ -23,6 +24,7 @@
 
 <script>
 import axios from 'axios'
+import userCard from '@/components/UserCard.vue'
 export default {
   name: 'Players',
   data: () => ({
@@ -30,6 +32,9 @@ export default {
     searchCurrentType: true,
     responseUsers: new Array()
   }),
+  components: {
+    userCard
+  },
   methods: {
     async getUsers () {
       if (this.currentCity) {
@@ -57,7 +62,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 $maxWidth: 1280
 
 @mixin adaptive-font($pcSize, $mobSize)
