@@ -1,18 +1,21 @@
 <template>
    <div class = "main">
         <div class="prediction">
-            <div class="text">AGGIORNAMENTO DATE DI SCADENZA PARTITE: abbiamo esteso ulteriormente la scadenza di tutte le partite e di tutti i tornei fino al 20 febbraio 2021. In questo modo speriamo che ognuno di voi possa tornare in campo senza essere escluso dal rispettivo torneo.<br>Per chi avrà la possibilità di giocare, rispettando le normative e in accordo con il centro sportivo, le partite verranno considerate valide.</div>
+            <div class="text">MATCH DEADLINE DATE UPDATE: We have further extended the deadline for all matches and tournaments until February 20, 2021.<br>In this way we hope that each of you can return to the field without being excluded from your respective tournament.For those who have the opportunity to play, respecting the regulations and in agreement with the sports center, the matches will be considered valid.</div>
         </div>
         <div class="player">
             <div class = "image-block" id = "image-block" v-if="IsImage">
+                <svg @click="IsImage = false" style = "margin-left: 85%; margin-top: 2%" height="32pt" viewBox="0 0 329.26933 329" width="32pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
                 <img class = 'image' src = '../assets/default.jpg' id = '1111'>
-                <input type="file" class = "img" name="image" id = "image" @change="change1" ref = "text1" required multiple accept="image/*">
+                <label for="image" style = "color: white">{{fileName}}</label>
+                <input type="file" style="display: none" class = "img" id = "image" @change="change1" ref = "text1" required multiple accept="image/*">
                 <button class = "but" @click="click">Создать</button>
             </div>
             <div class="profile">
                 <div class="photo" @click = "IsImage = true">
                     <img src='../assets/default.jpg' v-if="photo == null">
                     <img :src = "photo" v-else>
+                    <div class="overlay"></div>
                 </div>
                 <div class="name">{{name}}</div>
                 <div class="level">Level: {{level}}</div>
@@ -78,7 +81,8 @@
                     },
                 ],
                 image: null,
-                IsImage: false
+                IsImage: false,
+                fileName: 'Выберите фото'
             }
         },
         methods: {
@@ -86,7 +90,7 @@
                 var preview = document.getElementById('1111');
                 var file = document.querySelector('input[type=file]').files[0];
                 var reader = new FileReader();
-
+                this.fileName = document.querySelector('input[type=file]').files[0].name
                 reader.onloadend = function () {
                     preview.src = reader.result;
                 }
@@ -160,6 +164,8 @@
     }
 </script>
 <style lang="sass">
+*
+    border-radius: 10px
 
 .theme--light.v-application
     background-color: #edecec
@@ -217,7 +223,7 @@
             flex-direction: row
             justify-content: center
             .image-block
-                background-color: #e5e5e5
+                background-color: #999999
                 position: fixed
                 width: 800px
                 height: 600px
@@ -226,7 +232,6 @@
                 display: flex
                 flex-direction: column
                 align-items: center
-                justify-content: center
                 .image
                     margin-bottom: 5%
                     width: 200px
@@ -236,10 +241,9 @@
                     width: 200px
                 .but
                     margin-top: 5%
-                    background-color: red
                     padding: 1%
                     border-radius: 10px
-                    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,68,1) 15%, rgba(0,212,255,1) 50%, rgba(3,208,251,1) 51%, rgba(108,31,88,1) 92%)
+                    background: #f8f8f8
             .profile
                 width: 40%
                 text-align: center
@@ -247,11 +251,19 @@
                 display: flex
                 flex-direction: column
                 img
-                    margin-top: 3vh
                     border-radius: 50%
+                    margin-top: 3vh
                     width: 200px
                     height: 200px
+                .overlay
+                    position: absolute
+                    width: 200px
+                    height: 200px
+                    margin-top: -206px
+                    border-radius: 50%
                     cursor: pointer
+                .overlay:hover
+                    background-color: rgba(21, 27, 31, 0.4)
                 .name
                     margin-top: 2%
                 .level
@@ -299,6 +311,10 @@
                     display: flex
                     flex-direction: column
                     align-items: center
+                    .title
+                        margin-left: 0
+                    .action-but
+                        margin-left: 0
                 .image-block
                     width: 600px
                     height: 400px
@@ -331,9 +347,9 @@
                     .action-but
                         margin-left: 0
                 .image-block
-                    width: 400px
-                    height: 400px
-                    margin-left: 16%
+                    width: 70%
+                    height: 50%
+                    margin-left: 18%
             .infoPl
                 width: 100vw
 </style>

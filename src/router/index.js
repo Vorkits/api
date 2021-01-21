@@ -6,7 +6,6 @@ import Tournaments from '../views/Tournaments.vue'
 import Players from '../views/Players.vue'
 import Matches from '../views/Matches.vue'
 import About from '../views/About.vue'
-import Smash from '../views/Smash.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 
@@ -35,11 +34,6 @@ const routes = [{
         path: '/matches',
         name: 'matches',
         component: Matches
-    },
-    {
-        path: '/smash',
-        name: 'smash',
-        component: Smash
     },
     {
         path: '/about',

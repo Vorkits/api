@@ -30,9 +30,9 @@
                         </v-col>
                       </v-row>
                       <v-btn @click.prevent="login" block class="red darken-1 mt-6" dark>Enter</v-btn>
-                      <a href="#" class="mt-3 d-block text-center">
+                      <!-- <a href="#" class="mt-3 d-block text-center">
                         <span class="text-caption">Forgot password</span>
-                      </a>
+                      </a> -->
                     </v-form>
                   </v-card>
                 </v-col>
