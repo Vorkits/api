@@ -5,7 +5,8 @@
         </div>
         <div class="player">
             <div class = "image-block" id = "image-block" v-if="IsImage">
-                <img class = 'image' src = '../assets/default.jpg' id = '1111'>
+                <img class = 'image' src = '../assets/default.jpg' id = '1111' v-if="photo == null">
+                <img class = 'image' :src = '`{{photo}}`' id = '1111' v-else>
                 <input type="file" class = "img" name="image" id = "image" @change="change1" ref = "text1" required multiple accept="image/*">
                 <button class = "but" @click="click">Создать</button>
             </div>
@@ -28,7 +29,7 @@
             <div class="matches">
                 <div class="title">Matches</div>
                 <div class="action-but">
-                    <div class="text">Organize the game by contacting a tennis player from СТРАНА</div>
+                    <div class="text">Organize the game by contacting a tennis player from {{city}}</div>
                 </div>
             </div>
         </div>
@@ -57,9 +58,14 @@
 
 <script>
     import axios from 'axios'
+    import store from '../store/index.js'
+    console.log(store.state.token);
     export default {
         data() {
             return {
+                city: null,
+                photo: null,
+                token: null,
                 items: [{
                         title: 'Home',
                         icon: 'mdi-view-dashboard'
@@ -104,6 +110,11 @@
                 } else {
                     preview.src = "";
                 }
+
+                if (this.$refs.text1.files.length === null) this.image = null
+                else {
+                    this.image = this.$refs.text1.files[0]
+                }
             },
             click () {
                 axios.get('http://82.146.45.20/api/user/get_city', {
@@ -134,7 +145,11 @@
                 // }
                 this.IsImage = false
             }
-        }
+        },
+        mounted () {
+            this.photo = store.state.photo
+            this.token = store.state.token
+            this.city = store.state.city
     }
 </script>
 <style lang="sass">
