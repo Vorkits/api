@@ -14,7 +14,9 @@
             </div>
             <div class="matches">
                 <div class="title">Information</div>
+                <div class="text">Player`s name: {{name}}</div>
                 <div class="text">Player`s city: {{city}}</div>
+                <div class="text">Player`s level: {{level}}</div>
             </div>
         </div>
    </div>
@@ -88,7 +90,7 @@
             margin-bottom: 3%
             justify-content: center
             .profile
-                width: 20%
+                width: 40%
                 text-align: center
                 align-items: center
                 display: flex

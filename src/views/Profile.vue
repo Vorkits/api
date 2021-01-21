@@ -163,7 +163,7 @@
         }
     }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 *
     border-radius: 10px
 
