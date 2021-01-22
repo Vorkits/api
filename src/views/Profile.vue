@@ -179,7 +179,6 @@
                 margin: 3% 0 3% 0
                 border-radius: 10px
                 background-color: #e5e5e5
-                
         .player
             background-color: #f8f8f8
             display: flex
@@ -198,11 +197,16 @@
                 display: flex
                 flex-direction: column
                 align-items: center
+                z-index: 10
                 .image
-                    margin-bottom: 5%
                     width: 200px
                     height: 200px
                     border-radius: 50%
+                label
+                    margin-top: 2%
+                    padding: 2%
+                    &:hover
+                        background-color: #6d6d6d
                 input
                     width: 200px
                 .but
@@ -260,9 +264,12 @@
                     margin: 3vh 0 4vh 3%
                     background-color: red
                     text-align: center
+                    cursor: pointer
                     .text2
                         color: white
                         padding: 1vw
+                    &:hover
+                         background-color: #ea7778
                 .textInfo
                     margin: 2vh 0 2vh 3%
         @media(max-width: 1280px)
@@ -289,7 +296,7 @@
                 .image-block
                     top: 40%
                     width: 720px
-                    height: 400px
+                    height: 450px
             .infoPl
                 width: 720px
                 flex-direction: column

@@ -41,7 +41,7 @@
                         <v-list-item-title>{{link.text}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <div class="exit" @click.prevent="logout"><div class="exit-text">EXIT</div></div>
+                <div class="exit" @click.prevent="logout" v-if="token != ''"><div class="exit-text">EXIT</div></div>
             </v-list>
         </v-navigation-drawer>
 
@@ -78,6 +78,9 @@ export default {
         levels(){
             return this.$store.state.levels
         },
+        token(){
+            return this.$store.state.user.token
+        }
     }
 }
 </script>>
@@ -87,11 +90,16 @@ export default {
         width: 100%;
         display: flex;
         justify-content: center;
+        margin-top: 3%;
+        cursor: pointer;
     }
     .exit-text{
         border: 1px solid red;
         width: 80%;
         text-align: center;
         padding: 3%;
+    }
+    .exit-text:hover{
+        background-color: #5b5b5b;
     }
 </style>
