@@ -13,18 +13,18 @@
             </div>
             <div class="profile">
                 <div class="photo" @click = "IsImage = true">
-                    <img src='../assets/default.jpg' v-if="photo == null">
-                    <img :src = "photo" v-else>
+                    <img src='../assets/default.jpg' id = 'NewPhoto' v-if="photo == null">
+                    <img :src = "photo" id = 'NewPhoto' v-else>
                     <div class="overlay"></div>
                 </div>
                 <div class="name">{{name}}</div>
                 <div class="level">Level: {{level}}</div>
             </div>
             <div class="matches">
-                <div class="titleM">Info</div>
+                <!-- <div class="titleM">Info</div>
                 <div class="textInfo">Player`s name: {{name}}</div>
                 <div class="textInfo">Player`s city: {{city}}</div>
-                <div class="textInfo">Player`s level: {{level}}</div>
+                <div class="textInfo">Player`s level: {{level}}</div> -->
                 <div class="titleM">Matches</div>
                 <div class="action-but">
                     <div class="text2">Organize the game by contacting a tennis player from {{city}}</div>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    // import axios from 'axios'
     export default {
         data() {
             return {
@@ -67,11 +67,13 @@
         methods: {
             change1 () {
                 var preview = document.getElementById('1111');
+                var preview2 = document.getElementById('NewPhoto');
                 var file = document.querySelector('input[type=file]').files[0];
                 var reader = new FileReader();
                 this.fileName = document.querySelector('input[type=file]').files[0].name
                 reader.onloadend = function () {
                     preview.src = reader.result;
+                    preview2.src = reader.result;
                 }
 
                 if (file) {
@@ -86,29 +88,28 @@
                 }
             },
             click () {
-                if (this.image)  {
-                    console.log('start')
-                    const formData = new FormData()
-                    formData.append('image', this.image)
-                    const NA = {
-                        token: this.token,
-                        image: formData
-                    }
-                    console.log(this.token);
-                    axios.post('http://82.146.45.20/api/user/upload_photo', NA, {
-                    })
-                    .then(function (response) {
-                        console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                }
+                // if (this.image)  {
+                //     console.log('start')
+                //     const formData = new FormData()
+                //     formData.append('image', this.image)
+                //     const NA = {
+                //         token: this.token,
+                //         image: formData
+                //     }
+                //     console.log(this.token);
+                //     axios.post('http://82.146.45.20/api/user/upload_photo', NA, {
+                //     })
+                //     .then(function (response) {
+                //         console.log(response);
+                //     })
+                //     .catch(function (error) {
+                //         console.log(error);
+                //     })
+                // }
                 this.IsImage = false
             }
         },
         mounted () {
-           
         },
         computed:{
             photo(){

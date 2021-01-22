@@ -130,11 +130,11 @@ export default {
       rules: {
         name: [
           (v) => !!v || 'Name is required',
-          v => (v || '').length > 1 || `min 2 `
+          v => (v || '').length > 2 || `min 3 `
         ],
         city: [
           (v) => !!v || 'City is required',
-          v => (v || '').length > 1 || `min 2`
+          v => (v || '').length > 2 || `min 3`
         ],
         email: [
           v => !!v || 'E-mail is required',

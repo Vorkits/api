@@ -41,6 +41,7 @@
                         <v-list-item-title>{{link.text}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <div class="exit" @click.prevent="logout"><div class="exit-text">EXIT</div></div>
             </v-list>
         </v-navigation-drawer>
 
@@ -63,6 +64,15 @@ export default {
             ]
         }
     },
+    methods: {
+        logout () {
+            this.$store.dispatch('logout')
+            .catch(err => {
+                console.log(err)
+            })
+            location.reload()
+        },
+    },
     computed:{
         ...mapGetters(['isLoggedIn','user']),
         levels(){
@@ -71,3 +81,17 @@ export default {
     }
 }
 </script>>
+
+<style>
+    .exit{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .exit-text{
+        border: 1px solid red;
+        width: 80%;
+        text-align: center;
+        padding: 3%;
+    }
+</style>

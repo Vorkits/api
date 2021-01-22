@@ -71,6 +71,9 @@ export default new Vuex.Store({
                     })
             })
         },
+        logout(){
+            localStorage.removeItem('token')
+        },
         login({ commit, dispatch }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
