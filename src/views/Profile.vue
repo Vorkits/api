@@ -21,14 +21,31 @@
                 <div class="level">Level: {{level}}</div>
             </div>
             <div class="matches">
-                <!-- <div class="titleM">Info</div>
-                <div class="textInfo">Player`s name: {{name}}</div>
-                <div class="textInfo">Player`s city: {{city}}</div>
-                <div class="textInfo">Player`s level: {{level}}</div> -->
                 <div class="titleM">Matches</div>
-                <div class="action-but">
+                <!-- <div class="matches" v-for="(element, i) in matches" :key="i"> -->
+                    <div class="match">
+                        <div class="time">11111</div>
+                        <div class="players">
+                            <div class="match-player">
+                                <div class="player-image"><img :src = "photo"></div>
+                                <div class="player-name">{{name}}</div>
+                                <div class="player-city">{{city}}</div>
+                                <div class="player-level">level: {{level}}</div>
+                            </div>
+                            <div class="between">-----------</div>
+                            <div class="match-player">
+                                <div style = "display: none">{{path = 'reazer385@gmail&&com'}}</div>
+                                <div class="player-image"><img :src = "photoUser"></div>
+                                <div class="player-name">{{nameUser}}</div>
+                                <div class="player-city">{{cityUser}}</div>
+                                <div class="player-level">Level: {{levelUser}}</div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+                <a class="action-but" href="/matches">
                     <div class="text2">Organize the game by contacting a tennis player from {{city}}</div>
-                </div>
+                </a>
             </div>
         </div>
         <div class="infoPl">
@@ -55,13 +72,14 @@
 </template>
 
 <script>
-    // import axios from 'axios'
+    import axios from 'axios'
     export default {
         data() {
             return {
                 image: null,
                 IsImage: false,
-                fileName: 'Выберите фото'
+                fileName: 'Выберите фото',
+                nameUs: null
             }
         },
         methods: {
@@ -109,9 +127,10 @@
                 this.IsImage = false
             }
         },
-        mounted () {
-        },
         computed:{
+            matches(){
+                return this.$store.state.user.matches
+            },
             photo(){
                 return this.$store.state.user.photo
             },
@@ -126,6 +145,64 @@
             },
             level(){
                 return this.$store.state.user.level
+            }
+        },
+        asyncComputed: {
+            async nameUser(){
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
+                        })
+                        .then(function (response) {
+                            resolve(response.data.name)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                    }, 1000)
+                })
+            },
+            async photoUser(){
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
+                        })
+                        .then(function (response) {
+                            resolve(response.data.photo)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                    }, 1000)
+                })
+            },
+            async levelUser(){
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
+                        })
+                        .then(function (response) {
+                            resolve(response.data.level)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                    }, 1000)
+                })
+            },
+            async cityUser(){
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
+                        })
+                        .then(function (response) {
+                            resolve(response.data.city)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                    }, 1000)
+                })
             }
         }
     }
@@ -259,9 +336,52 @@
                     margin-top: 2%
                     margin-left: 3%
                     font-size: 2em
+                .match
+                    border: 1px solid red
+                    width: 90%
+                    display: flex
+                    flex-direction: column
+                    align-items: center
+                    justify-content: center
+                    margin-left: 5%
+                    @media (max-width: 1280px)
+                        margin-left: 0
+                    .time
+                        font-size: 2em
+                    .players
+                        display: flex
+                        flex-direction: row
+                        width: 100%
+                        .match-player
+                            display: flex
+                            flex-direction: column
+                            align-items: center
+                            justify-content: center
+                            width: 40%
+                            .player-image
+                                img
+                                    width: 100px
+                                    height: 100px
+                                    border-radius: 50%
+                            .player-name
+                                font-size: 1.5em
+                            .player-level
+                                margin-top: 3%
+                                margin-bottom: 3%
+                                padding: 1.6% 7% 1.6% 7%
+                                text-align: center
+                                max-width: 70%
+                                background-color: #5d5d5d
+                                color: white
+                        .between
+                            width: 20%
+                            text-align: center
                 .action-but
                     max-width: 90%
-                    margin: 3vh 0 4vh 3%
+                    display: flex
+                    flex-direction: column
+                    text-decoration: none
+                    margin: 3vh 0 4vh 5%
                     background-color: red
                     text-align: center
                     cursor: pointer

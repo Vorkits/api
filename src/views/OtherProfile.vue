@@ -40,6 +40,9 @@
             var Response = null
             var route = this.$route.params.id.split(':')[1]
             axios.get(`http://82.146.45.20/api/user/get_user/${route}`, {
+                params: {
+                    token: 'ada3d69b54a34bb0bf136523d037b959'
+                }
             })
             .then(function (response) {
                 Response = response

@@ -14,7 +14,8 @@ export default new Vuex.Store({
             level: 0,
             city: '',
             score: '',
-            token: ''
+            token: '',
+            matches: null
         },
         companyName: 'Company Name',
         levels: [
