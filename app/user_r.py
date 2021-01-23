@@ -13,8 +13,8 @@ rpath=dirname(realpath(__file__))
 def upload_photo():
     form=dict(request.form)
     token=form.get('token',False)
-    if token and request.files.get('image',False).filename != '':
-        image = request.files['image']
+    if token and request.files:
+        image = request.files[list(request.files.keys())[0]]
         print(UPLOADS_PATH)
         path=join(UPLOADS_PATH,image.filename)
         image.save(UPLOADS_PATH)
@@ -29,9 +29,9 @@ def upload_photo():
         return{'status':'error'},401
     
 
-@user_route.route('/get_user',methods=['POST'])
+@user_route.route('/get_user',methods=['GET'])
 def get_user():
-    form=dict(request.form)
+    form=dict(request.args)
     token=form.get('token',False)
     if token:
         
@@ -54,7 +54,7 @@ def change_field():
         return{'status':'error'},401
     
 @user_route.route('/get_city',methods=['GET'])
-def get_city():
+def get_city(): 
     
     form=dict(request.args)
     city=form.get('city',False)
