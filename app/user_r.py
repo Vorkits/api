@@ -13,7 +13,7 @@ rpath=dirname(realpath(__file__))
 def upload_photo():
     form=dict(request.form)
     token=form.get('token',False)
-    if token and request.files:
+    if request.files:
         image = request.files[list(request.files.keys())[0]]
         print(UPLOADS_PATH)
         path=join(UPLOADS_PATH,image.filename)
