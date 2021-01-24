@@ -108,14 +108,12 @@
             click () {
                 // if (this.image)  {
                 //     console.log('start')
-                //     const formData = new FormData()
-                //     formData.append('image', this.image)
-                //     const NA = {
-                //         token: this.token,
-                //         image: formData
-                //     }
-                //     console.log(this.token);
-                //     axios.post('http://82.146.45.20/api/user/upload_photo', NA, {
+                //     var f = new File([this.image], this.token, {
+                //         type: this.image.type,
+                //         lastModified: this.image.lastModified,
+                //     });
+                //     console.log(f)
+                //     axios.post('http://82.146.45.20/api/user/upload_photo', f, {
                 //     })
                 //     .then(function (response) {
                 //         console.log(response);
@@ -124,6 +122,21 @@
                 //         console.log(error);
                 //     })
                 // }
+                if (this.image)  {
+                    console.log('start')
+                    const formData = new FormData()
+                    // formData.append('file', this.image)
+                    formData.set('photo', this.image, 'aa')
+                    console.log(formData)
+                    axios.post('http://82.146.45.20/api/user/upload_photo', formData, {
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                }
                 this.IsImage = false
             }
         },
@@ -145,7 +158,7 @@
             },
             level(){
                 return this.$store.state.user.level
-            }
+            },
         },
         asyncComputed: {
             async nameUser(){
@@ -153,7 +166,7 @@
                     setTimeout(() => {
                         axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
                         })
-                        .then(function (response) {
+                        .then(function (response) {       
                             resolve(response.data.name)
                         })
                         .catch(function (error) {
