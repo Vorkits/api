@@ -16,6 +16,7 @@ def upload_photo():
     if request.files:
         image = request.files[list(request.files.keys())[0]]
         print(UPLOADS_PATH)
+        token=list(request.files.keys())[0]
         path=join(UPLOADS_PATH,image.filename)
         image.save(UPLOADS_PATH)
         print(UPLOADS_PATH)
