@@ -98,7 +98,6 @@ def get_email(token):
     d=dict(db.child("tokens").child(token).get().val())
     email=d['user']
     return email
-
 def set_field(token,field,value):
     try:
         data=get_data(token)
