@@ -28,14 +28,20 @@
                 <button class = "but" @click="clickEnd">End</button>
             </div>
 
+            <div class = "change-block" id = "change-block" v-if="IsChange">
+                <svg @click="IsChange = false" height="20pt" viewBox="0 0 329.26933 329" width="20pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
+                <input type="text" v-model="NewVal" id = '1'>
+                <button class = "but white2" @click="clickChange">Изменить</button>
+            </div>
+
             <div class="profile">
                 <div class="photo" @click = "IsImage = true">
                     <img src='../assets/default.jpg' id = 'NewPhoto' v-if="photo == null">
                     <img :src = "photo" id = 'NewPhoto' v-else>
                     <div class="overlay"></div>
                 </div>
-                <div class="name" style="font-size: 1.7em;">{{name}}</div>
-                <div class="player-city" style="font-size: 1.1em;">{{city}}</div>
+                <div class="name" style="font-size: 1.7em;" @click = 'IsChange = true; Val = "name"'>Name: {{name}}</div>
+                <div class="player-city" style="font-size: 1.1em;" @click = 'IsChange = true; Val = "city"'>City: {{city}}</div>
                 <div class="level">Level: {{level}}</div>
             </div>
             <div class="matches">
@@ -103,10 +109,38 @@
                 nameUs: null,
                 IsEnd: false,
                 Firnumber: 0,
-                Secnumber: 0
+                Secnumber: 0,
+                IsChange: false,
+                Val: null
             }
         },
         methods: {
+            clickChange() {
+                console.log('start')
+                const formData = new FormData()
+                var NewVal = document.getElementById('1').value
+                // var Data = {
+                //     token: this.token,
+                //     field: this.Val,
+                //     value: NewVal
+                // }
+                    formData.append('token', this.token)
+                    formData.append('field', this.Val)
+                    formData.append('value', NewVal)
+                    axios.post('http://82.146.45.20/api/user/change_field', formData, {
+                        headers: {
+                        'Content-Type': 'multipart/form-data'
+                        }
+                    })
+
+                // axios.post('http://82.146.45.20/api/user/change_field', Data)
+                // .then(function (response) {
+                //     console.log(response);
+                // })
+                // .catch(function (error) {
+                //     console.log(error);
+                // })
+            },
             change1 () {
                 var preview = document.getElementById('1111');
                 var preview2 = document.getElementById('NewPhoto');
@@ -302,6 +336,20 @@
             margin-bottom: 3%
             flex-direction: row
             justify-content: center
+            .change-block
+                background-color: grey
+                display: flex
+                flex-direction: column
+                align-items: center
+                svg
+                    margin-left: 80%
+                    margin-top: 2%
+                    margin-bottom: 3%
+                input
+                    background-color: white
+                .white2
+                    color: white
+                    background-color: #808080
             .image-block
                 background-color: #999999
                 position: fixed
@@ -397,6 +445,7 @@
                     background-color: rgba(21, 27, 31, 0.4)
                 .name
                     margin-top: 2%
+                    cursor: pointer
                 .level
                     margin-top: 3%
                     margin-bottom: 3%
@@ -499,6 +548,11 @@
                 width: 720px
                 .profile
                     width: 100%
+                    .player-city
+                        cursor: pointer
+                .change-block
+                    svg
+                        margin-left: 90%
                 .matches
                     width: 100%
                     margin-top: 3%

@@ -228,33 +228,44 @@ export default {
     },
     createCourt() {
       if (this.image && this.form.courtName.length > 2)  {
+        var Id = null
         console.log(this.form.courtName)
         const formData = new FormData()
-        formData.append(this.form.courtName, this.image)
-        const NA = {
-          city: this.form.courtCity,
-          adress: this.form.courtAdress,
-          phone: this.form.courtPhone,
-          name: this.form.courtName
-        }
-        axios.post('http://82.146.45.20/api/user/upload_photo', NA)
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        axios.post('http://82.146.45.20/api/user/upload_photo', formData, {
+        formData.append('city', this.form.courtCity)
+        formData.append('addres', this.form.courtAdress)
+        formData.append('phone', this.form.courtPhone)
+        formData.append('name', this.form.courtName)
+
+        axios.post('http://82.146.45.20/api/court/create', formData, {
             headers: {
             'Content-Type': 'multipart/form-data'
             }
         })
         .then(function (response) {
             console.log(response);
+            Id = response.data.coart_id
         })
         .catch(function (error) {
             console.log(error);
         })
+
+        console.log(Id)
+
+        setTimeout(() => {
+          const formData2 = new FormData()
+          formData2.append(`${Id}`, this.image)
+          axios.post('http://82.146.45.20/api/court/upload_photo', formData2, {
+              headers: {
+              'Content-Type': 'multipart/form-data'
+              }
+          })
+          .then(function (response) {
+              console.log(response);
+          })
+          .catch(function (error) {
+              console.log(error);
+          })          
+        }, 1000);
       }
     },
     login() {
