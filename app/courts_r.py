@@ -12,21 +12,15 @@ rpath=dirname(realpath(__file__))
 @court.route('/create',methods=['POST'])
 def create():
     form=dict(request.form)
-    token=form.get('token',False)
     city=form.get('city',False)
     phone=form.get('phone',False)
     addres=form.get('addres',False)
-    if  token and city and addres and phone and request.files.get('c_photo',False).filename != '':
+    name=form.get('name',False)
+    if   city and addres and phone and name:
         city=city.lower()
-        image = request.files['c_photo']
-        image.save(UPLOADS_PATH)
-        img = Image.open(UPLOADS_PATH) # (x,y) pixels
-        uid=uuid.uuid4().hex
-        img.convert("RGB").save(f'{uid}.jpg')
-        os.remove(UPLOADS_PATH)
-        return f.c_create(token=token,photo=f'{uid}.jpg',city=city,addres=addres,phone=phone)
+        return f.c_create(photo='',city=city,addres=addres,phone=phone,name=name)
     else:
-        print('non args')
+        print(addres,phone,city)
         return{'status':'error','desc':'non args'},401
     
 @court.route('/get',methods=['GET'])
@@ -45,12 +39,38 @@ def set():
     
     form=dict(request.form)
     field=form.get('field')
-    token=form.get('token')
     value=form.get('value')
     coart_id=form.get('coart_id')
-    if coart_id and value and token and field :
-        return f.set_field_coart(token,coart_id,field,value)
+    if coart_id and value  and field :
+        return f.set_field_coart(coart_id,field,value)
     else:
+        print('non args')
+        return{'status':'error','desc':'non args'},401
+@court.route('/upload_photo',methods=['POST'])
+def upload_photo():
+    form=dict(request.form)
+
+    if request.files :
+        image = request.files[list(request.files.keys())[0]]
+        print(UPLOADS_PATH)
+        token=list(request.files.keys())[0]
+        image.save(UPLOADS_PATH)
+        img = Image.open(UPLOADS_PATH) # (x,y) pixels
+        uid=uuid.uuid4().hex
+        img.convert("RGB").save(f'{uid}.jpg')
+        os.remove(UPLOADS_PATH)
+        return f.coart_photo(token,f'{uid}.jpg')
+    else:
+        print('non args')
+        return{'status':'error','desc':'non args'},401
+
+@court.route('/get_all',methods=['GET'])
+def get_all():
+    form=dict(request.form)
+
+    try :
+        return f.get_coarts()
+    except:
         print('non args')
         return{'status':'error','desc':'non args'},401
     

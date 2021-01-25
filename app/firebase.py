@@ -154,41 +154,34 @@ def get_user(email):
         return {'status':'error'},401
 
 
-def c_create(phone,token,city,addres,photo):
+def c_create(phone,city,addres,photo,name):
     # try:
         
-        storage.child("coarts").child(f'{photo}').put(photo)
-        os.remove(photo)
-        photo_url=storage.child("coarts").child(f'{photo}').get_url('2')
+        
         coart_id=uuid.uuid4().hex
         print(coart_id)
-        user=get_data(token)
-        email=get_email(token)
-        data={'user':email,'owner':user['name'],'phone':phone,'photo':photo_url,'addr':addres,'city':city,'id':coart_id,'reservs':[]}
+        data={'name':name,'phone':phone,'photo':photo,'addr':addres,'city':city,'id':coart_id,'reservs':[]}
         db.child("coarts").child(coart_id).set(data)
         db.child("cityes").child(city).child('coarts').child(coart_id).set(data)
-        try:
-            coar=db.child("users").child(data['user']).child('coarts').get().val()
-            if  not coar:coar={}
-        except:
-            coar={}
-        coar[coart_id]=coart_id
-        db.child("users").child(data['user']).child('coarts').set(coar)
         return {'status': 'success','coart_id':coart_id}
-    # except Exception as e:
+    # except Exception as e:  
     #     print(e)
     #     return {'status':'error'},401
     
-def set_field_coart(token,coart_id,field,value):
+def coart_photo(token,photo):
+    storage.child("coarts").child(f'{photo}').put(photo)
+    os.remove(photo)  
+    photo_url=storage.child("coarts").child(f'{photo}').get_url('2')
+    set_field_coart(token,'photo',photo_url)
+    return 'success'
+def set_field_coart(coart_id,field,value):
     try:
     
         data=dict(db.child("coarts").child(coart_id).get().val())
-        if data['user']==get_email(token):
-            data[field]=value
-            db.child("coarts").child(coart_id).set(data)
-            return {'status':'success'},200
-        else:
-            return {'status':'error','desc':'not rules'},401
+        data[field]=value
+        db.child("coarts").child(coart_id).set(data)
+        return {'status':'success'},200
+
     except Exception as e:
         print(e)
         return {'status':'error'},401
@@ -197,6 +190,15 @@ def get_coart(coart_id):
     try:
     
         data=dict(db.child("coarts").child(coart_id).get().val())
+        return data
+    except Exception as e:
+        print(e)
+        return {'status':'error'},401
+    
+def get_coarts():
+    try:
+    
+        data=dict(db.child("coarts").get().val())
         return data
     except Exception as e:
         print(e)
