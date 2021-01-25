@@ -16,8 +16,22 @@
           </div>
         </div>
       </section>
-      <userCard/>
-      {{ responseUsers }}
+      <section v-if="responseUsers.length !== 0" class="pre-second">
+        found {{ responseUsers.length }} tennis players
+      </section>
+      <section class="second">
+        <userCard
+          class="userCard"
+          v-for="userData in showedUsers"
+          :key="userData.token"
+          :userData="userData"
+        />
+      </section>
+      <section v-if="responseUsers.length > 30 && responseUsers.length !== showedUsers.length" class="third">
+        <div @click="showMoreUsers" class="showMoreButton">
+          Show More
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -30,14 +44,22 @@ export default {
   data: () => ({
     currentCity: null,
     searchCurrentType: true,
-    responseUsers: new Array()
+    responseUsers: new Array(),
+    showedUsers: new Array(),
+    inFindProcess: true
   }),
   components: {
     userCard
   },
   methods: {
+    showMoreUsers () {
+      this.showedUsers = this.showedUsers.concat(this.responseUsers.slice(this.showedUsers.length, this.showedUsers.length + 30))
+    },
     async getUsers () {
-      if (this.currentCity) {
+      if (this.currentCity && this.inFindProcess) {
+        this.inFindProcess = false
+        this.responseUsers = new Array()
+        this.showedUsers = new Array()
         await axios.get(`http://82.146.45.20/api/user/get_city?city=${this.currentCity}`)
           .then(async response => {
             for (const userId in response.data) {
@@ -46,6 +68,9 @@ export default {
                 await axios.get(`http://82.146.45.20/api/user/get_user/${element.id}`)
                   .then(outResponse => {
                     this.responseUsers.push(outResponse.data)
+                    if (this.responseUsers.length <= 30) {
+                      this.showedUsers.push(outResponse.data)
+                    }
                   })
                   .catch(err => {
                     console.log(err)
@@ -56,6 +81,7 @@ export default {
           .catch(err => {
             console.log(err)
           })
+        this.inFindProcess = true
       }
     }
   }
@@ -81,6 +107,32 @@ $maxWidth: 1280
     height: 100%
     background-color: rgb(233, 231, 231)
     padding-top: 3%
+    .pre-second
+      width: 100%
+      background-color: #ddd
+      height: 7vh
+      display: flex
+      justify-content: flex-start
+      align-items: center
+      padding-left: 5%
+    .second
+      width: 100%
+      height: 100%
+      display: flex
+      flex-wrap: wrap
+      background-color: white
+    .third
+      width: 100%
+      height: 7vh
+      display: flex
+      justify-content: center
+      align-items: center
+      .showMoreButton
+        background-color: #ff3d00
+        padding: 1%
+        border: 1px
+        color: white
+        cursor: pointer
     .front
       background-clip: black
       width: 1280px
