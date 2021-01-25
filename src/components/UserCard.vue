@@ -3,13 +3,23 @@
     <div class="Avatar" :style="{background: 'url(' + userData.photo + ') center no-repeat', 'background-size': 'cover'}"></div>
     <div class="Name">{{ userData.name }}</div>
     <div class="City">{{ userData.city }}</div>
-    <div class="level" :style="levelColor">level: {{ userData.level }}</div>
+    <div class="level" :style="levelColor">{{ levelData[userData.level - 1] }}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'userCard',
+  data: () => ({
+    levelData: [
+      'No level',
+      'Total beginner',
+      'Beginner',
+      'Intermediate',
+      'Advanced',
+      'Pro'
+    ]
+  }),
   props: {
     userData: {
       type: Object,
@@ -35,6 +45,8 @@ export default {
         return { background: '#F57C00' }
       else if (this.userData.level === 6)
         return { background: '#BF360C' }
+      else
+        return { background: '#9e9e9e' }
     }
   }
 }
@@ -49,17 +61,15 @@ export default {
       font-size: calc( #{$mobSize + px} + #{$addMobSize} * ((100vw - 320px) / #{$maxWidth}) )
     @media (min-width: 767px)
       font-size: calc( #{$mobSize + px} + #{$addSize} * (100vw / #{$maxWidth}) )
-  *
-    outline: 1px solid red
   .wrapper
-    max-width: calc( 100% / 6 )
+    max-width: calc( (100% / 6) - 1rem )
     min-width: 200px
     height: 300px !important
     padding: 0 !important
     background-color: white !important
     .Avatar
-      height: 180px
-      width: 180px
+      height: 197px
+      width: 197px
       margin: 0 auto
       border-radius: 50%
       margin-top: 10px
@@ -69,14 +79,19 @@ export default {
       justify-content: center
       align-items: center
     .Name
-      @include adaptive-font(19, 17)
+      @include adaptive-font(16, 13)
       font-weight: 700
-      height: 40px
-    .City
-      @include adaptive-font(18, 16)
-      font-weight: 300
       height: 30px
+      white-space: nowrap
+    .City
+      @include adaptive-font(14, 11)
+      font-weight: 300
+      height: 20px
+      text-transform: capitalize
+      margin-top: 3px
     .level
-      @include adaptive-font(19, 17)
-      height: 40px
+      @include adaptive-font(16, 13)
+      height: 30px
+      color: white
+      margin-top: 10px
 </style>

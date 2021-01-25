@@ -9,7 +9,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
 <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
 </svg></div>
-            <input @keypress.enter="getUsers" v-model="currentCity" placeholder="  insert your address" type="text" id="Near">
+            <input @keypress.enter="getUsers" v-model="currentCity" placeholder="insert your address" type="text" id="Near">
           </div>
           <div @click="getUsers" class="search-button">
             Search
@@ -120,6 +120,7 @@ $maxWidth: 1280
       height: 100%
       display: flex
       flex-wrap: wrap
+      gap: 1rem
       background-color: white
     .third
       width: 100%
@@ -159,6 +160,7 @@ $maxWidth: 1280
               height: 100%
               border: 1px solid #e8e8e8
               outline: none
+              padding-left: 1%
               &:focus
                 border: 1px solid darken(rgb(251, 251, 251), 12.25%)
             .svg-fix
