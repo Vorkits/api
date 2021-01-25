@@ -4,6 +4,7 @@
             <div class="text">MATCH DEADLINE DATE UPDATE: We have further extended the deadline for all matches and tournaments until February 20, 2021.<br>In this way we hope that each of you can return to the field without being excluded from your respective tournament.For those who have the opportunity to play, respecting the regulations and in agreement with the sports center, the matches will be considered valid.</div>
         </div>
         <div class="player">
+
             <div class = "image-block" id = "image-block" v-if="IsImage">
                 <svg @click="IsImage = false" style = "margin-left: 85%; margin-top: 2%" height="32pt" viewBox="0 0 329.26933 329" width="32pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
                 <img class = 'image' src = '../assets/default.jpg' id = '1111'>
@@ -11,20 +12,37 @@
                 <input type="file" style="display: none" class = "img" id = "image" @change="change1" ref = "text1" required multiple accept="image/*">
                 <button class = "but" @click="click">Создать</button>
             </div>
+
+            <div class = "End-block" id = "end-block" v-if="IsEnd">
+                <svg @click="IsEnd = false" style = "margin-left: 85%; margin-top: 2%" height="32pt" viewBox="0 0 329.26933 329" width="32pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
+                <div class="score">
+                    <div class="YS">
+                        <div class="YSText">Your Score</div>
+                        <input type="number" v-model="Firnumber">
+                    </div>
+                    <div class="OS">
+                        <div class="OSText">Your Opponent`s Score</div>
+                        <input type="number" v-model="Secnumber">
+                    </div>
+                </div>
+                <button class = "but" @click="clickEnd">End</button>
+            </div>
+
             <div class="profile">
                 <div class="photo" @click = "IsImage = true">
                     <img src='../assets/default.jpg' id = 'NewPhoto' v-if="photo == null">
                     <img :src = "photo" id = 'NewPhoto' v-else>
                     <div class="overlay"></div>
                 </div>
-                <div class="name">{{name}}</div>
+                <div class="name" style="font-size: 1.7em;">{{name}}</div>
+                <div class="player-city" style="font-size: 1.1em;">{{city}}</div>
                 <div class="level">Level: {{level}}</div>
             </div>
             <div class="matches">
                 <div class="titleM">Matches</div>
                 <!-- <div class="matches" v-for="(element, i) in matches" :key="i"> -->
                     <div class="match">
-                        <div class="time">11111</div>
+                        <div class="time">00:00</div>
                         <div class="players">
                             <div class="match-player">
                                 <div class="player-image"><img :src = "photo"></div>
@@ -32,7 +50,7 @@
                                 <div class="player-city">{{city}}</div>
                                 <div class="player-level">level: {{level}}</div>
                             </div>
-                            <div class="between">-----------</div>
+                            <div class="between">CourtName</div>
                             <div class="match-player">
                                 <div style = "display: none">{{path = 'reazer385@gmail&&com'}}</div>
                                 <div class="player-image"><img :src = "photoUser"></div>
@@ -40,6 +58,9 @@
                                 <div class="player-city">{{cityUser}}</div>
                                 <div class="player-level">Level: {{levelUser}}</div>
                             </div>
+                        </div>
+                        <div class="MatchEnd">
+                            <div class="End" @click = "IsEnd = true">End</div>
                         </div>
                     </div>
                 <!-- </div> -->
@@ -79,7 +100,10 @@
                 image: null,
                 IsImage: false,
                 fileName: 'Выберите фото',
-                nameUs: null
+                nameUs: null,
+                IsEnd: false,
+                Firnumber: 0,
+                Secnumber: 0
             }
         },
         methods: {
@@ -106,28 +130,10 @@
                 }
             },
             click () {
-                // if (this.image)  {
-                //     console.log('start')
-                //     var f = new File([this.image], this.token, {
-                //         type: this.image.type,
-                //         lastModified: this.image.lastModified,
-                //     });
-                //     console.log(f)
-                //     axios.post('http://82.146.45.20/api/user/upload_photo', f, {
-                //     })
-                //     .then(function (response) {
-                //         console.log(response);
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     })
-                // }
                 if (this.image)  {
                     console.log('start')
                     const formData = new FormData()
                     formData.append(this.token, this.image)
-                    // formData.set('photo', this.image, 'aa')
-                    console.log(formData)
                     axios.post('http://82.146.45.20/api/user/upload_photo', formData, {
                         headers: {
                         'Content-Type': 'multipart/form-data'
@@ -141,7 +147,22 @@
                     })
                 }
                 this.IsImage = false
-            }
+            },
+            clickEnd () {
+                console.log('start')
+                var Data = {
+                    match_id: null,
+                    score1: this.Firnumber,
+                    score2: this.Secnumber
+                }
+                axios.post('http://82.146.45.20/api/games/finish', Data)
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
         },
         computed:{
             matches(){
@@ -307,6 +328,52 @@
                     padding: 1%
                     border-radius: 10px
                     background: #f8f8f8
+            .End-block
+                background-color: #999999
+                position: fixed
+                width: 1280px
+                height: 300px
+                margin: -10% auto
+                display: flex
+                flex-direction: column
+                align-items: center
+                z-index: 10
+                .score
+                    display: flex
+                    width: 80%
+                    flex-direction: row
+                    align-items: flex-end
+                    .YS
+                        display: flex
+                        width: 40%
+                        text-align: center
+                        flex-direction: column
+                        .YSText
+                            font-size: 1.1em
+                            color: white
+                        input
+                            background-color: white
+                            text-align: center
+                            border: none
+                    .OS
+                        display: flex
+                        text-align: center
+                        width: 40%
+                        flex-direction: column
+                        margin-left: 20%
+                        .OSText
+                            font-size: 1.1em
+                            color: white
+                        input
+                            background-color: white
+                            text-align: center
+                            border: none
+
+                .but
+                    margin-top: 5%
+                    padding: 1% 6% 1% 6%
+                    border-radius: 10px
+                    background: #f8f8f8
             .profile
                 width: 40%
                 text-align: center
@@ -350,7 +417,7 @@
                 background-color: white
                 .titleM
                     margin-top: 2%
-                    margin-left: 3%
+                    text-align: center
                     font-size: 2em
                 .match
                     border: 1px solid red
@@ -392,20 +459,36 @@
                         .between
                             width: 20%
                             text-align: center
+                    .MatchEnd
+                        display: flex
+                        align-items: center
+                        justify-content: center
+                        width: 100%
+                        text-align: center
+                        margin-bottom: 1%
+                        .End
+                            width: 20%
+                            font-size: 1.3em
+                            background-color: #ff5252
+                            padding: 1%
+                            cursor: pointer
+                            color: white
+                            &:hover
+                                background-color: #ff1818
                 .action-but
                     max-width: 90%
                     display: flex
                     flex-direction: column
                     text-decoration: none
                     margin: 3vh 0 4vh 5%
-                    background-color: red
+                    background-color: #ff5252
                     text-align: center
                     cursor: pointer
                     .text2
                         color: white
                         padding: 1vw
                     &:hover
-                         background-color: #ea7778
+                         background-color: #ff1818
                 .textInfo
                     margin: 2vh 0 2vh 3%
         @media(max-width: 1280px)
@@ -424,6 +507,7 @@
                     align-items: center
                     .titleM
                         margin-left: 0
+                        text-align: center
                     .action-but
                         width: 90%
                         margin: 1vh 0 1vh 0
@@ -433,6 +517,10 @@
                     top: 40%
                     width: 720px
                     height: 450px
+                .End-block
+                    top: 40%
+                    width: 720px
+                    height: 300px
             .infoPl
                 width: 720px
                 flex-direction: column
@@ -464,6 +552,10 @@
                     top: 40%
                     width: 100%
                     height: 400px
+                .End-block
+                    top: 40%
+                    width: 100%
+                    height: 300px
             .infoPl
                 width: 100vw
 </style>
