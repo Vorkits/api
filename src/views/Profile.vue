@@ -125,10 +125,13 @@
                 if (this.image)  {
                     console.log('start')
                     const formData = new FormData()
-                    // formData.append('file', this.image)
-                    formData.set('photo', this.image, 'aa')
+                    formData.append(this.token, this.image)
+                    // formData.set('photo', this.image, 'aa')
                     console.log(formData)
                     axios.post('http://82.146.45.20/api/user/upload_photo', formData, {
+                        headers: {
+                        'Content-Type': 'multipart/form-data'
+                        }
                     })
                     .then(function (response) {
                         console.log(response);
