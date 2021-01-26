@@ -93,6 +93,8 @@ class Games_base(Firebase):
                 loose_data['level']=level
             db.child('users').child(looser).set(loose_data)
             data['status']='finished'
+            data['score1']=score1
+            data['score2']=score2
             db.child('matches').child(match_id).set(data)
             return True
     def get_matches(self):
