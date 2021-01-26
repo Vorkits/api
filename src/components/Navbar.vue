@@ -38,7 +38,7 @@
                         <v-icon>{{link.icon}}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>{{link.text}}</v-list-item-title>
+                        <v-list-item-title style="overflow: none">{{link.text}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <div class="exit" @click.prevent="logout" v-if="token != ''"><div class="exit-text">EXIT</div></div>
@@ -60,7 +60,6 @@ export default {
                 { icon: 'mdi-folder', text: 'Tournaments', route: '/tournaments' },
                 { icon: 'mdi-run', text: 'Matches', route: '/matches' },
                 { icon: 'mdi-account', text: 'Tennis Players', route: '/players' },
-                { icon: 'mdi-bullseye', text: 'Smash', route: '/smash' },
                 { icon: 'mdi-help', text: 'How does it work', route: '/about' }
             ]
         }
