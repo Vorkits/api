@@ -77,9 +77,11 @@
             Created() {
                 const formData = new FormData()
                     formData.append('player1_id', this.Id)
-                    formData.append('player2_id', this.Id)
+                    formData.append('player2_id', this.UserId)
+                    console.log(this.UserId);
                     formData.append('time', this.time)
                     formData.append('coart_id', this.CourtId)
+                    
                     formData.append('type', '1')
                     axios.post('http://82.146.45.20/api/games/create', formData, {
                         headers: {
@@ -95,25 +97,15 @@
             }
         },
         mounted () {
+            console.log(this.UserId)
             var Response = null
             var route = this.$route.params.id.split(':')[1]
             this.Id = route
-            axios.get(`http://82.146.45.20/api/games/get`, {
-            })
-            // .then(function (response) {
-            //     Response = response
-            //     console.log(Response)
-            // })
-            .catch(function (error) {
-                // handle error
-                console.log(error)
-            })
             axios.get(`http://82.146.45.20/api/user/get_user/${route}`, {
             })
             .then(function (response) {
                 Response = response
                 console.log(Response)
-                
             })
             .catch(function (error) {
                 // handle error
@@ -134,8 +126,8 @@
             photo2(){
                 return this.$store.state.user.photo
             },
-            UserId(){
-                return this.$store.state.user.id
+            token() {
+                return this.$store.state.user.token
             }
         },
         asyncComputed: {
@@ -151,6 +143,24 @@
                             console.log(error)
                         })
                     }, 1000)
+                })
+            },
+            async UserId() {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        axios.get(`http://82.146.45.20/api/user/get_user`, {
+                        params: {
+                            token: this.token
+                        }
+                        })
+                        .then(function (response) {    
+                            console.log(response.data)
+                            resolve(response.data.id)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                    }, 2000)
                 })
             }
         }

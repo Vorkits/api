@@ -46,30 +46,34 @@
             </div>
             <div class="matches">
                 <div class="titleM">Matches</div>
-                <!-- <div class="matches" v-for="(element, i) in matches" :key="i"> -->
-                    <div class="match2">
-                        <div class="time">00:00</div>
-                        <div class="players">
-                            <div class="match-player">
-                                <div class="player-image"><img :src = "photo"></div>
-                                <div class="player-name">{{name}}</div>
-                                <div class="player-city">{{city}}</div>
-                                <div class="player-level">level: {{level}}</div>
-                            </div>
-                            <div class="between">CourtName</div>
-                            <div class="match-player">
-                                <div style = "display: none">{{path = 'reazer385@gmail&&com'}}</div>
-                                <div class="player-image"><img :src = "photoUser"></div>
-                                <div class="player-name">{{nameUser}}</div>
-                                <div class="player-city">{{cityUser}}</div>
-                                <div class="player-level">Level: {{levelUser}}</div>
-                            </div>
+
+
+                <div class="matches" v-for="(element, i) in matches" :key="i">
+                        <div class="match2" stagger="50" v-if="(element.player1 == id || element.player2 == id) && (element.player1 != element.player2) && element.status == 'start'">
+                                <div class="time">{{element.time}}</div>
+                                <div class="players">
+                                    <div class="match-player">
+                                        <div class="player-image"><img :src = "photo"></div>
+                                        <div class="player-name">{{name}}</div>
+                                        <div class="player-city">{{city}}</div>
+                                        <div class="player-level">level: {{level}}</div>
+                                    </div>
+                                        <div class="between">CourtName</div>
+                                    <div class="match-player">
+                                        <div style = "display: none" v-if="path = element.player2"></div>
+                                        <div class="player-image"><img :src = "photoUser"></div>
+                                        <div class="player-name">{{nameUser}}</div>
+                                        <div class="player-city">{{cityUser}}</div>
+                                        <div class="player-level">Level: {{levelUser}}</div>
+                                    </div>
+                                </div>
+                                <div class="MatchEnd">
+                                    <div class="End" @click = "IsEnd = true">End</div>
+                                </div>
                         </div>
-                        <div class="MatchEnd">
-                            <div class="End" @click = "IsEnd = true">End</div>
-                        </div>
-                    </div>
-                <!-- </div> -->
+                </div>
+
+
                 <a class="action-but" href="/matches">
                     <div class="text2">Organize the game by contacting a tennis player from {{city}}</div>
                 </a>
@@ -111,7 +115,8 @@
                 Firnumber: 0,
                 Secnumber: 0,
                 IsChange: false,
-                Val: null
+                Val: null,
+                path: null
             }
         },
         methods: {
@@ -184,12 +189,20 @@
             },
             clickEnd () {
                 console.log('start')
-                var Data = {
-                    match_id: 'ac3c5badce874e9d998e1b9af1e034ee',
-                    score1: this.Firnumber,
-                    score2: this.Secnumber
-                }
-                axios.post('http://82.146.45.20/api/games/finish', Data)
+                const formData = new FormData()
+                formData.append('match_id', '5ec4b26cbfc74672a289112d53395bfb')
+                formData.append('score1', this.Firnumber)
+                formData.append('score2', this.Secnumber)
+                // var Data = {
+                //     match_id: 'a575f54d4e154c18872abc4629b7cfe8',
+                //     score1: this.Firnumber,
+                //     score2: this.Secnumber
+                // }
+                axios.post('http://82.146.45.20/api/games/finish', formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+                })
                 .then(function (response) {
                     console.log(response);
                 })
@@ -199,9 +212,6 @@
         }
         },
         computed:{
-            matches(){
-                return this.$store.state.user.matches
-            },
             photo(){
                 return this.$store.state.user.photo
             },
@@ -217,9 +227,13 @@
             level(){
                 return this.$store.state.user.level
             },
+            id(){
+                return this.$store.state.user.id
+            }
         },
         asyncComputed: {
             async nameUser(){
+                console.log(this.path)
                 return new Promise((resolve) => {
                     setTimeout(() => {
                         axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
@@ -230,10 +244,11 @@
                         .catch(function (error) {
                             console.log(error)
                         })
-                    }, 1000)
+                    }, 3000)
                 })
             },
             async photoUser(){
+                console.log(this.path)
                 return new Promise((resolve) => {
                     setTimeout(() => {
                         axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
@@ -244,10 +259,11 @@
                         .catch(function (error) {
                             console.log(error)
                         })
-                    }, 1000)
+                    }, 3000)
                 })
             },
             async levelUser(){
+                console.log(this.path)
                 return new Promise((resolve) => {
                     setTimeout(() => {
                         axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
@@ -258,10 +274,11 @@
                         .catch(function (error) {
                             console.log(error)
                         })
-                    }, 1000)
+                    }, 3000)
                 })
             },
             async cityUser(){
+                console.log(this.path)
                 return new Promise((resolve) => {
                     setTimeout(() => {
                         axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
@@ -272,9 +289,25 @@
                         .catch(function (error) {
                             console.log(error)
                         })
-                    }, 1000)
+                    }, 3000)
                 })
-            }
+            },
+            async matches(){
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        axios.get(`http://82.146.45.20/api/games/get`, {
+                        })
+                        .then(function (response) {
+                            console.log(response)
+                            resolve(response.data.data)
+                        })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error)
+                        })
+                    }, 3000)
+                })
+            },
         }
     }
 </script>
@@ -462,7 +495,7 @@
                     text-align: center
                     .friend
             .matches
-                width: 60%
+                width: 100%
                 background-color: white
                 .titleM
                     margin-top: 2%
