@@ -113,6 +113,7 @@ def get_data(token):
     try:
         email=get_email(token)
         data=db.child("users").child(email).get().val()
+        data['id']=email
         return data
     except Exception as e:
         print(e)
