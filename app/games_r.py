@@ -71,6 +71,24 @@ def get_match():
         if match_id :
         
             data=Games_base().get_match(match_id)
+            
+            return {'status':'success','data':data},200
+        else:
+            print('non args')
+            return{'status':'error'},401
+    except Exception as e:
+        print('non args')
+        return{'status':str(e)},401
+@game_r.route('/get_users_match',methods=['POST'])
+def get_users_match():
+    try:
+        form=dict(request.form)
+        id=form.get('id')
+    
+        if id:
+        
+            data=Games_base().get_users_match(id)
+            
             return {'status':'success','data':data},200
         else:
             print('non args')

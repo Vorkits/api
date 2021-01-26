@@ -39,8 +39,8 @@ class Games_base(Firebase):
         match_data={
             'time':time,
             'coart':coart,
-            'player1':player1,
-            'player2':player2,
+            'player1':fr.get_user(player1),
+            'player2':fr.get_user(player2),
             'type':t,
             'status':'start',
             'winner':'',
@@ -48,6 +48,8 @@ class Games_base(Firebase):
             'score2':''}
         
         db.child('matches').child(match_id).set(match_data)
+        self.set_match_to_user(player1,match_id)
+        self.set_match_to_user(player2,match_id)
         return (match_id,match_data)
     def change_field(self,field,value,match_id):
         db=self.db
@@ -112,3 +114,25 @@ class Games_base(Firebase):
             return dict(db.child('matches').child(match_id).get().val())
         except:
             return {}
+    def get_users_match(self,user):
+        db=self.db
+        try:
+            data=dict(db.child('users').child(user).child('matches').get().val())
+            for i in data.keys():
+                data[i]=self.get_match(i)
+            return data
+        except:
+            return {}
+        
+    def set_match_to_user(self,player,match_id):
+        db=self.db
+        
+        userdata=db.child('users').child(player).child('matches').get().val()
+        if userdata:
+            userdata=dict(userdata)
+            userdata[match_id]=match_id
+        else:
+            userdata={}
+            userdata[match_id]=match_id
+        db.child('users').child(player).child('matches').set(userdata)
+        return True
