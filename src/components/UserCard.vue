@@ -1,6 +1,8 @@
 <template>
   <div class="wrapper">
-    <div class="Avatar" :style="{background: 'url(' + userData.photo + ') center no-repeat', 'background-size': 'cover'}"></div>
+    <div class="Avatar" :style="{background: 'url(' + userData.photo + ') center no-repeat', 'background-size': 'cover'}">
+      <router-link :to="'/OtherProfile/' + userData.token"></router-link>
+    </div>
     <div class="Name">{{ userData.name }}</div>
     <div class="City">{{ userData.city }}</div>
     <div class="level" :style="levelColor">{{ levelData[userData.level - 1] }}</div>
@@ -73,6 +75,11 @@ export default {
       margin: 0 auto
       border-radius: 50%
       margin-top: 10px
+      a
+        display: block
+        width: 100%
+        height: 100%
+        border-radius: 50%
     .Name, .City, .level
       text-align: center
       display: flex
