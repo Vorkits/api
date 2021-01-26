@@ -48,27 +48,27 @@
                 <div class="titleM">Matches</div>
 
 
-                <div class="matches" v-for="(element, i) in matches" :key="i">
-                        <div class="match2" stagger="50" v-if="(element.player1 == id || element.player2 == id) && (element.player1 != element.player2) && element.status == 'start'">
-                                <div class="time">{{element.time}}</div>
+                <div class="matches" v-for="(element, b) in matches" :key="b">
+                        <div class="match2" v-if="element.status == 'start'">
+                                    <div class="time">{{element.time}}</div>
+                                
                                 <div class="players">
                                     <div class="match-player">
-                                        <div class="player-image"><img :src = "photo"></div>
-                                        <div class="player-name">{{name}}</div>
-                                        <div class="player-city">{{city}}</div>
-                                        <div class="player-level">level: {{level}}</div>
+                                        <div class="player-image"><img :src = "element.player1.photo"></div>
+                                        <div class="player-name">{{element.player1.name}}</div>
+                                        <div class="player-city">{{element.player1.city}}</div>
+                                        <div class="player-level">level: {{element.player1.level}}</div>
                                     </div>
                                         <div class="between">CourtName</div>
                                     <div class="match-player">
-                                        <div style = "display: none" v-if="path = element.player2"></div>
-                                        <div class="player-image"><img :src = "photoUser"></div>
-                                        <div class="player-name">{{nameUser}}</div>
-                                        <div class="player-city">{{cityUser}}</div>
-                                        <div class="player-level">Level: {{levelUser}}</div>
+                                        <div class="player-image"><img :src = "element.player2.photo"></div>
+                                        <div class="player-name">{{element.player2.name}}</div>
+                                        <div class="player-city">{{element.player2.city}}</div>
+                                        <div class="player-level">Level: {{element.player2.level}}</div>
                                     </div>
                                 </div>
                                 <div class="MatchEnd">
-                                    <div class="End" @click = "IsEnd = true">End</div>
+                                    <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
                                 </div>
                         </div>
                 </div>
@@ -116,19 +116,14 @@
                 Secnumber: 0,
                 IsChange: false,
                 Val: null,
-                path: null
+                CurrentId: null
             }
         },
         methods: {
             clickChange() {
-                console.log('start')
                 const formData = new FormData()
                 var NewVal = document.getElementById('1').value
-                // var Data = {
-                //     token: this.token,
-                //     field: this.Val,
-                //     value: NewVal
-                // }
+
                     formData.append('token', this.token)
                     formData.append('field', this.Val)
                     formData.append('value', NewVal)
@@ -137,14 +132,6 @@
                         'Content-Type': 'multipart/form-data'
                         }
                     })
-
-                // axios.post('http://82.146.45.20/api/user/change_field', Data)
-                // .then(function (response) {
-                //     console.log(response);
-                // })
-                // .catch(function (error) {
-                //     console.log(error);
-                // })
             },
             change1 () {
                 var preview = document.getElementById('1111');
@@ -170,7 +157,6 @@
             },
             click () {
                 if (this.image)  {
-                    console.log('start')
                     const formData = new FormData()
                     formData.append(this.token, this.image)
                     axios.post('http://82.146.45.20/api/user/upload_photo', formData, {
@@ -178,9 +164,9 @@
                         'Content-Type': 'multipart/form-data'
                         }
                     })
-                    .then(function (response) {
-                        console.log(response);
-                    })
+                    // .then(function (response) {
+                    //     // console.log(response);
+                    // })
                     .catch(function (error) {
                         console.log(error);
                     })
@@ -188,28 +174,24 @@
                 this.IsImage = false
             },
             clickEnd () {
-                console.log('start')
                 const formData = new FormData()
-                formData.append('match_id', '5ec4b26cbfc74672a289112d53395bfb')
+                formData.append('match_id', this.CurrentId)
                 formData.append('score1', this.Firnumber)
                 formData.append('score2', this.Secnumber)
-                // var Data = {
-                //     match_id: 'a575f54d4e154c18872abc4629b7cfe8',
-                //     score1: this.Firnumber,
-                //     score2: this.Secnumber
-                // }
                 axios.post('http://82.146.45.20/api/games/finish', formData, {
                     headers: {
                     'Content-Type': 'multipart/form-data'
                     }
                 })
-                .then(function (response) {
-                    console.log(response);
-                })
+                // .then(function (response) {
+                //     // console.log(response);
+                // })
                 .catch(function (error) {
                     console.log(error);
                 })
-        }
+            }
+        },
+        mounted() {
         },
         computed:{
             photo(){
@@ -227,82 +209,41 @@
             level(){
                 return this.$store.state.user.level
             },
-            id(){
+            Id(){
                 return this.$store.state.user.id
             }
         },
         asyncComputed: {
-            async nameUser(){
-                console.log(this.path)
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
-                        })
-                        .then(function (response) {       
-                            resolve(response.data.name)
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
-                    }, 3000)
-                })
-            },
-            async photoUser(){
-                console.log(this.path)
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
-                        })
-                        .then(function (response) {
-                            resolve(response.data.photo)
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
-                    }, 3000)
-                })
-            },
-            async levelUser(){
-                console.log(this.path)
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
-                        })
-                        .then(function (response) {
-                            resolve(response.data.level)
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
-                    }, 3000)
-                })
-            },
-            async cityUser(){
-                console.log(this.path)
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
-                        })
-                        .then(function (response) {
-                            resolve(response.data.city)
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
-                    }, 3000)
-                })
-            },
+            // async cityUser(){
+            //     console.log(this.path)
+            //     return new Promise((resolve) => {
+            //         setTimeout(() => {
+            //             axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
+            //             })
+            //             .then(function (response) {
+            //                 resolve(response.data.city)
+            //             })
+            //             .catch(function (error) {
+            //                 console.log(error)
+            //             })
+            //         }, 3000)
+            //     })
+            // },
             async matches(){
                 return new Promise((resolve) => {
                     setTimeout(() => {
-                        axios.get(`http://82.146.45.20/api/games/get`, {
+                        const formData = new FormData()
+                        formData.append('id', this.Id)
+                        
+                        axios.post('http://82.146.45.20/api/games/get_users_match', formData, {
+                            headers: {
+                            'Content-Type': 'multipart/form-data'
+                            }
                         })
                         .then(function (response) {
-                            console.log(response)
                             resolve(response.data.data)
                         })
                         .catch(function (error) {
-                            // handle error
                             console.log(error)
                         })
                     }, 3000)

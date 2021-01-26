@@ -78,7 +78,6 @@
                 const formData = new FormData()
                     formData.append('player1_id', this.Id)
                     formData.append('player2_id', this.UserId)
-                    console.log(this.UserId);
                     formData.append('time', this.time)
                     formData.append('coart_id', this.CourtId)
                     
@@ -88,16 +87,14 @@
                         'Content-Type': 'multipart/form-data'
                         }
                     })
-                    .then(function (response) {
-                        console.log(response)
-                    })
+                    // .then(function (response) {
+                    // })
                     .catch(function (error) {
                         console.log(error)
                     })
             }
         },
         mounted () {
-            console.log(this.UserId)
             var Response = null
             var route = this.$route.params.id.split(':')[1]
             this.Id = route
@@ -105,7 +102,6 @@
             })
             .then(function (response) {
                 Response = response
-                console.log(Response)
             })
             .catch(function (error) {
                 // handle error
@@ -114,7 +110,6 @@
             setTimeout(() => {
                 this.photo = Response.data.photo
                 this.city = Response.data.city
-                console.log(Response.data.city)
                 this.name = Response.data.name
                 this.level = Response.data.level
             }, 4000)
@@ -154,7 +149,6 @@
                         }
                         })
                         .then(function (response) {    
-                            console.log(response.data)
                             resolve(response.data.id)
                         })
                         .catch(function (error) {
