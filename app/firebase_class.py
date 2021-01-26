@@ -68,7 +68,7 @@ class Games_base(Firebase):
             data['winner']=winner
             print('before user')
             print(winner)   
-            winner_data=dict(db.child('users').child(winner).get().val())
+            winner_data=winner
             print('after')
             score=winner_data['score']
             score+=3
@@ -77,15 +77,16 @@ class Games_base(Firebase):
             
             winner_data['score']=score
             winner_data['level']=level
-            (db.child('users').child(winner).set(winner_data))
+            (db.child('users').child(winner['id']).set(winner_data))
             #         user_form={'name':name,'city':city,'token':token,'score':0,'level':0,'photo':photo}
             loose_data={}
             looser=''
+            print(data['player2'])
             if winner==data['player1']:
-                loose_data=dict(db.child('users').child(data['player2']).get().val())
+                loose_data=dict(db.child('users').child(data['player2']['id']).get().val())
                 looser='player2'
             else:
-                loose_data=dict(db.child('users').child(data['player1']).get().val())
+                loose_data=dict(db.child('users').child(data['player1']['id']).get().val())
                 looser='player1'
             score=loose_data['score']
             score+=3
