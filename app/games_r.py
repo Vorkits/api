@@ -113,6 +113,6 @@ def finish():
         else:
             print('non args')
             return{'status':'error'},401
-    except :
+    except Exception as e:
         print('non args')
-        return{'status':'error'},401
+        return{'status':'error','error':str(e)},401
