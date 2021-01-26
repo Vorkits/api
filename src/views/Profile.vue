@@ -47,7 +47,7 @@
             <div class="matches">
                 <div class="titleM">Matches</div>
                 <!-- <div class="matches" v-for="(element, i) in matches" :key="i"> -->
-                    <div class="match">
+                    <div class="match2">
                         <div class="time">00:00</div>
                         <div class="players">
                             <div class="match-player">
@@ -185,7 +185,7 @@
             clickEnd () {
                 console.log('start')
                 var Data = {
-                    match_id: null,
+                    match_id: '0c1a2b4d64a94e27b3effa60fe714197',
                     score1: this.Firnumber,
                     score2: this.Secnumber
                 }
@@ -468,7 +468,7 @@
                     margin-top: 2%
                     text-align: center
                     font-size: 2em
-                .match
+                .match2
                     border: 1px solid red
                     width: 90%
                     display: flex

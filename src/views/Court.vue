@@ -23,43 +23,42 @@
 </template>
 
 <script scoped>
-    // import axios from 'axios'
+    import axios from 'axios'
     export default {
         data() {
             return {
-                response: null,
                 photo: null,
                 city: null,
                 name: null,
-                level: 1
+                adress: null,
+                phone: null
             }
         },
         methods: {
         },
         mounted () {
-            // var Response = null
+            var Response = null
             var route = this.$route.params.id.split(':')[1]
-            console.log(route);
-            // axios.get(`http://82.146.45.20/api/user/get_user/${route}`, {
-            //     params: {
-            //         token: 'ada3d69b54a34bb0bf136523d037b959'
-            //     }
-            // })
-            // .then(function (response) {
-            //     Response = response
-            //     console.log(Response)
+            axios.get(`http://82.146.45.20/api/court/get`, {
+                params: {
+                    coart_id: route
+                }
+            })
+            .then(function (response) {
+                Response = response
                 
-            // })
-            // .catch(function (error) {
-            //     // handle error
-            //     console.log(error)
-            // })
-            // setTimeout(() => {
-            //     this.photo = Response.data.photo
-            //     this.city = Response.data.city
-            //     this.name = Response.data.name
-            //     this.level = Response.data.level
-            // }, 1000)
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error)
+            })
+            setTimeout(() => {
+                this.photo = Response.data.photo
+                this.city = Response.data.city
+                this.name = Response.data.name
+                this.adress = Response.data.addr
+                this.phone = Response.data.phone
+            }, 2000)
         },
         computed:{
         }

@@ -23,6 +23,8 @@
         <div class="createMatch" v-if="IsClick">
             <svg @click="IsClick = false" height="30pt" viewBox="0 0 329.26933 329" width="30pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
             <div class="titleClick">Create Match</div>
+            <label for="appt">Choose a time for your meeting:</label>
+            <input type="time" id="appt" v-model="time" name="appt" required>
             <div class="players">
                 <div class="firstPl">
                     <img :src="photo2" class="photoPl">
@@ -36,9 +38,18 @@
                     <div class="text">{{city}}</div>
                 </div>
             </div>
+            <div class="CourtesTit" style="font-size: 3em">Courtes</div>
             <div class="courtes">
                 <div class="courts" v-for="(court,i) in Courtes" :key = 'i'>
-                    <div class = "court">{{court.city}}</div>
+                    <div class = "court">
+                        <a class="courtPhoto" v-bind:href="'/Court/:' + court.id"><img :src="court.photo"></a>
+                        <div class="courtInfo">
+                            <div class="courtName">{{court.name}}</div>
+                            <div class="courtCity">{{court.city}}</div>
+                            <div class="courtAdress">{{court.addr}}</div>
+                            <div class="courtbut" @click="IsClick = true; CourtId = court.id">Choose that court</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="create" @click="Created(); IsClick = false">Create Match</div>
@@ -56,25 +67,47 @@
                 city: null,
                 name: null,
                 level: 1,
-                IsClick: false
+                IsClick: false,
+                time: null,
+                CourtId: null,
+                Id: null
             }
         },
         methods: {
             Created() {
-                console.log(2)
+                const formData = new FormData()
+                    formData.append('player1_id', this.Id)
+                    formData.append('player2_id', this.Id)
+                    formData.append('time', this.time)
+                    formData.append('type', '1')
+                    axios.post('http://82.146.45.20/api/games/create', formData, {
+                        headers: {
+                        'Content-Type': 'multipart/form-data'
+                        }
+                    })
             }
         },
         mounted () {
             var Response = null
             var route = this.$route.params.id.split(':')[1]
-            axios.get(`http://82.146.45.20/api/user/get_user/${route}`, {
-                params: {
-                    token: 'ada3d69b54a34bb0bf136523d037b959'
-                }
+            this.Id = route
+            axios.get(`http://82.146.45.20/api/games/get`, {
             })
             .then(function (response) {
                 Response = response
-                // console.log(Response)
+                console.log(Response)
+                console.log('AAAAAAAAAAAA');
+                
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error)
+            })
+            axios.get(`http://82.146.45.20/api/user/get_user/${route}`, {
+            })
+            .then(function (response) {
+                Response = response
+                console.log(Response)
                 
             })
             .catch(function (error) {
@@ -86,7 +119,7 @@
                 this.city = Response.data.city
                 this.name = Response.data.name
                 this.level = Response.data.level
-            }, 1000)
+            }, 2000)
         },
         computed:{
             name2(){
@@ -95,6 +128,9 @@
             photo2(){
                 return this.$store.state.user.photo
             },
+            UserId(){
+                return this.$store.state.user.id
+            }
         },
         asyncComputed: {
             async Courtes(){
@@ -149,13 +185,45 @@
             display: flex
             flex-direction: column
             align-items: center
+            input
+                background-color: grey
+                padding: 1% 4% 1% 4%
+                border-radius: 10px
             .courtes
                 overflow: auto
                 width: 100%
                 height: 300px
-                text-align: center
+                text-align: center       
                 .court
-                    margin-left: 15px
+                    margin-left: calc(15px + 10vw)
+                    border: 1px solid #636363
+                    display: flex
+                    flex-direction: row
+                    margin-top: 3vh
+                    width: 70%
+                    .courtPhoto
+                        width: 30%
+                        border-right: 2px solid #808080
+                        border-radius: 0%
+                        overflow: hidden
+                        img
+                            padding: 5%
+                            width: 100px
+                            height: 100px
+                            border-radius: 50%
+                    .courtInfo
+                        width: 70%
+                        display: flex
+                        flex-direction: column
+                        align-items: center
+                        .courtbut
+                            cursor: pointer
+                            background-color: #757575
+                            padding: 1% 3% 1% 3%
+                            width: 40%
+                            &:hover
+                                background-color: #948181
+
             .create
                 padding: 1% 3% 1% 3%
                 margin-bottom: 1%
@@ -171,19 +239,9 @@
             svg
                 margin-left: 95%
                 margin-top: 1%
-                margin-bottom: 1%
+                margin-bottom: -1%
                 @media(max-width: 1280px)
                     margin-left: 90%
-                @media(max-width: 720px)
-                    margin-left: 80%
-                @media(max-width: 630px)
-                    margin-left: 70%
-                @media(max-width: 555px)
-                    margin-left: 60%
-                @media(max-width: 485px)
-                    margin-left: 50%
-                @media(max-width: 416px)
-                    margin-left: 40%
             .titleClick
                 font-size: 2em
             .players
@@ -267,7 +325,7 @@
                 .text
                     margin: 3vh 0 4vh 3%
                 .match
-                    margin: 3vh 0 4vh 3%
+                    margin: 3vh 3vh 4vh 3vh
                     text-align: center
                     width: 30%
                     padding: 1% 3% 1% 3%
@@ -305,6 +363,8 @@
                     height: 500px
                     margin: 0 auto
         @media(max-width: 780px)
+            .createMatch
+                width: 100%
             .prediction
                 width: 100vw
             .player
