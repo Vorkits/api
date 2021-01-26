@@ -81,7 +81,8 @@ def get_match():
     
 @game_r.route('/finish',methods=['POST'])
 def finish():
-    try:
+    
+        print('finish')
         # score1,score2,match_id
         form=dict(request.form)
         match_id=form.get('match_id')
@@ -94,6 +95,3 @@ def finish():
         else:
             print('non args')
             return{'status':'error'},401
-    except Exception as e:
-        print('non args')
-        return{'status':str(e)},401

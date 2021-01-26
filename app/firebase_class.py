@@ -1,6 +1,7 @@
 import pyrebase
 import uuid
 import os
+import app.firebase as fr
 config = {
     "apiKey": "AIzaSyDYsYC0LnriZt1JxLKpFKV0HIfw2slT1ac",
     "authDomain": "orac-9d788.firebaseapp.com",
@@ -64,7 +65,7 @@ class Games_base(Firebase):
             winner=data['player1'] if score1>score2 else data['player2']
             data['winner']=winner
             print('before user')
-            print(winner)
+            print(winner)   
             winner_data=dict(db.child('users').child(winner).get().val())
             print('after')
             score=winner_data['score']

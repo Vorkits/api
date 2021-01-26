@@ -147,6 +147,7 @@ def get_user(email):
     try:
         
         data=db.child("users").child(email).get().val()
+        data['id']=email
         return dict(data)
         
     except Exception as e:
