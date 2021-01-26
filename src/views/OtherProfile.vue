@@ -79,6 +79,7 @@
                     formData.append('player1_id', this.Id)
                     formData.append('player2_id', this.Id)
                     formData.append('time', this.time)
+                    formData.append('coart_id', this.CourtId)
                     formData.append('type', '1')
                     axios.post('http://82.146.45.20/api/games/create', formData, {
                         headers: {
@@ -93,12 +94,10 @@
             this.Id = route
             axios.get(`http://82.146.45.20/api/games/get`, {
             })
-            .then(function (response) {
-                Response = response
-                console.log(Response)
-                console.log('AAAAAAAAAAAA');
-                
-            })
+            // .then(function (response) {
+            //     Response = response
+            //     console.log(Response)
+            // })
             .catch(function (error) {
                 // handle error
                 console.log(error)
@@ -117,9 +116,10 @@
             setTimeout(() => {
                 this.photo = Response.data.photo
                 this.city = Response.data.city
+                console.log(Response.data.city)
                 this.name = Response.data.name
                 this.level = Response.data.level
-            }, 2000)
+            }, 4000)
         },
         computed:{
             name2(){
@@ -139,7 +139,6 @@
                         axios.get(`http://82.146.45.20/api/court/get_all`, {
                         })
                         .then(function (response) {       
-                            console.log(response.data)
                             resolve(response.data)
                         })
                         .catch(function (error) {
