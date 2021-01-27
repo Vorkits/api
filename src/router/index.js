@@ -2,7 +2,7 @@ import Vue from 'vue'
 import store from '../store/index.js'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Tournaments from '../views/Tournaments.vue'
+import Courts from '../views/Courts.vue'
 import Players from '../views/Players.vue'
 import Matches from '../views/Matches.vue'
 import About from '../views/About.vue'
@@ -18,9 +18,9 @@ const routes = [{
         component: Home
     },
     {
-        path: '/tournaments',
-        name: 'tournaments',
-        component: Tournaments
+        path: '/courts',
+        name: 'courts',
+        component: Courts
             // route level code-splitting
             // this generates a separate chunk (about.[hash].js) for this route
             // which is lazy-loaded when the route is visited.

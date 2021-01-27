@@ -56,7 +56,7 @@ export default {
             drawer:false,
             links: [
                 { icon: 'mdi-view-dashboard', text: 'Home', route: '/' },
-                { icon: 'mdi-folder', text: 'Tournaments', route: '/tournaments' },
+                { icon: 'mdi-folder', text: 'Courts', route: '/courts' },
                 { icon: 'mdi-run', text: 'Matches', route: '/matches' },
                 { icon: 'mdi-account', text: 'Tennis Players', route: '/players' },
                 { icon: 'mdi-bullseye', text: 'Smash', route: '/smash' },

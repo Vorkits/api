@@ -4,7 +4,10 @@
       amount="10"
       currency="USD"
       :client="credentials"
-      @payment-authorized="payment_completed_cb"
+      @payment-authorized="payment_authorized_cb"
+      @payment-completed="payment_completed_cb"
+      @payment-cancelled="payment_cancelled_cb"
+      env="sandbox"
     ></PayPal>
   </div>
 </template>
@@ -23,6 +26,10 @@ import PayPal from 'vue-paypal-checkout'
 // paypal-paymentAuthorized
 // paypal-paymentCompleted
 // paypal-paymentCancelled
+
+// sandbox Account
+// sb-rjyqy4857258@personal.example.com
+// /#Ap9Ty/
 export default {
   name: 'tournaments',
   data: () => ({
@@ -35,9 +42,15 @@ export default {
     PayPal
   },
   methods: {
-    payment_completed_cb(res, planName){
-      console.log('sdsdsdsd')  
+    payment_authorized_cb(res) {
+      console.log('authorized', res)
     },
+    payment_completed_cb(res){
+      console.log('completed', res)
+    },
+    payment_cancelled_cb(res){
+      console.log('cancelled', res)
+    }
   }
 }
 </script>
