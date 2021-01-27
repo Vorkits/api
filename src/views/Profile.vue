@@ -34,6 +34,19 @@
                 <button class = "but white2" @click="clickChange">Изменить</button>
             </div>
 
+            <div class="modalBalance" v-show="modalBalanceToggle">
+                <svg @click="modalBalanceToggle = false" height="15pt" viewBox="0 0 329.26933 329" width="15pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
+                <label for="addBalance">Enter the replenishment amount:</label>
+                <input v-model="inputBalance" type="number" id="addBalance">
+                <PayPal
+                    :amount="String(inputBalance)"
+                    currency="USD"
+                    :client="credentials"
+                    @payment-completed="payment_completed_cb"
+                    env="sandbox"
+                ></PayPal>
+            </div>
+
             <div class="profile">
                 <div class="photo" @click = "IsImage = true">
                     <img src='../assets/default.jpg' id = 'NewPhoto' v-if="photo == null">
@@ -43,6 +56,10 @@
                 <div class="name" style="font-size: 1.7em;" @click = 'IsChange = true; Val = "name"'>Name: {{name}}</div>
                 <div class="player-city" style="font-size: 1.1em;" @click = 'IsChange = true; Val = "city"'>City: {{city}}</div>
                 <div class="level">Level: {{level}}</div>
+                <div class="balance">
+                    Balance: {{ balance }}$
+                    <div class="icon-add" @click="openModalWindow">+</div>
+                </div>
             </div>
             <div class="matches">
                 <div class="titleM">Matches</div>
@@ -51,7 +68,6 @@
                 <div class="matches" v-for="(element, b) in matches" :key="b">
                         <div class="match2" v-if="element.status == 'start'">
                                     <div class="time">{{element.time}}</div>
-                                
                                 <div class="players">
                                     <div class="match-player">
                                         <div class="player-image"><img :src = "element.player1.photo"></div>
@@ -104,6 +120,7 @@
 
 <script>
     import axios from 'axios'
+    import PayPal from 'vue-paypal-checkout'
     export default {
         data() {
             return {
@@ -116,10 +133,27 @@
                 Secnumber: 0,
                 IsChange: false,
                 Val: null,
-                CurrentId: null
+                CurrentId: null,
+                balance: new Number(),
+                modalBalanceToggle: false,
+                inputBalance: 10,
+                credentials: {
+                    sandbox: 'AfA-qkSiJVNQDYSSucQlEGrzR0tGAagOnxCf9nW2AFhqtsH_8Tsv9a9KyPIGSYa9MlPFM_jjWMToeOUO',
+                    production: 'AQERBcxNqb3kwmgFLESTMQsJh5qK1EafQIANBc327-NU0wxn3HKCG8a1vnjmdkEg8WcSGMswdfWrhkKU'
+                }
             }
         },
+        components: {
+            PayPal
+        },
         methods: {
+            payment_completed_cb(res) {
+                this.balance = Number(this.balance) + Number(res.transactions[0].amount.total)
+                console.log('completed', res)
+            },
+            openModalWindow () {
+                this.modalBalanceToggle = true
+            },
             clickChange() {
                 const formData = new FormData()
                 var NewVal = document.getElementById('1').value
@@ -396,6 +430,37 @@
                     padding: 1% 6% 1% 6%
                     border-radius: 10px
                     background: #f8f8f8
+            .modalBalance
+                position: fixed
+                width: 30%
+                height: 25%
+                background-color: darken(#ddd, 12.5%)
+                border-radius: 10px
+                left: 50%
+                top: 50%
+                transform: translate(-50%, -50%)
+                z-index: 1000000000
+                display: flex
+                flex-direction: column
+                justify-content: space-evenly
+                align-items: center
+                font-family: 'Roboto', sans-serif
+                font-weight: 300
+                label
+                    font-size: 1.5rem
+                    width: 100%
+                    text-align: left
+                    padding-left: 5%
+                input
+                    width: 60%
+                    text-align: center
+                    background-color: #fff
+                    outline: none
+                svg
+                    position: absolute
+                    right: 0
+                    top: 0
+                    cursor: pointer
             .profile
                 width: 40%
                 text-align: center
@@ -403,13 +468,36 @@
                 float: left
                 display: flex
                 flex-direction: column
+                position: relative
+                .balance
+                    position: absolute
+                    top: 0
+                    right: 0
+                    height: 50px
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    padding-right: 6%
+                    .icon-add
+                        width: 40px
+                        height: 40px
+                        font-size: 2rem
+                        font-weight: 200
+                        border-radius: 50%
+                        position: absolute
+                        right: -20%
+                        top: 8%
+                        box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.1)
+                        display: flex
+                        justify-content: center
+                        align-items: center
+                        cursor: pointer
                 img
                     border-radius: 50%
                     margin-top: 3vh
                     width: 200px
                     height: 200px
                 .overlay
-                    position: absolute
                     width: 200px
                     height: 200px
                     margin-top: -206px
