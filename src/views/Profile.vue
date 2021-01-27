@@ -122,19 +122,19 @@
         <div class="infoPl">
             <div class="tennis-players ten">
                 <div class="block">
-                    <div class="peopleAmount">100000</div>
+                    <div class="peopleAmount">32.111</div>
                     <div class="AmountName">tennis players</div>
                 </div>
             </div>
             <div class="tennis-players-chat ten">
                 <div class="block">
-                    <div class="peopleAmount">300000</div>
+                    <div class="peopleAmount">277.380</div>
                     <div class="AmountName">tennis players chat</div>
                 </div>
             </div>
             <div class="scheduled-matches ten">
                 <div class="block">
-                    <div class="peopleAmount">1000</div>
+                    <div class="peopleAmount">105.781</div>
                     <div class="AmountName">scheduled matches</div>
                 </div>
             </div>
