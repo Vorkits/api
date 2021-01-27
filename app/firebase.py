@@ -28,7 +28,7 @@ def create_user(password,email,name,city):
         email=email.replace('.','&&')
         photo='standart.jpg'
         photo=storage.child(f"avatars/{photo}").get_url(user['idToken'])
-        user_form={'name':name,'city':city,'token':token,'score':20,'level':1,'photo':photo}
+        user_form={'name':name,'city':city,'token':token,'score':20,'level':1,'photo':photo,'balance':0}
         db.child("users").child(email).set(user_form)
         db.child("tokens").child(token).set({'user':email})
         db.child('cityes').child(city).child(email).set({'id':email,'name':name})
@@ -115,6 +115,24 @@ def get_data(token):
         data=db.child("users").child(email).get().val()
         data['id']=email
         return data
+    except Exception as e:
+        print(e)
+        return {'status':'error'},401
+    
+    
+def set_money(token,value):
+    try:
+        email=get_email(token)
+        data=dict(db.child("users").child(email).get().val())
+        try:
+            bal=data['balance']
+        except:
+            bal=0
+        bal+=value
+        data['balance']=bal
+        db.child("users").child(email).set(data)
+        
+        return {'status':'succes','data':data},200
     except Exception as e:
         print(e)
         return {'status':'error'},401

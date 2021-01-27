@@ -75,3 +75,24 @@ def get_f_user(id):
     else:
         print('non args')
         return{'status':'error'},401
+
+@user_route.route('/add_money',methods=['POST'])
+def add_money():
+    form=dict(request.form)
+    token=form.get('token',False)
+    value=form.get('value',False)
+    if value and token:
+        return f.set_money(token,int(value))
+    else:
+        print('non args')
+        return{'status':'error'},401
+@user_route.route('/minus_money',methods=['POST'])
+def minus_money():
+    form=dict(request.form)
+    token=form.get('token',False)
+    value=form.get('value',False)
+    if token and value:
+        return f.set_money(token,-int(value))
+    else:
+        print('non args')
+        return{'status':'error'},401
