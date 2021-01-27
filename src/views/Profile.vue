@@ -64,55 +64,55 @@
             <div class="matches">
                 <div class="titleM">Matches</div>
                 <div class="titleM">
-                    <div class="choose" @click="IsMatch = 'current'">Current </div>
-                    <div class="choose" @click="IsMatch = 'finished'"> Finished</div>
+                    <div class="choose green2" v-if="IsMatch == 'current'">Current</div>
+                    <div class="choose red2" @click="IsMatch = 'current'" v-else>Current</div>
+                    <div class="choose green2" v-if="IsMatch == 'finished'"> Finished</div>
+                    <div class="choose red2" @click="IsMatch = 'finished'" v-else>Finished</div>
                 </div>
 
                 <div class="matches" v-for="(element, b) in matches" :key="b">
-                        <div class="match2" v-if="element.status == 'start' && IsMatch == 'current'">
-                                <div class="time">{{element.time}}</div>
-                            <div class="players">
-                                <div class="match-player">
-                                    <div class="player-image"><img :src = "element.player1.photo"></div>
-                                    <div class="player-name">{{element.player1.name}}</div>
-                                    <div class="player-city">{{element.player1.city}}</div>
-                                    <div class="player-level">level: {{element.player1.level}}</div>
-                                </div>
-                                    <div class="between">CourtName</div>
-                                <div class="match-player">
-                                    <div class="player-image"><img :src = "element.player2.photo"></div>
-                                    <div class="player-name">{{element.player2.name}}</div>
-                                    <div class="player-city">{{element.player2.city}}</div>
-                                    <div class="player-level">Level: {{element.player2.level}}</div>
-                                </div>
+                    <div class="match2" v-if="element.status == 'start' && IsMatch == 'current'">
+                            <div class="time">{{element.time}}</div>
+                        <div class="players">
+                            <div class="match-player">
+                                <div class="player-image"><img :src = "element.player1.photo"></div>
+                                <div class="player-name">{{element.player1.name}}</div>
+                                <div class="player-city">{{element.player1.city}}</div>
+                                <div class="player-level">level: {{element.player1.level}}</div>
                             </div>
-                            <div class="MatchEnd">
-                                <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
+                                <div class="between">CourtName</div>
+                            <div class="match-player">
+                                <div class="player-image"><img :src = "element.player2.photo"></div>
+                                <div class="player-name">{{element.player2.name}}</div>
+                                <div class="player-city">{{element.player2.city}}</div>
+                                <div class="player-level">Level: {{element.player2.level}}</div>
                             </div>
+                        </div>
+                        <div class="MatchEnd">
+                            <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
+                        </div>
                     </div>
-                    <div class="match2" v-else-if="element.status == 'finish' && IsMatch == 'finished'">
+                    <div class="match2" v-else-if="element.status == 'finished' && IsMatch == 'finished'">
                                 <div class="time">{{element.time}}</div>
                             <div class="players">
                                 <div class="match-player">
+                                    <div class="player-score">{{element.score1}}</div>
                                     <div class="player-image"><img :src = "element.player1.photo"></div>
                                     <div class="player-name">{{element.player1.name}}</div>
                                     <div class="player-city">{{element.player1.city}}</div>
                                     <div class="player-level">level: {{element.player1.level}}</div>
                                 </div>
-                                    <div class="between">CourtName</div>
+                                    <div class="between">CourtName<br><b style="font-size: 1.5em">Score</b></div>
                                 <div class="match-player">
+                                    <div class="player-score">{{element.score2}}</div>
                                     <div class="player-image"><img :src = "element.player2.photo"></div>
                                     <div class="player-name">{{element.player2.name}}</div>
                                     <div class="player-city">{{element.player2.city}}</div>
                                     <div class="player-level">Level: {{element.player2.level}}</div>
                                 </div>
-                            </div>
-                            <div class="MatchEnd">
-                                <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
                             </div>
                     </div>
                 </div>
-
 
                 <a class="action-but" href="/matches">
                     <div class="text2">Organize the game by contacting a tennis player from {{city}}</div>
@@ -251,8 +251,8 @@
                     'Content-Type': 'multipart/form-data'
                     }
                 })
-                // .then(function (response) {
-                //     // console.log(response);
+                // .then(function () {
+                //     location.reload()
                 // })
                 .catch(function (error) {
                     console.log(error);
@@ -312,6 +312,7 @@
                             }
                         })
                         .then(function (response) {
+                            console.log(response.data.data)
                             resolve(response.data.data)
                         })
                         .catch(function (error) {
@@ -374,7 +375,6 @@
             display: flex
             width: 1280px
             margin: auto
-            margin-top: 5%
             margin-bottom: 3%
             flex-direction: row
             justify-content: center
@@ -504,6 +504,8 @@
                 flex-direction: column
                 position: relative
                 max-height: 500px
+                .player-city
+                    cursor: pointer
                 .balance
                     height: 50px
                     display: flex
@@ -563,12 +565,17 @@
                     flex-direction: row
                     align-items: center
                     justify-content: center
-                    .choose
-                        padding: 2%
-                        cursor: pointer
+                    .green2
+                        color: #5eca5e
+                        &:hover
+                            color: #3c863c
+                    .red2
                         color: #bd5b5b
                         &:hover
                             color: #ce1e1e
+                    .choose
+                        padding: 2%
+                        cursor: pointer
                 .match2
                     border: 1px solid red
                     width: 90%
@@ -586,6 +593,7 @@
                         flex-direction: row
                         width: 100%
                         .match-player
+                            margin-top: 3vh
                             display: flex
                             flex-direction: column
                             align-items: center
@@ -598,6 +606,8 @@
                                     border-radius: 50%
                             .player-name
                                 font-size: 1.5em
+                            .player-score
+                                font-size: 1.7em
                             .player-level
                                 margin-top: 3%
                                 margin-bottom: 3%
