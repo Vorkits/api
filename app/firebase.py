@@ -174,13 +174,13 @@ def get_user(email):
         return {'status':'error'},401
 
 
-def c_create(phone,city,addres,photo,name):
+def c_create(phone,city,addres,photo,name,cost):
     # try:
         
         
         coart_id=uuid.uuid4().hex
         print(coart_id)
-        data={'name':name,'phone':phone,'photo':photo,'addr':addres,'city':city,'id':coart_id,'reservs':[]}
+        data={'name':name,'phone':phone,'photo':photo,'addr':addres,'city':city,'id':coart_id,'reservs':[],'cost':cost}
         db.child("coarts").child(coart_id).set(data)
         db.child("cityes").child(city).child('coarts').child(coart_id).set(data)
         return {'status': 'success','coart_id':coart_id}

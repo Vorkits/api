@@ -16,9 +16,10 @@ def create():
     phone=form.get('phone',False)
     addres=form.get('addres',False)
     name=form.get('name',False)
-    if   city and addres and phone and name:
+    сost_per_hour=form.get('cost',False)
+    if   city and addres and phone and name and сost_per_hour:
         city=city.lower()
-        return f.c_create(photo='',city=city,addres=addres,phone=phone,name=name)
+        return f.c_create(photo='',city=city,addres=addres,phone=phone,name=name,сost=сost_per_hour)
     else:
         print(addres,phone,city)
         return{'status':'error','desc':'non args'},401

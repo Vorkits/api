@@ -32,7 +32,7 @@ class Firebase:
     
 class Games_base(Firebase):
     
-    def create_match(self,player1,player2,time,coart=False,t=1):
+    def create_match(self,player1,player2,time,coart=False,t=1,hour=False):
         db=self.db
         match_id=uuid.uuid4().hex
         t= 'pair' if type==2 else 'single'
@@ -45,7 +45,8 @@ class Games_base(Firebase):
             'status':'start',
             'winner':'',
             'score1':'',
-            'score2':''}
+            'score2':'',
+            'hours':hour}
         
         db.child('matches').child(match_id).set(match_data)
         self.set_match_to_user(player1,match_id)

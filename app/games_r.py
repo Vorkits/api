@@ -19,13 +19,14 @@ def create():
         player2=form.get('player2_id')
         time=form.get('time')
         coart=form.get('coart_id')
+        hour=form.get('hours')
         t=form.get('type')
         data=()
-        if player1 and player2 and time and t :
+        if player1 and player2 and time and t and hour:
             if coart:
-                data=Games_base().create_match(player1,player2,time,coart,t)
+                data=Games_base().create_match(player1,player2,time,coart,t,hour)
             else:
-                data=Games_base().create_match(player1,player2,time,coart=False,t=t)
+                data=Games_base().create_match(player1,player2,time,coart=False,t=t,hour=hour)
             return {'status':'success','match_id':data[0],'data':data[1]},200
         else:
             print('non args')
