@@ -306,8 +306,3 @@ export default {
   components: {}
 }
 </script>
-<style >
-.label:hover{
-  color:blue;
-}
-</style>

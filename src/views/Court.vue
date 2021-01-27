@@ -13,10 +13,10 @@
             </div>
             <div class="matches">
                 <div class="title">Information</div>
-                <div class="text">Court`s name: {{name}}</div>
-                <div class="text">Court`s city: {{city}}</div>
-                <div class="text">Court`s adress: {{adress}}</div>
-                <div class="text">Court`s phone: {{phone}}</div>
+                <div class="text"><b>Court`s name:</b> {{name}}</div>
+                <div class="text"><b>Court`s city:</b> {{city}}</div>
+                <div class="text"><b>Court`s adress:</b> {{adress}}</div>
+                <div class="text"><b>Court`s phone:</b> {{phone}}</div>
             </div>
         </div>
    </div>
@@ -64,5 +64,126 @@
         }
     }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
+.prediction
+    width: 1280px
+    margin: auto
+    margin-top: 5%
+    margin-bottom: 5%
+    display: flex
+    align-items: center
+    justify-content: center
+    background-color: #fb7979
+    .text
+        width: 80%
+        padding: 1vw
+        color: white
+.player
+    background-color: #f8f8f8
+    display: flex
+    width: 1280px
+    margin: auto
+    margin-bottom: 3%
+    flex-direction: row
+    justify-content: center
+    .profile
+        width: 40%
+        text-align: center
+        align-items: center
+        float: left
+        display: flex
+        flex-direction: column
+        img
+            border-radius: 50%
+            margin-top: 3vh
+            width: 200px
+            height: 200px
+        .overlay
+            position: absolute
+            width: 200px
+            height: 200px
+            margin-top: -206px
+            border-radius: 50%
+            cursor: pointer
+        .overlay:hover
+            background-color: rgba(21, 27, 31, 0.4)
+        .name
+            margin-top: 2%
+            margin-bottom: 5%
+            cursor: pointer
+        .level
+            margin-top: 3%
+            margin-bottom: 3%
+            padding: 1.6% 7% 1.6% 7%
+            text-align: center
+            max-width: 70%
+            background-color: #9e9e9e
+            color: white
+        .friends
+            margin-top: 2%
+            margin-bottom: 8%
+            display: flex
+            flex-direction: column
+            text-align: center
+            .friend
+    .matches
+        width: 100%
+        background-color: white
+        .title
+            margin-top: 2%
+            margin-left: 3%
+            font-size: 3em
+        .text
+            margin: 1% 1% 1% 3%
+@media(max-width: 1280px)
+    .createMatch
+        width: 720px
+        height: 90vh
+        margin-top: 20%
+        .courtes
+            height: 45vh
+    .prediction
+        width: 720px
+    .player
+        width: 720px
+        flex-direction: column
+        .profile
+            width: 100%
+        .matches
+            width: 100%
+            margin-top: 3%
+            display: flex
+            flex-direction: column
+            align-items: center
+            .title
+                margin-left: 0
+            .text
+                margin: 2vh 0 2vh 0
+        .image-block
+            width: 65%
+            height: 500px
+            margin: 0 auto
+@media(max-width: 780px)
+    .createMatch
+        width: 100%
+    .prediction
+        width: 100vw
+    .player
+        width: 100vw
+        flex-direction: column
+        .profile
+            width: 100%
+        .matches
+            width: 100%
+            margin-top: 3%
+            display: flex
+            flex-direction: column
+            align-items: center
+            .title
+                margin-left: 0
+            .action-but
+                margin-left: 0
+        .image-block
+            height: 400px
+
 </style>

@@ -57,36 +57,60 @@
                 <div class="player-city" style="font-size: 1.1em;" @click = 'IsChange = true; Val = "city"'>City: {{city}}</div>
                 <div class="level">Level: {{level}}</div>
                 <div class="balance">
-                    Balance: {{ balance }}$
+                    Balance: {{ score }}$
                     <div class="icon-add" @click="openModalWindow">+</div>
                 </div>
             </div>
             <div class="matches">
                 <div class="titleM">Matches</div>
-
+                <div class="titleM">
+                    <div class="choose" @click="IsMatch = 'current'">Current </div>
+                    <div class="choose" @click="IsMatch = 'finished'"> Finished</div>
+                </div>
 
                 <div class="matches" v-for="(element, b) in matches" :key="b">
-                        <div class="match2" v-if="element.status == 'start'">
-                                    <div class="time">{{element.time}}</div>
-                                <div class="players">
-                                    <div class="match-player">
-                                        <div class="player-image"><img :src = "element.player1.photo"></div>
-                                        <div class="player-name">{{element.player1.name}}</div>
-                                        <div class="player-city">{{element.player1.city}}</div>
-                                        <div class="player-level">level: {{element.player1.level}}</div>
-                                    </div>
-                                        <div class="between">CourtName</div>
-                                    <div class="match-player">
-                                        <div class="player-image"><img :src = "element.player2.photo"></div>
-                                        <div class="player-name">{{element.player2.name}}</div>
-                                        <div class="player-city">{{element.player2.city}}</div>
-                                        <div class="player-level">Level: {{element.player2.level}}</div>
-                                    </div>
+                        <div class="match2" v-if="element.status == 'start' && IsMatch == 'current'">
+                                <div class="time">{{element.time}}</div>
+                            <div class="players">
+                                <div class="match-player">
+                                    <div class="player-image"><img :src = "element.player1.photo"></div>
+                                    <div class="player-name">{{element.player1.name}}</div>
+                                    <div class="player-city">{{element.player1.city}}</div>
+                                    <div class="player-level">level: {{element.player1.level}}</div>
                                 </div>
-                                <div class="MatchEnd">
-                                    <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
+                                    <div class="between">CourtName</div>
+                                <div class="match-player">
+                                    <div class="player-image"><img :src = "element.player2.photo"></div>
+                                    <div class="player-name">{{element.player2.name}}</div>
+                                    <div class="player-city">{{element.player2.city}}</div>
+                                    <div class="player-level">Level: {{element.player2.level}}</div>
                                 </div>
-                        </div>
+                            </div>
+                            <div class="MatchEnd">
+                                <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
+                            </div>
+                    </div>
+                    <div class="match2" v-else-if="element.status == 'finish' && IsMatch == 'finished'">
+                                <div class="time">{{element.time}}</div>
+                            <div class="players">
+                                <div class="match-player">
+                                    <div class="player-image"><img :src = "element.player1.photo"></div>
+                                    <div class="player-name">{{element.player1.name}}</div>
+                                    <div class="player-city">{{element.player1.city}}</div>
+                                    <div class="player-level">level: {{element.player1.level}}</div>
+                                </div>
+                                    <div class="between">CourtName</div>
+                                <div class="match-player">
+                                    <div class="player-image"><img :src = "element.player2.photo"></div>
+                                    <div class="player-name">{{element.player2.name}}</div>
+                                    <div class="player-city">{{element.player2.city}}</div>
+                                    <div class="player-level">Level: {{element.player2.level}}</div>
+                                </div>
+                            </div>
+                            <div class="MatchEnd">
+                                <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
+                            </div>
+                    </div>
                 </div>
 
 
@@ -125,6 +149,7 @@
         data() {
             return {
                 image: null,
+                IsMatch: 'current',
                 IsImage: false,
                 fileName: 'Выберите фото',
                 nameUs: null,
@@ -134,7 +159,6 @@
                 IsChange: false,
                 Val: null,
                 CurrentId: null,
-                balance: new Number(),
                 modalBalanceToggle: false,
                 inputBalance: 10,
                 credentials: {
@@ -148,8 +172,18 @@
         },
         methods: {
             payment_completed_cb(res) {
-                this.balance = Number(this.balance) + Number(res.transactions[0].amount.total)
                 console.log('completed', res)
+                var CurrentPay = res.transactions[0].amount.total
+                const formData = new FormData()
+                    formData.append('token', this.token)
+                    formData.append('field', 'score')
+                    formData.append('value', parseInt(CurrentPay) + parseInt(this.score))
+                    axios.post('http://82.146.45.20/api/user/change_field', formData, {
+                        headers: {
+                        'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                window.location.reload()
             },
             openModalWindow () {
                 this.modalBalanceToggle = true
@@ -245,6 +279,9 @@
             },
             Id(){
                 return this.$store.state.user.id
+            },
+            score(){
+                return this.$store.state.user.score
             }
         },
         asyncComputed: {
@@ -289,9 +326,6 @@
 <style lang="sass" scoped>
 *
     border-radius: 10px
-
-.theme--light.v-application
-    background-color: #edecec
     .main
         background-color: #edecec
         .prediction
@@ -469,24 +503,19 @@
                 display: flex
                 flex-direction: column
                 position: relative
+                max-height: 500px
                 .balance
-                    position: absolute
-                    top: 0
-                    right: 0
                     height: 50px
                     display: flex
                     justify-content: center
                     align-items: center
-                    padding-right: 6%
                     .icon-add
                         width: 40px
                         height: 40px
                         font-size: 2rem
+                        margin-left: 2%
                         font-weight: 200
                         border-radius: 50%
-                        position: absolute
-                        right: -20%
-                        top: 8%
                         box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.1)
                         display: flex
                         justify-content: center
@@ -530,6 +559,16 @@
                     margin-top: 2%
                     text-align: center
                     font-size: 2em
+                    display: flex
+                    flex-direction: row
+                    align-items: center
+                    justify-content: center
+                    .choose
+                        padding: 2%
+                        cursor: pointer
+                        color: #bd5b5b
+                        &:hover
+                            color: #ce1e1e
                 .match2
                     border: 1px solid red
                     width: 90%

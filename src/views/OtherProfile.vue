@@ -12,7 +12,7 @@
                 <div class="name">{{name}}</div>
                 <div class="level">Level: {{level}}</div>
             </div>
-            <div class="matches">
+            <div class="matches2">
                 <div class="title">Information</div>
                 <div class="text">Player`s name: {{name}}</div>
                 <div class="text">Player`s city: {{city}}</div>
@@ -57,7 +57,7 @@
    </div>
 </template>
 
-<script>
+<script scoped>
     import axios from 'axios'
     export default {
         data() {
@@ -148,7 +148,7 @@
                             token: this.token
                         }
                         })
-                        .then(function (response) {    
+                        .then(function (response) {
                             resolve(response.data.id)
                         })
                         .catch(function (error) {
@@ -160,7 +160,7 @@
         }
     }
 </script>
-<style lang="sass" scoped>
+<style lang="sass">
 *
     border-radius: 10px
 
@@ -324,7 +324,7 @@
                     display: flex
                     flex-direction: column
                     text-align: center
-            .matches
+            .matches2
                 width: 60%
                 background-color: white
                 .title
@@ -357,7 +357,7 @@
                 flex-direction: column
                 .profile
                     width: 100%
-                .matches
+                .matches2
                     width: 100%
                     margin-top: 3%
                     display: flex
@@ -381,7 +381,7 @@
                 flex-direction: column
                 .profile
                     width: 100%
-                .matches
+                .matches2
                     width: 100%
                     margin-top: 3%
                     display: flex
