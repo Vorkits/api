@@ -1,8 +1,8 @@
 <template>
    <div class = "main">
-        <div class="prediction">
+        <!-- <div class="prediction">
             <div class="text">MATCH DEADLINE DATE UPDATE: We have further extended the deadline for all matches and tournaments until February 20, 2021.<br>In this way we hope that each of you can return to the field without being excluded from your respective tournament.For those who have the opportunity to play, respecting the regulations and in agreement with the sports center, the matches will be considered valid.</div>
-        </div>
+        </div> -->
         <div class="player">
             <div class="profile">
                 <div class="photo" >
@@ -313,7 +313,6 @@
             margin: auto
             display: flex
             flex-direction: row
-            margin-top: 5%
             margin-bottom: 3%
             justify-content: center
             .profile

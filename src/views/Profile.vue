@@ -1,8 +1,8 @@
 <template>
    <div class = "main">
-        <div class="prediction">
+        <!-- <div class="prediction">
             <div class="text">MATCH DEADLINE DATE UPDATE: We have further extended the deadline for all matches and tournaments until February 20, 2021.<br>In this way we hope that each of you can return to the field without being excluded from your respective tournament.For those who have the opportunity to play, respecting the regulations and in agreement with the sports center, the matches will be considered valid.</div>
-        </div>
+        </div> -->
         <div class="player">
 
             <div class = "image-block" id = "image-block" v-if="IsImage">
@@ -111,14 +111,11 @@
                                     <div class="player-level">Level: {{element.player2.level}}</div>
                                 </div>
                             </div>
-                            <div class="MatchEnd">
-                                <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
-                            </div>
                     </div>
                 </div>
 
 
-                <a class="action-but" href="/matches">
+                <a class="action-but" href="/players">
                     <div class="text2">Organize the game by contacting a tennis player from {{city}}</div>
                 </a>
             </div>
@@ -364,7 +361,6 @@
             display: flex
             width: 1280px
             margin: auto
-            margin-top: 5%
             margin-bottom: 3%
             flex-direction: row
             justify-content: center
