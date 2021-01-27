@@ -3,7 +3,7 @@
     <div class="front">
       <section class="first">
         <router-link to="/login" class="login-button">
-          Plan a new public match
+          Plan a new court
         </router-link>
       </section>
       <section class="second">

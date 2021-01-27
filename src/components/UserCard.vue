@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="Avatar" :style="{background: 'url(' + userData.photo + ') center no-repeat', 'background-size': 'cover'}">
-      <router-link :to="'/OtherProfile/' + userData.token"></router-link>
+      <router-link :to="'/OtherProfile/:' + userData.id"></router-link>
     </div>
     <div class="Name">{{ userData.name }}</div>
     <div class="City">{{ userData.city }}</div>
