@@ -16,12 +16,12 @@ def create():
     phone=form.get('phone',False)
     addres=form.get('addres',False)
     name=form.get('name',False)
-    сost_per_hour=form.get('cost',False)
-    if   city and addres and phone and name and сost_per_hour:
+    cost=form.get('cost',False)
+    if   city and addres and phone and name and cost:
         city=city.lower()
-        return f.c_create(photo='',city=city,addres=addres,phone=phone,name=name,сost=сost_per_hour)
+        return f.c_create(photo='',city=city,addres=addres,phone=phone,name=name,cost=cost)
     else:
-        print(addres,phone,city)
+        print(addres,phone,city,name,cost)
         return{'status':'error','desc':'non args'},401
     
 @court.route('/get',methods=['GET'])
