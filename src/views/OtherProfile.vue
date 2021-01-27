@@ -25,6 +25,8 @@
             <div class="titleClick">Create Match</div>
             <label for="appt">Choose a time for your meeting:</label>
             <input type="time" id="appt" v-model="time" name="appt" required>
+            <label for="appt2">Choose number of houres:</label>
+            <input type="number" id="appt2" v-model="houres" required>
             <div class="players">
                 <div class="firstPl">
                     <img :src="photo2" class="photoPl">
@@ -47,7 +49,8 @@
                             <div class="courtName">{{court.name}}</div>
                             <div class="courtCity">{{court.city}}</div>
                             <div class="courtAdress">{{court.addr}}</div>
-                            <div class="courtbut" @click="IsClick = true; CourtId = court.id">Choose that court</div>
+                            <div class="courtCost">{{court.cost}}$</div>
+                            <div class="courtbut" @click="IsClick = true; CourtId = court.id; cost = court.cost">Choose that court</div>
                         </div>
                     </div>
                 </div>
@@ -70,28 +73,42 @@
                 IsClick: false,
                 time: null,
                 CourtId: null,
-                Id: null
+                Id: null,
+                houres: null,
+                cost: null
             }
         },
         methods: {
             Created() {
-                const formData = new FormData()
-                    formData.append('player1_id', this.Id)
-                    formData.append('player2_id', this.UserId)
-                    formData.append('time', this.time)
-                    formData.append('coart_id', this.CourtId)
-                    
-                    formData.append('type', '1')
-                    axios.post('http://82.146.45.20/api/games/create', formData, {
-                        headers: {
-                        'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    // .then(function (response) {
-                    // })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
+                if (this.balance >= this.houres * this.cost) {
+                    const formData = new FormData()
+                        formData.append('player1_id', this.Id)
+                        formData.append('player2_id', this.UserId)
+                        formData.append('time', this.time)
+                        formData.append('coart_id', this.CourtId)
+                        formData.append('type', '1')
+                        formData.append('hours', this.houres)
+
+                        axios.post('http://82.146.45.20/api/games/create', formData, {
+                            headers: {
+                            'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                    setTimeout(() => {
+                        const formData2 = new FormData()
+                            formData2.append('token', this.token)
+                            formData2.append('field', 'balance')
+                            formData2.append('value', parseInt(this.balance) - (this.houres * this.cost))
+                            axios.post('http://82.146.45.20/api/user/change_field', formData2, {
+                                headers: {
+                                'Content-Type': 'multipart/form-data'
+                                }
+                            })
+                    }, 1000);
+                }
             }
         },
         mounted () {
@@ -123,6 +140,9 @@
             },
             token() {
                 return this.$store.state.user.token
+            },
+            balance(){
+                return this.$store.state.user.balance
             }
         },
         asyncComputed: {
@@ -131,7 +151,8 @@
                     setTimeout(() => {
                         axios.get(`http://82.146.45.20/api/court/get_all`, {
                         })
-                        .then(function (response) {       
+                        .then(function (response) { 
+                            console.log(response.data)    
                             resolve(response.data)
                         })
                         .catch(function (error) {

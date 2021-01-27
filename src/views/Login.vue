@@ -64,6 +64,11 @@
                                         autocomplete="off" type="text" placeholder="Court Phone"
                                         required></v-text-field>
                         </v-col>
+                        <v-col cols="12" md="12">
+                          <v-text-field hide-details :rules="rules.CourtCost"  v-model="form.courtCost"
+                                        autocomplete="off" type="text" placeholder="Court Cost"
+                                        required></v-text-field>
+                        </v-col>
                         <v-col cols="12" md="12" style = "width: 100%; text-align: center; cursor: pointer; font-size: 1.2em;">
                           <label for="imageCourt" style = "color: black; cursor: pointer;">{{form.fileName}}</label>
                           <input :rules="rules.photo" type="file" style="display: none" @change="changePh" class = "imgCourt" id = "imageCourt" ref = "text1" required multiple accept="image/*">
@@ -173,7 +178,8 @@ export default {
         courtName: '',
         courtCity: '',
         courtAdress: '',
-        courtPhone: ''
+        courtPhone: '',
+        courtCost: ''
       },
       rules: {
         name: [
@@ -208,8 +214,12 @@ export default {
           v => (v || '').length > 5 || `min 6 `
         ],
         CourtPhone: [
-          (v) => !!v || 'Cour tName is required',
+          (v) => !!v || 'Court Phone is required',
           v => (v || '').length > 7 || `min 8 `
+        ],
+        CourtCost: [
+          (v) => !!v || 'Court Cost is required',
+          v => (v || '').length > 0 || `min 1 `
         ],
         photo: [
           (v) => !!v || 'is required',
@@ -235,6 +245,7 @@ export default {
         formData.append('addres', this.form.courtAdress)
         formData.append('phone', this.form.courtPhone)
         formData.append('name', this.form.courtName)
+        formData.append('cost', this.form.courtCost)
 
         axios.post('http://82.146.45.20/api/court/create', formData, {
             headers: {

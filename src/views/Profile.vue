@@ -35,7 +35,7 @@
             </div>
 
             <div class="modalBalance" v-show="modalBalanceToggle">
-                <svg @click="IsEnd = false" style = "margin-top: 1%" height="15pt" viewBox="0 0 329.26933 329" width="15pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
+                <svg @click="modalBalanceToggle = false" height="15pt" viewBox="0 0 329.26933 329" width="15pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
                 <label for="addBalance">Enter the replenishment amount:</label>
                 <input v-model="inputBalance" type="number" id="addBalance">
                 <PayPal
@@ -71,33 +71,33 @@
                 </div>
 
                 <div class="matches" v-for="(element, b) in matches" :key="b">
-                    <div class="match2" v-if="element.status == 'start' && IsMatch == 'current'">
-                            <div class="time">{{element.time}}</div>
-                        <div class="players">
-                            <div class="match-player">
-                                <div class="player-image"><img :src = "element.player1.photo"></div>
-                                <div class="player-name">{{element.player1.name}}</div>
-                                <div class="player-city">{{element.player1.city}}</div>
-                                <div class="player-level">level: {{element.player1.level}}</div>
+                        <div class="match2" v-if="element.status == 'start' && IsMatch == 'current'">
+                                <div class="time">{{element.time}}</div>
+                            <div class="players">
+                                <div class="match-player">
+                                    <a class="player-image"  v-bind:href="'/OtherProfile/:' + element.player1.id"><img :src = "element.player1.photo"></a>
+                                    <div class="player-name">{{element.player1.name}}</div>
+                                    <div class="player-city">{{element.player1.city}}</div>
+                                    <div class="player-level">level: {{element.player1.level}}</div>
+                                </div>
+                                    <div class="between">CourtName</div>
+                                <div class="match-player">
+                                    <a class="player-image"  v-bind:href="'/OtherProfile/:' + element.player2.id"><img :src = "element.player2.photo"></a>
+                                    <div class="player-name">{{element.player2.name}}</div>
+                                    <div class="player-city">{{element.player2.city}}</div>
+                                    <div class="player-level">Level: {{element.player2.level}}</div>
+                                </div>
                             </div>
-                                <div class="between">CourtName</div>
-                            <div class="match-player">
-                                <div class="player-image"><img :src = "element.player2.photo"></div>
-                                <div class="player-name">{{element.player2.name}}</div>
-                                <div class="player-city">{{element.player2.city}}</div>
-                                <div class="player-level">Level: {{element.player2.level}}</div>
+                            <div class="MatchEnd">
+                                <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
                             </div>
-                        </div>
-                        <div class="MatchEnd">
-                            <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
-                        </div>
                     </div>
                     <div class="match2" v-else-if="element.status == 'finished' && IsMatch == 'finished'">
                                 <div class="time">{{element.time}}</div>
                             <div class="players">
                                 <div class="match-player">
                                     <div class="player-score">{{element.score1}}</div>
-                                    <div class="player-image"><img :src = "element.player1.photo"></div>
+                                    <a class="player-image"  v-bind:href="'/OtherProfile/:' + element.player1.id"><img :src = "element.player1.photo"></a>
                                     <div class="player-name">{{element.player1.name}}</div>
                                     <div class="player-city">{{element.player1.city}}</div>
                                     <div class="player-level">level: {{element.player1.level}}</div>
@@ -105,14 +105,18 @@
                                     <div class="between">CourtName<br><b style="font-size: 1.5em">Score</b></div>
                                 <div class="match-player">
                                     <div class="player-score">{{element.score2}}</div>
-                                    <div class="player-image"><img :src = "element.player2.photo"></div>
+                                    <a class="player-image"  v-bind:href="'/OtherProfile/:' + element.player2.id"><img :src = "element.player2.photo"></a>
                                     <div class="player-name">{{element.player2.name}}</div>
                                     <div class="player-city">{{element.player2.city}}</div>
                                     <div class="player-level">Level: {{element.player2.level}}</div>
                                 </div>
                             </div>
+                            <div class="MatchEnd">
+                                <div class="End" @click = "IsEnd = true; CurrentId = b">End</div>
+                            </div>
                     </div>
                 </div>
+
 
                 <a class="action-but" href="/matches">
                     <div class="text2">Organize the game by contacting a tennis player from {{city}}</div>
@@ -122,19 +126,19 @@
         <div class="infoPl">
             <div class="tennis-players ten">
                 <div class="block">
-                    <div class="peopleAmount">32.111</div>
+                    <div class="peopleAmount">100000</div>
                     <div class="AmountName">tennis players</div>
                 </div>
             </div>
             <div class="tennis-players-chat ten">
                 <div class="block">
-                    <div class="peopleAmount">277.380</div>
+                    <div class="peopleAmount">300000</div>
                     <div class="AmountName">tennis players chat</div>
                 </div>
             </div>
             <div class="scheduled-matches ten">
                 <div class="block">
-                    <div class="peopleAmount">105.781</div>
+                    <div class="peopleAmount">1000</div>
                     <div class="AmountName">scheduled matches</div>
                 </div>
             </div>
@@ -251,8 +255,8 @@
                     'Content-Type': 'multipart/form-data'
                     }
                 })
-                // .then(function () {
-                //     location.reload()
+                // .then(function (response) {
+                //     // console.log(response);
                 // })
                 .catch(function (error) {
                     console.log(error);
@@ -285,21 +289,6 @@
             }
         },
         asyncComputed: {
-            // async cityUser(){
-            //     console.log(this.path)
-            //     return new Promise((resolve) => {
-            //         setTimeout(() => {
-            //             axios.get(`http://82.146.45.20/api/user/get_user/${this.path}`, {
-            //             })
-            //             .then(function (response) {
-            //                 resolve(response.data.city)
-            //             })
-            //             .catch(function (error) {
-            //                 console.log(error)
-            //             })
-            //         }, 3000)
-            //     })
-            // },
             async matches(){
                 return new Promise((resolve) => {
                     setTimeout(() => {
@@ -312,7 +301,7 @@
                             }
                         })
                         .then(function (response) {
-                            console.log(response.data.data)
+                            console.log(response.data)
                             resolve(response.data.data)
                         })
                         .catch(function (error) {
@@ -375,6 +364,7 @@
             display: flex
             width: 1280px
             margin: auto
+            margin-top: 5%
             margin-bottom: 3%
             flex-direction: row
             justify-content: center
@@ -504,8 +494,7 @@
                 flex-direction: column
                 position: relative
                 max-height: 500px
-                .player-city
-                    cursor: pointer
+                position: sticky
                 .balance
                     height: 50px
                     display: flex
@@ -565,23 +554,22 @@
                     flex-direction: row
                     align-items: center
                     justify-content: center
-                    .green2
-                        color: #5eca5e
-                        &:hover
-                            color: #3c863c
+                    .choose
+                        padding: 2%
+                        cursor: pointer
                     .red2
                         color: #bd5b5b
                         &:hover
                             color: #ce1e1e
-                    .choose
-                        padding: 2%
-                        font-size: 0.8em
-                        cursor: pointer
+                    .green2
+                        color: #70ad56
+                        &:hover
+                            color: #4f773e
                 .match2
                     border: 1px solid red
                     width: 90%
-                    display: flex
                     margin-top: 1vh
+                    display: flex
                     flex-direction: column
                     align-items: center
                     justify-content: center
@@ -595,12 +583,14 @@
                         flex-direction: row
                         width: 100%
                         .match-player
-                            margin-top: 3vh
                             display: flex
                             flex-direction: column
                             align-items: center
                             justify-content: center
                             width: 40%
+                            .player-score
+                                font-size: 2em
+                                margin-top: 2vh
                             .player-image
                                 img
                                     width: 100px
@@ -608,8 +598,6 @@
                                     border-radius: 50%
                             .player-name
                                 font-size: 1.5em
-                            .player-score
-                                font-size: 1.7em
                             .player-level
                                 margin-top: 3%
                                 margin-bottom: 3%

@@ -50,7 +50,7 @@ export default {
       font-size: calc( #{$mobSize + px} + #{$addSize} * (100vw / #{$maxWidth}) )
   .wrapper
     width: 100%
-    height: 100px !important
+    height: 120px !important
     padding: 0 !important
     background-color: white !important
     margin-bottom: 1%
@@ -99,8 +99,9 @@ export default {
           height: 100%
           border-radius: 50%
       .name
-        height: 30%
+        height: 70%
         display: flex
         justify-content: center
+        text-align: center
         align-items: center
 </style>
