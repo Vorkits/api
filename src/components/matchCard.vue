@@ -5,15 +5,15 @@
       <div class="bottom-content"> {{ matchType }} </div>
     </div>
     <div class="first-player-wrapper">
-      <div class="avatar"></div>
-      <div class="name">Name</div>
+      <a class="avatar" v-bind:href="'/OtherProfile/:' + matchData.player1.id"><img :src = "matchData.player1.photo"></a>
+      <div class="name" v-if="matchData.player1">{{matchData.player1.name}}</div>
     </div>
     <div class="vs-wrapper">
       VS
     </div>
     <div class="second-player-wrapper">
-      <div class="avatar"></div>
-      <div class="name">Name</div>
+    <a class="avatar" v-bind:href="'/OtherProfile/:' + matchData.player2.id"><img :src = "matchData.player2.photo"></a>
+      <div class="name" v-if="matchData.player2">{{matchData.player2.name}}</div>
     </div>
   </div>
 </template>
@@ -26,19 +26,7 @@ export default {
   props: {
     matchData: {
       type: Object,
-      default: () => ({
-        coart: null,
-        player1: null,
-        player2: null,
-        score1: null,
-        score2: null,
-        status: null,
-        time: null,
-        type: null,
-        winner: null,
-        player1data: null,
-        player2data: null
-      })
+
     }
   },
   computed: {
@@ -102,10 +90,14 @@ export default {
       justify-content: center
       align-items: center
       .avatar
-        height: 70%
+        height: 70px
         width: 70px
         border-radius: 50%
         border: 1px solid silver
+        img
+          width: 100%
+          height: 100%
+          border-radius: 50%
       .name
         height: 30%
         display: flex

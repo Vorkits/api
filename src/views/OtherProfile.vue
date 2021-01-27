@@ -57,7 +57,7 @@
    </div>
 </template>
 
-<script scoped>
+<script>
     import axios from 'axios'
     export default {
         data() {
@@ -112,7 +112,7 @@
                 this.city = Response.data.city
                 this.name = Response.data.name
                 this.level = Response.data.level
-            }, 4000)
+            }, 3000)
         },
         computed:{
             name2(){
@@ -161,8 +161,6 @@
     }
 </script>
 <style lang="sass">
-*
-    border-radius: 10px
 
 ::-webkit-scrollbar
   width: 15px

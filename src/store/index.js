@@ -15,7 +15,8 @@ export default new Vuex.Store({
             city: '',
             score: '',
             token: '',
-            id: ''
+            id: '',
+            balance: ''
         },
         companyName: 'Company Name',
         levels: [
