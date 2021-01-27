@@ -66,10 +66,10 @@ class Games_base(Firebase):
             raise Exception('match was played')
         else:
             winner=data['player1'] if score1>score2 else data['player2']
-            data['winner']=winner
+            data['winner']=winner['id']
             print('before user')
             print(winner)   
-            winner_data=winner
+            winner_data=dict(db.child('users').child(winner['id']).get().val())
             print('after')
             score=winner_data['score']
             score+=3
