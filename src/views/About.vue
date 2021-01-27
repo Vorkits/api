@@ -6,30 +6,30 @@
       </div>
       <section class="first">
         <div class="top-content-block">
-        COMPANYNAME - для тех, кто играет в теннис <span> со страстью и для развлечения. </span><br>
-Вы можете <span> найти новых друзей-теннисистов, с которыми </span> можно играть, с возможностью выбора <span> уровня способностей, доступности и области. </span><br>
-С помощью COMPANYNAME каждый игрок может <span> планировать матчи и участвовать в любительских турнирах </span> в вашем районе. <br>
+        COMPANYNAME - is for those who play <span> tennis with passion and for fun. </span><br>
+You can <span> find new tennis player friends </span> to play with with the opportunity to select <span> ability level, availability and area. </span><br>
+With oratennis every player can <span> plan matches and join amateur tournaments </span> in your area. <br>
         </div>
         <div class="bottom-content-block">
           <div class="grid-content-block">
             <div class="img"></div>
             <div class="text">
-              Встречайте новых <br>
-              друзей-теннисистов
+              Meet new <br>
+              tennis player friends
             </div>
           </div>
           <div class="grid-content-block">
             <div class="img"></div>
             <div class="text">
-              Управляйте <br>
-              своим временем
+              Manage <br>
+              your time
             </div>
           </div>
           <div class="grid-content-block">
             <div class="img"></div>
             <div class="text">
-              Никакого рейтинга, <br>
-              просто развлечение!
+              No ranking, <br>
+              just fun!
             </div>
           </div>
         </div>
@@ -37,9 +37,9 @@
       <section class="second">
         <div class="content-wrapper">
           <div class="text-content">
-            <h4> Встречайте новых друзей-теннисистов </h4>
+            <h4> Meet new tennis player friends </h4>
 <p>
-<span> 32 219 теннисистов, </span> выбранных по уровню, доступности и площади, готовы встретить вас на теннисном корте и играть в любительские матчи и турниры каждый день.
+Selected by level, availability and area there are <span> 32.248 tennis players, </span> ready to meet you on the tennis court and play amateur matches and tournaments every day.
 </p>
           </div>
           <div class="img-content"></div>
@@ -47,17 +47,17 @@
         <div class="content-wrapper">
           <div class="img-content"></div>
           <div class="text-content">
-            <h4> Управляйте своим временем </h4>
+            <h4> Manage your time </h4>
 <p>
-играйте, <span> когда и где хотите, </span> и планируйте свои матчи и турниры напрямую со своими соперниками.
+play, <span> when and where you want, </span> and schedule your matches and tournaments directly with your rivals.
 </p>
           </div>
         </div>
         <div class="content-wrapper">
           <div class="text-content">
-            <h4> Никакого рейтинга, просто развлечение! </h4>
+            <h4> No ranking, just fun! </h4>
 <p>
-Вы можете <span> поделиться своей страстью к теннису </span> для удовольствия и с верностью, рейтинг никогда не будет частью нашего сообщества.
+you can <span> share your passion for tennis </span> for fun and with loyalty, ranking will never be part of our community.
 </p>
           </div>
           <div class="img-content"></div>
@@ -65,7 +65,7 @@
       </section>
       <section class="third">
         <router-link to="/login">
-          Зарегистрироваться бесплатно
+          Register for free
         </router-link>
       </section>
       <VFooter class="footer"/>
@@ -119,13 +119,13 @@ $maxWidth: 1280
     min-height: 45vh
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.07)
     .top-content-block
-      @include adaptive-font(24, 18)
+      @include adaptive-font(19, 16)
       font-weight: 300
       margin-bottom: 3%
       span
         font-weight: 500
     .bottom-content-block
-      @include adaptive-font(24.6, 18)
+      @include adaptive-font(23.6, 18)
       font-weight: 300
       display: flex
       justify-content: space-between
