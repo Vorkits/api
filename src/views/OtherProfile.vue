@@ -57,7 +57,7 @@
    </div>
 </template>
 
-<script scoped>
+<script>
     import axios from 'axios'
     export default {
         data() {
@@ -160,7 +160,7 @@
         }
     }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 *
     border-radius: 10px
 
