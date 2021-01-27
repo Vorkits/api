@@ -90,9 +90,9 @@ $maxWidth: 1280
   $addSize: $pcSize - $mobSize
   $addMobSize: $addSize + $addSize * 0.7
   @media (max-width: 767px)
-    font-size: calc( #{$mobSize + px} + #{$addMobSize} * ((100vw - 320px) / #{$maxWidth}) )
+    font-size: calc( #{$mobSize + px} + #{$addMobSize} * ((100vw - 320px) / #{$maxWidth}) ) !important
   @media (min-width: 767px)
-    font-size: calc( #{$mobSize + px} + #{$addSize} * (100vw / #{$maxWidth}) )
+    font-size: calc( #{$mobSize + px} + #{$addSize} * (100vw / #{$maxWidth}) ) !important
 *
   box-sizing: border-box
   font-family: 'Roboto', sans-serif
@@ -119,7 +119,7 @@ $maxWidth: 1280
     min-height: 45vh
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.07)
     .top-content-block
-      @include adaptive-font(19, 18)
+      @include adaptive-font(24, 18)
       font-weight: 300
       margin-bottom: 3%
       span
@@ -145,13 +145,13 @@ $maxWidth: 1280
           text-align: center
         &:nth-child(1) .img
           background: url(../assets/howDoesItWork/first.png) center no-repeat
-          background-size: 65%
+          background-size: 63%
         &:nth-child(2) .img
           background: url(../assets/howDoesItWork/second.png) center no-repeat
-          background-size: 65%
+          background-size: 63%
         &:nth-child(3) .img
           background: url(../assets/howDoesItWork/third.png) center no-repeat
-          background-size: 65%
+          background-size: 63%
   .second
     height: 100vh
     display: flex

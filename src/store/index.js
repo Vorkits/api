@@ -89,7 +89,7 @@ export default new Vuex.Store({
                     formData.append(key, user[key])
                 })
 
-                axios({ url: 'http://82.146.45.20/api/auth/sign_in', data: formData, method: 'POST' })
+                axios({ url: 'http://127.0.0.1:5000/api/auth/sign_in', data: formData, method: 'POST' })
                     .then(resp => {
                         commit('auth_success', resp.data.token)
                         dispatch('getUser')
@@ -119,7 +119,7 @@ export default new Vuex.Store({
 
                 axios({
                         method: 'post',
-                        url: 'http://82.146.45.20/api/auth/create_user',
+                        url: 'http://127.0.0.1:5000/api/auth/create_user',
                         data: formData,
                     })
                     .then(resp => {
