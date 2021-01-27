@@ -125,7 +125,7 @@ $maxWidth: 1280
       span
         font-weight: 500
     .bottom-content-block
-      @include adaptive-font(25.6, 18)
+      @include adaptive-font(24.6, 18)
       font-weight: 300
       display: flex
       justify-content: space-between

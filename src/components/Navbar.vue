@@ -38,9 +38,10 @@
                         <v-icon>{{link.icon}}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>{{link.text}}</v-list-item-title>
+                        <v-list-item-title style="overflow: none">{{link.text}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <div class="exit" @click.prevent="logout" v-if="token != ''"><div class="exit-text">EXIT</div></div>
             </v-list>
         </v-navigation-drawer>
 
@@ -59,16 +60,46 @@ export default {
                 { icon: 'mdi-folder', text: 'Courts', route: '/courts' },
                 { icon: 'mdi-run', text: 'Matches', route: '/matches' },
                 { icon: 'mdi-account', text: 'Tennis Players', route: '/players' },
-                { icon: 'mdi-bullseye', text: 'Smash', route: '/smash' },
-                { icon: 'mdi-help', text: 'How does it work', route: '/about' },
+                { icon: 'mdi-help', text: 'How does it work', route: '/about' }
             ]
         }
+    },
+    methods: {
+        logout () {
+            this.$store.dispatch('logout')
+            .catch(err => {
+                console.log(err)
+            })
+            location.reload()
+        },
     },
     computed:{
         ...mapGetters(['isLoggedIn','user']),
         levels(){
             return this.$store.state.levels
         },
+        token(){
+            return this.$store.state.user.token
+        }
     }
 }
 </script>>
+
+<style>
+    .exit{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 3%;
+        cursor: pointer;
+    }
+    .exit-text{
+        border: 1px solid red;
+        width: 80%;
+        text-align: center;
+        padding: 3%;
+    }
+    .exit-text:hover{
+        background-color: #5b5b5b;
+    }
+</style>
