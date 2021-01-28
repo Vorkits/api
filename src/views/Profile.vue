@@ -63,7 +63,6 @@
                     <div class="choose green2" v-if="IsMatch == 'finished'"> Finished</div>
                     <div class="choose red2" @click="IsMatch = 'finished'" v-else>Finished</div>
                 </div>
-
                 <div class="matches" v-for="(element, b) in matches" :key="b">
                         <div class="match2" v-if="element.status == 'start' && IsMatch == 'current'">
                                 <div class="time">{{element.time}}</div>
@@ -240,7 +239,6 @@
                     this.image = this.$refs.text1.files[0]
                 }
                 if (this.image)  {
-                    var self = this
                     const formData = new FormData()
                     formData.append(this.token, this.image)
                     axios.post('http://82.146.45.20/api/user/upload_photo', formData, {
@@ -249,7 +247,6 @@
                         }
                     })
                     .then(function () {
-                        self.IsEnd = false
                         Swal.fire('Success', 'Photo has been uploaded', 'success')
                     })
                     .catch(function (error) {
@@ -262,6 +259,7 @@
             clickEnd () {
                 if (parseInt(this.Firnumber) > 0 || parseInt(this.Firnumber).length > 0 && parseInt(this.Secnumber).length > 0 || parseInt(this.Secnumber) > 0){
                     const formData = new FormData()
+                    var self = this
                     formData.append('match_id', this.CurrentId)
                     formData.append('score1', this.Firnumber)
                     formData.append('score2', this.Secnumber)
@@ -272,6 +270,8 @@
                     })
                     .then(function () {
                         Swal.fire('Success', 'Match has been ended', 'success')
+                        self.IsEnd = false
+                        location.reload()
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -675,7 +675,6 @@
                         margin-left: 90%
                 .matches
                     width: 100%
-                    margin-top: 3%
                     display: flex
                     flex-direction: column
                     align-items: center

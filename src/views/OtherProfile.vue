@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="create" @click="Created(); IsClick = false">Create Match</div>
+            <div class="create" @click="Created()">Create Match</div>
         </div>
    </div>
 </template>
@@ -94,7 +94,7 @@
                         formData.append('coart_id', this.CourtId)
                         formData.append('type', '1')
                         formData.append('hours', this.houres)
-
+                        console.log('aaaa')
                         axios.post('http://82.146.45.20/api/games/create', formData, {
                             headers: {
                             'Content-Type': 'multipart/form-data'
@@ -105,23 +105,20 @@
                         })
                     setTimeout(() => {
                         const formData2 = new FormData()
-                            formData2.append('token', this.token)
-                            formData2.append('field', 'balance')
-                            formData2.append('value', parseInt(this.balance) - (this.houres * this.cost))
-                            axios.post('http://82.146.45.20/api/user/change_field', formData2, {
-                                headers: {
-                                'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then(function(){
-                                Swal.fire('Success', `Match has been created`, 'success')
-                                document.location.href = "/user";
+                        formData2.append('token', this.token)
+                        formData2.append('field', 'balance')
+                        formData2.append('value', parseInt(this.balance) - (this.houres * this.cost))
+                        axios.post('http://82.146.45.20/api/user/change_field', formData2, {
+                            headers: {
+                            'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        .then(function(){
+                            Swal.fire('Success', `Match has been created`, 'success')
+                            document.location.href = "/user";
                             })
                     }, 1000);
                 } else if(this.balance < this.houres * this.cost){
-                    console.log(this.balance);
-                    console.log(this.houres);
-                    console.log(this.cost);
                     Swal.fire('Error', `Your Balance is too low`, 'error')
                 } else if(this.time == null){
                     Swal.fire('Error', 'Choose the correct time', 'error')
@@ -129,6 +126,8 @@
                     Swal.fire('Error', `Choose the correct court`, 'error')
                 } else if(this.houres == null || this.houres <= 0){
                     Swal.fire('Error', `Choose correct duration of the match`, 'error')
+                } else{
+                    Swal.fire('Error', `Big Error`, 'error')
                 }
             }
         },
