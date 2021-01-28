@@ -8,6 +8,7 @@ import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import Court from '../views/Court.vue'
+import courts from '../views/Courts.vue'
 import OtherProfile from '../views/OtherProfile.vue'
 
 Vue.use(VueRouter)
@@ -26,6 +27,11 @@ const routes = [{
         path: '/Court/:id',
         name: 'Court',
         component: Court
+    },
+    {
+        path: '/courts',
+        name: 'courts',
+        component: courts
     },
     {
         path: '/players',
