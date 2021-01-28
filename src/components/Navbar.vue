@@ -41,7 +41,7 @@
                         <v-list-item-title style="overflow: none">{{link.text}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <div class="exit" @click.prevent="logout" v-if="token != ''"><div class="exit-text">EXIT</div></div>
+                <a class="exit" v-bind:href="'/login'"  @click.prevent="logout" v-if="token != ''"><div class="exit-text">EXIT</div></a>
             </v-list>
         </v-navigation-drawer>
 
@@ -86,6 +86,9 @@ export default {
 </script>>
 
 <style>
+    a{
+        text-decoration: none;
+    }
     .exit{
         width: 100%;
         display: flex;
@@ -94,6 +97,7 @@ export default {
         cursor: pointer;
     }
     .exit-text{
+        color: white;
         border: 1px solid red;
         width: 80%;
         text-align: center;

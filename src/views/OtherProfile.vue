@@ -26,16 +26,20 @@
             <label for="appt">Choose a time for your meeting:</label>
             <input type="time" id="appt" v-model="time" name="appt" required>
             <label for="appt2">Choose number of houres:</label>
-            <input type="number" id="appt2" v-model="houres" required>
+            <input type="number" class = "m" id="appt2" v-model="houres" required>
             <div class="players">
                 <div class="firstPl">
-                    <img :src="photo2" class="photoPl">
+                    <a v-bind:href="'/OtherProfile/:' + myId">
+                        <img :src="photo2" class="photoPl">
+                    </a>
                     <div class="text" style="font-size: 2em">{{name2}}</div>
                     <div class="text">{{city}}</div>
                 </div>
                 <div class="space">VS</div>
                 <div class="secondPl">
-                    <img :src="photo" class="photoPl">
+                    <a v-bind:href="'/OtherProfile/:' + Idd">
+                        <img :src="photo" class="photoPl">
+                    </a>
                     <div class="text" style="font-size: 2em">{{name}}</div>
                     <div class="text">{{city}}</div>
                 </div>
@@ -62,6 +66,7 @@
 
 <script>
     import axios from 'axios'
+    import Swal from 'sweetalert2'
     export default {
         data() {
             return {
@@ -75,12 +80,13 @@
                 CourtId: null,
                 Id: null,
                 houres: null,
-                cost: null
+                cost: null,
+                Idd: null
             }
         },
         methods: {
             Created() {
-                if (this.balance >= this.houres * this.cost) {
+                if (this.balance >= this.houres * this.cost && this.time != null && this.CourtId != null && this.houres != null && this.houres > 0) {
                     const formData = new FormData()
                         formData.append('player1_id', this.Id)
                         formData.append('player2_id', this.UserId)
@@ -107,7 +113,22 @@
                                 'Content-Type': 'multipart/form-data'
                                 }
                             })
+                            .then(function(){
+                                Swal.fire('Success', `Match has been created`, 'success')
+                                document.location.href = "/user";
+                            })
                     }, 1000);
+                } else if(this.balance < this.houres * this.cost){
+                    console.log(this.balance);
+                    console.log(this.houres);
+                    console.log(this.cost);
+                    Swal.fire('Error', `Your Balance is too low`, 'error')
+                } else if(this.time == null){
+                    Swal.fire('Error', 'Choose the correct time', 'error')
+                } else if(this.CourtId == null){
+                    Swal.fire('Error', `Choose the correct court`, 'error')
+                } else if(this.houres == null || this.houres <= 0){
+                    Swal.fire('Error', `Choose correct duration of the match`, 'error')
                 }
             }
         },
@@ -128,12 +149,16 @@
                 this.photo = Response.data.photo
                 this.city = Response.data.city
                 this.name = Response.data.name
+                this.Idd = Response.data.id
                 this.level = Response.data.level
             }, 3000)
         },
         computed:{
             name2(){
                 return this.$store.state.user.name
+            },
+            myId(){
+                return this.$store.state.user.id
             },
             photo2(){
                 return this.$store.state.user.photo
@@ -201,15 +226,12 @@
         background-color: #edecec
         display: flex
         flex-direction: column
-        justify-content: center
         align-items: center
         .createMatch
             width: 1280px
-            height: 80vh
             background-color: #bdbdbd
             position: absolute
             margin: 0 auto
-            margin-top: 10%
             display: flex
             flex-direction: column
             align-items: center
@@ -217,10 +239,15 @@
                 background-color: grey
                 padding: 1% 4% 1% 4%
                 border-radius: 10px
+            .m
+                padding:  0 0 0 0
+                background-color: grey
+                border-radius: 10px
+                text-align: center
             .courtes
                 overflow: auto
                 width: 100%
-                height: 300px
+                height: 40vh
                 text-align: center       
                 .court
                     margin-left: calc(15px + 10vw)
@@ -249,6 +276,7 @@
                             background-color: #757575
                             padding: 1% 3% 1% 3%
                             width: 40%
+                            margin-bottom: 1vh
                             &:hover
                                 background-color: #948181
 
@@ -272,6 +300,7 @@
                     margin-left: 90%
             .titleClick
                 font-size: 2em
+                margin-top: -2%
             .players
                 display: flex
                 flex-direction: row
@@ -280,8 +309,8 @@
                 @media(max-width: 780px)
                     width: 100vw
                 .photoPl
-                    width: 140px
-                    height: 140px
+                    width: 100px
+                    height: 100px
                     border-radius: 50%
                     @media(max-width: 780px)
                         width: 100px

@@ -5,14 +5,6 @@
         </div> -->
         <div class="player">
 
-            <div class = "image-block" id = "image-block" v-if="IsImage">
-                <svg @click="IsImage = false" style = "margin-left: 85%; margin-top: 2%" height="32pt" viewBox="0 0 329.26933 329" width="32pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
-                <img class = 'image' src = '../assets/default.jpg' id = '1111'>
-                <label for="image" style = "color: white">{{fileName}}</label>
-                <input type="file" style="display: none" class = "img" id = "image" @change="change1" ref = "text1" required multiple accept="image/*">
-                <button class = "but" @click="click">Создать</button>
-            </div>
-
             <div class = "End-block" id = "end-block" v-if="IsEnd">
                 <svg @click="IsEnd = false" style = "margin-left: 85%; margin-top: 2%" height="32pt" viewBox="0 0 329.26933 329" width="32pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" fill = "white"/></svg>
                 <div class="score">
@@ -49,9 +41,11 @@
 
             <div class="profile">
                 <div class="photo" @click = "IsImage = true">
-                    <img src='../assets/default.jpg' id = 'NewPhoto' v-if="photo == null">
-                    <img :src = "photo" id = 'NewPhoto' v-else>
-                    <div class="overlay"></div>
+                    <label for="image" style = "color: white">
+                        <img src='../assets/default.jpg' id = 'NewPhoto' v-if="photo == null">
+                        <img :src = "photo" id = 'NewPhoto' v-else>
+                    </label>
+                    <input type="file" style="display: none" class = "img" id = "image" @change="change1" ref = "text1" required multiple accept="image/*">
                 </div>
                 <div class="name" style="font-size: 1.7em;" @click = 'IsChange = true; Val = "name"'>Name: {{name}}</div>
                 <div class="player-city" style="font-size: 1.1em;" @click = 'IsChange = true; Val = "city"'>City: {{city}}</div>
@@ -123,19 +117,19 @@
         <div class="infoPl">
             <div class="tennis-players ten">
                 <div class="block">
-                    <div class="peopleAmount">100000</div>
+                    <div class="peopleAmount">32.111</div>
                     <div class="AmountName">tennis players</div>
                 </div>
             </div>
             <div class="tennis-players-chat ten">
                 <div class="block">
-                    <div class="peopleAmount">300000</div>
+                    <div class="peopleAmount">277.380</div>
                     <div class="AmountName">tennis players chat</div>
                 </div>
             </div>
             <div class="scheduled-matches ten">
                 <div class="block">
-                    <div class="peopleAmount">1000</div>
+                    <div class="peopleAmount">105.781</div>
                     <div class="AmountName">scheduled matches</div>
                 </div>
             </div>
@@ -144,6 +138,7 @@
 </template>
 
 <script>
+    import Swal from 'sweetalert2'
     import axios from 'axios'
     import PayPal from 'vue-paypal-checkout'
     export default {
@@ -162,6 +157,7 @@
                 CurrentId: null,
                 modalBalanceToggle: false,
                 inputBalance: 10,
+                NewVal: null,
                 credentials: {
                     sandbox: 'AfA-qkSiJVNQDYSSucQlEGrzR0tGAagOnxCf9nW2AFhqtsH_8Tsv9a9KyPIGSYa9MlPFM_jjWMToeOUO',
                     production: 'AQERBcxNqb3kwmgFLESTMQsJh5qK1EafQIANBc327-NU0wxn3HKCG8a1vnjmdkEg8WcSGMswdfWrhkKU'
@@ -184,6 +180,12 @@
                         'Content-Type': 'multipart/form-data'
                         }
                     })
+                    .then(function () {
+                        Swal.fire('Success', `Your balance has been replenished`, 'success')
+                    })
+                    .catch(function () {
+                        Swal.fire('Some error', `Your balance has not been replenished`, 'error')
+                    })
                 window.location.reload()
             },
             openModalWindow () {
@@ -196,10 +198,24 @@
                     formData.append('token', this.token)
                     formData.append('field', this.Val)
                     formData.append('value', NewVal)
+                    var self = this
+                    console.log(1111111)
+                    
                     axios.post('http://82.146.45.20/api/user/change_field', formData, {
                         headers: {
                         'Content-Type': 'multipart/form-data'
                         }
+                    })
+                    .then(function () {
+                        Swal.fire('Success', `${self.Val} has been uploaded`, 'success')
+                        self.IsChange = false
+                        console.log(111)
+                        
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        self.IsChange = false
+                        Swal.fire('Error', `${self.Val} has not been uploaded`, 'error')
                     })
             },
             change1 () {
@@ -223,9 +239,8 @@
                 else {
                     this.image = this.$refs.text1.files[0]
                 }
-            },
-            click () {
                 if (this.image)  {
+                    var self = this
                     const formData = new FormData()
                     formData.append(this.token, this.image)
                     axios.post('http://82.146.45.20/api/user/upload_photo', formData, {
@@ -233,34 +248,41 @@
                         'Content-Type': 'multipart/form-data'
                         }
                     })
-                    // .then(function (response) {
-                    //     // console.log(response);
-                    // })
+                    .then(function () {
+                        self.IsEnd = false
+                        Swal.fire('Success', 'Photo has been uploaded', 'success')
+                    })
                     .catch(function (error) {
                         console.log(error);
+                        Swal.fire('Error', 'Photo has not been uploaded', 'error')
                     })
                 }
                 this.IsImage = false
             },
             clickEnd () {
-                const formData = new FormData()
-                formData.append('match_id', this.CurrentId)
-                formData.append('score1', this.Firnumber)
-                formData.append('score2', this.Secnumber)
-                axios.post('http://82.146.45.20/api/games/finish', formData, {
-                    headers: {
-                    'Content-Type': 'multipart/form-data'
-                    }
-                })
-                // .then(function (response) {
-                //     // console.log(response);
-                // })
-                .catch(function (error) {
-                    console.log(error);
-                })
+                if (parseInt(this.Firnumber) > 0 || parseInt(this.Firnumber).length > 0 && parseInt(this.Secnumber).length > 0 || parseInt(this.Secnumber) > 0){
+                    const formData = new FormData()
+                    formData.append('match_id', this.CurrentId)
+                    formData.append('score1', this.Firnumber)
+                    formData.append('score2', this.Secnumber)
+                    axios.post('http://82.146.45.20/api/games/finish', formData, {
+                        headers: {
+                        'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(function () {
+                        Swal.fire('Success', 'Match has been ended', 'success')
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                } else {
+                    Swal.fire('Error', 'Uncorrect score', 'error')
+                }
             }
         },
         mounted() {
+            
         },
         computed:{
             photo(){
@@ -377,6 +399,7 @@
                     background-color: white
                 .white2
                     color: white
+                    margin: 1% 0 1% 0
                     background-color: #808080
             .image-block
                 background-color: #999999
@@ -400,7 +423,7 @@
                 input
                     width: 200px
                 .but
-                    margin-top: 5%
+                    margin-top: 10%
                     padding: 1%
                     border-radius: 10px
                     background: #f8f8f8
@@ -409,7 +432,7 @@
                 position: fixed
                 width: 1280px
                 height: 300px
-                margin: -10% auto
+                margin: 0 auto
                 display: flex
                 flex-direction: column
                 align-items: center

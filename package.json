@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "sweetalert2": "^10.13.3",
     "vue": "^2.6.11",
     "vue-async-computed": "^3.9.0",
     "vue-delay": "^0.1.0",

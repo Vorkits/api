@@ -162,6 +162,7 @@
 
 <script>
   import axios from 'axios'
+  import Swal from 'sweetalert2'
 export default {
   data() {
     return {
@@ -237,7 +238,7 @@ export default {
       }
     },
     createCourt() {
-      if (this.image && this.form.courtName.length > 2)  {
+      if (this.image && this.form.courtName.length > 2 && this.form.courtCity != '' && this.form.courtAdress != '' && this.form.courtPhone != '' && this.form.courtCost != '' && parseInt(this.form.courtCost) > 0){
         var Id = null
         console.log(this.form.courtName)
         const formData = new FormData()
@@ -255,8 +256,10 @@ export default {
         .then(function (response) {
             console.log(response);
             Id = response.data.coart_id
+            Swal.fire('Success', `Court has been created`, 'success')
         })
         .catch(function (error) {
+            Swal.fire('Some error', `Court has not been created`, 'error')
             console.log(error);
         })
 
@@ -277,6 +280,18 @@ export default {
               console.log(error);
           })          
         }, 1000);
+      } else if (this.image == null){
+        Swal.fire('Some error', `Please, choose the photo of the coart`, 'error')
+      } else if (this.form.courtName.length <= 2){
+        Swal.fire('Some error', `Length of the court name should be more than 2 symbols`, 'error')
+      } else if (this.form.courtCity == ''){
+        Swal.fire('Some error', `Please, write the city of the coart`, 'error')
+      } else if (this.form.courtAdress == ''){
+        Swal.fire('Some error', `Please, write the adress of the coart`, 'error')
+      } else if (this.form.courtPhone == '' ){
+        Swal.fire('Some error', `Please, write the phone of the coart`, 'error')
+      } else if (this.form.courtCost == '' || parseInt(this.form.courtCost) <= 0){
+        Swal.fire('Some error', `Please, write the correct cost of the coart`, 'error')
       }
     },
     login() {
@@ -286,9 +301,11 @@ export default {
           password: this.form.password,
         }).then(() => {
           this.$router.push('/user')
-        }).catch(err => {
-          console.log(err)
+        }).catch(function(){
+          Swal.fire('Some error', `Your email or password is incorrect`, 'error')
         })
+      }else{
+        Swal.fire('Some error', `Your email or password is empty`, 'error')
       }
     },
     register() {
@@ -299,10 +316,12 @@ export default {
           email: this.form.email,
           password: this.form.password,
         }).then(() => {
-          this.$router.push('/user')
+          Swal.fire('Some error', `There is some error with registration`, 'error')
         }).catch(err => {
           console.log(err)
         })
+      }else{
+        Swal.fire('Some error', `Some data is empty or incorrect`, 'error')
       }
     },
     clear() {
