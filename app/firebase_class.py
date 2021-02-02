@@ -4,7 +4,7 @@ import os
 import app.firebase as fr
 from app.com_fb import Command_base
 from app.firebase_init import Firebase
-
+from app.Chat_base import Chat_base
 system_score={1:{'win':3,'lose':-1},
               2:{'win':3,'lose':-1},
               3:{'win':3,'lose':-1},
@@ -20,7 +20,7 @@ class Games_base(Firebase):
         db=self.db
         match_id=uuid.uuid4().hex
         match_data={}
-        
+        Chat_base().create_chat(match_id)
         if t==1:
             match_data={
                 'time':time,
