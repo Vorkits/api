@@ -56,6 +56,8 @@ class Games_base(Firebase):
             self.set_match_to_user(command1['player2']['id'],match_id)
             self.set_match_to_user(command2['player1']['id'],match_id)
             self.set_match_to_user(command2['player2']['id'],match_id)
+            self.set_match_to_command(player1,match_id)
+            self.set_match_to_command(player2,match_id)
         db.child('matches').child(match_id).set(match_data)
         return (match_id,match_data)
     def change_field(self,field,value,match_id):
@@ -158,4 +160,16 @@ class Games_base(Firebase):
             userdata[match_id]=match_id
         db.child('users').child(player).child('matches').set(userdata)
         return True
-    
+    def set_match_to_command(self,player,match_id):
+            db=self.db
+        
+            userdata=db.child('commands').child(player).child('matches').get().val()
+            if userdata:
+                userdata=dict(userdata)
+                userdata[match_id]=match_id
+            else:
+                userdata={}
+                userdata[match_id]=match_id
+            db.child('commands').child(player).child('matches').set(userdata)
+            return True
+        
