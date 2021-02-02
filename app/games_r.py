@@ -22,10 +22,8 @@ def create():
         data=()
         if player1 and player2 and time and t :
             t=int(t)
-            if coart:
-                data=Games_base().create_match(player1,player2,time,'T',t,'')
-            else:
-                data=Games_base().create_match(player1,player2,time,coart=False,t=t,hour=1)
+            
+            data=Games_base().create_match(player1,player2,time,coart=False,t=t,hour=1)
             return {'status':'success','match_id':data[0],'data':data[1]},200
         else:
             print('non args')
