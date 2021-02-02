@@ -13,7 +13,6 @@ rpath=dirname(realpath(__file__))
 
 @game_r.route('/create',methods=['POST'])
 def create():
-    try:
         form=dict(request.form)
         player1=form.get('player1_id')
         player2=form.get('player2_id')
@@ -23,6 +22,7 @@ def create():
         t=form.get('type')
         data=()
         if player1 and player2 and time and t and hour:
+            t=int(t)
             if coart:
                 data=Games_base().create_match(player1,player2,time,coart,t,hour)
             else:
@@ -31,9 +31,7 @@ def create():
         else:
             print('non args')
             return{'status':'error'},401
-    except Exception as e:
-        print('non args')
-        return{'status':str(e)},401
+    
     
 @game_r.route('/edit',methods=['POST'])
 def edit():

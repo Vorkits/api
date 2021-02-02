@@ -1,0 +1,42 @@
+format form-data
+
+/commands
+
+  /create [POST] 
+    player1(str)
+    player1(str)
+   statuses
+      200-{
+    "data": {data},
+    "status": "success"
+}
+      401-{'status':'error'}
+
+  /get [GET] 
+    id(str)
+
+    statuses
+      200-{
+    "data": {},
+    "status": "success"
+}
+      401-{'status':'error'}
+  /set_field [POST] 
+        
+        id(str)
+        field(str)
+        value(str)
+      
+      statuses
+        200-{'status':'success'}
+        401-{'status':'error'}
+
+  /get_city [GET] 
+         city(str) 
+
+      
+      statuses
+        200-{
+            data,data,data
+        }
+        401-{'status':'error'}
