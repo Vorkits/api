@@ -7,6 +7,7 @@ from PIL import Image
 import os
 import json
 from app.firebase_class import Games_base
+from app.com_fb import Command_base
 game_r = Blueprint('game_route', __name__)
 UPLOADS_PATH = join(dirname(realpath(__file__)), 'img')
 rpath=dirname(realpath(__file__))
@@ -89,6 +90,24 @@ def get_users_match():
             data=Games_base().get_users_match(id)
             
             return {'status':'success','data':data},200
+        else:
+            print('non args')
+            return{'status':'error'},401
+    except Exception as e:
+        print('non args')
+        return{'status':str(e)},401
+@game_r.route('/get_command_match',methods=['POST'])
+def get_command_match():
+    try:
+        form=dict(request.form)
+        id=form.get('id')
+    
+        if id:
+        
+            data=Command_base().get_command(id)['data']
+            
+            
+            return {'status':'success','data':data['matches']},200
         else:
             print('non args')
             return{'status':'error'},401
