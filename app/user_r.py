@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import uuid
 from PIL import Image
 import os
-
+from app.com_fb import Command_base
 user_route = Blueprint('user_route', __name__)
 UPLOADS_PATH = join(dirname(realpath(__file__)), 'img')
 rpath=dirname(realpath(__file__))
@@ -93,6 +93,20 @@ def minus_money():
     value=form.get('value',False)
     if token and value:
         return f.set_money(token,-int(value))
+    else:
+        print('non args')
+        return{'status':'error'},401
+@user_route.route('/get_commands',methods=['POST'])
+def get_commands():
+    form=dict(request.form)
+    id=form.get('id')
+
+    if id:
+        r_data={}
+        data=f.get_user(id)['commands']
+        for i in data:
+            r_data[i]=Command_base().get_command(i)
+        return {'data':dict(r_data)}
     else:
         print('non args')
         return{'status':'error'},401
