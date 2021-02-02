@@ -15,8 +15,9 @@ def create():
     form=dict(request.form)
     player1=form.get('player1')
     player2=form.get('player2')
-    if player1 and player2:
-        return Command_base().create_command(player1,player2)
+    name=form.get('name')
+    if player1 and player2 and name:
+        return Command_base().create_command(player1,player2,name)
     else:
         return {'status':'no args'},401
 @commands.route('/get',methods=['GET'])

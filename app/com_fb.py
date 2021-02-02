@@ -1,10 +1,9 @@
-from app.firebase_class import Firebase
+from app.firebase_init import Firebase
 import uuid
 import app.firebase as fr
 class Command_base(Firebase):
     
     def create_command(self,player1,player2,name):
-        try:
             db=self.db
             command_data={}
             owner_data=dict(db.child('users').child(player1).get().val())
@@ -19,14 +18,15 @@ class Command_base(Firebase):
             command_data['owner']=player1
             command_data['matches']={}
             command_data['name']=name
+            command_data['photo']='https://firebasestorage.googleapis.com/v0/b/orac-9d788.appspot.com/o/avatars%2Fstandart.jpg?alt=media&token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjljZTVlNmY1MzBiNDkwMTFiYjg0YzhmYWExZWM1NGM1MTc1N2I2NTgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JhYy05ZDc4OCIsImF1ZCI6Im9yYWMtOWQ3ODgiLCJhdXRoX3RpbWUiOjE2MTIxOTk3NDEsInVzZXJfaWQiOiJVODBuN1R1MHBaTzRLazNaTmNtSHVrSDU0bzcyIiwic3ViIjoiVTgwbjdUdTBwWk80S2szWk5jbUh1a0g1NG83MiIsImlhdCI6MTYxMjE5OTc0MSwiZXhwIjoxNjEyMjAzMzQxLCJlbWFpbCI6InJlYXplcjM5MjMyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJyZWF6ZXIzOTIzMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.N0D1eBdd7ar8KLvisVWtQSqJwP-gKX6nTxrJ13pPfrnhNT6otIDgBX7QXFzWkIa8MeXtnMSkDRW2SBIYP9jedyGvsJALJv9KMrbdfBNvf5WY2mTvQguqEdtaNg0bwlKTVhJglntb6py7_bNPLZBgKVLolHy3Yh-ye5QHN2vMCKUlXfRWkB4qeX4UEtpRF-TyBg0VB-d47CjaHQP3GmeFNcHeRtYu0Z2kOtMY1AW2YjPRYuCUJ1GU8HIQZmWGun_Nvl-AwM_IB5RgVecnUEIfbeuhPkMEROPTbPMI-Js81IrbcLTgC4ItSnk3_zob3OzQS4Jho27wXVzucjvMIQCE8A'
             id=uuid.uuid4().hex
+            command_data['id']=id
             db.child('commands').child(id).set(command_data)
             db.child('cityes').child(owner_data['city']).child('commands').child(id).set(command_data)
             self.set_command(player1,id)
             self.set_command(player2,id)
             return {'data':command_data},200
-        except:
-            return {'status':'error'},401
+    
     def get_command(self,id):
         try:
             db=self.db
@@ -54,10 +54,11 @@ class Command_base(Firebase):
             return {'status':'error'},401
     def set_command(self,player,command_id):
         db=self.db
-        data=db.child('users').child(player).child('commands').get().val()
-        data=dict(data) if data else {}
-        data[command_id]=command_id
+        data=dict(db.child('users').child(player).get().val())
+        commands=data.get('commands') if data.get('commands') else {}
+        commands[command_id]=command_id
+        data['commands']=commands
         db.child('users').child(player).set(data)
         return True
-     
+
         
