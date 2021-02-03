@@ -17,6 +17,7 @@ class Chat_base(Firebase):
     def send_message(self,id,message,owner):
         db=self.db
         message_id=uuid.uuid4().hex
-        message_data={'owner':owner,'message':message}
-        data=db.child('chats').child(id).child(message_id).set(message_data)
+        data=dict(db.child('users').child(owner).get().val())
+        message_data={'owner':owner,'message':message,'name':data['name'],'photo':data['photo']}
+        db.child('chats').child(id).child(message_id).set(message_data)
         return {'status':'success'}
