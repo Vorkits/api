@@ -135,7 +135,9 @@ class Games_base(Firebase):
     def get_match(self,match_id):
         db=self.db
         try:
-            return dict(db.child('matches').child(match_id).get().val())
+            data=dict(db.child('matches').child(match_id).get().val())
+            data['id']=match_id
+            return data
         except:
             return {}
     def get_users_match(self,user):

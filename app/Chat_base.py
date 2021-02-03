@@ -11,6 +11,8 @@ class Chat_base(Firebase):
     def get_chat(self,id):
         db=self.db
         data=db.child('chats').child(id).get().val()
+        if not data:
+            data={}
         return {'status':'success','data':dict(data),'hex':sha256(str(dict(data)).encode()).hexdigest()}
     def send_message(self,id,message,owner):
         db=self.db
