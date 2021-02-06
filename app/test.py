@@ -1,2 +1,3 @@
-from hashlib import sha256
-print(sha256('ss'.encode()).hexdigest())
+d={'ss':'s','sd':'sd'}
+for i in d:
+    print(i)

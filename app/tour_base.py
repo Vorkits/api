@@ -12,6 +12,7 @@ class Tournament_base(Firebase):
         t_data['status']='created'
         t_data['place']=place
         t_data['commands']=[]
+        t_data['count']=count
         count=int(count)
         t=int(t)
         if t==2:
@@ -54,31 +55,52 @@ class Tournament_base(Firebase):
         db.child('tournaments').child(t_id).set(t_data)
         return {'status':'success','data':t_data}
     
-    def join_command(self,tournament_id,t,command_id,place=0,group_id=0,bracket_id=0):
+    def join_command(self,tournament_id,t,command_id):
         db=self.db
         t=int(t)
         data=dict(db.child('tournaments').child(tournament_id).get().val())
-        bracket=data['bracket'][0]['games']
-        if t==1:
-            match=int(bracket_id)
-            place='player'+str(place+1)
-            winner=False if place%2==0 else True
-            c=Command_base().get_command(command_id)['data']
-            bracket[match][place]=={ 'id': command_id, 'name': c['name'], 'winner': winner }
-        elif t==2:
-            match=group_id
-            place=str(place)
-            group_id=str(group_id)
-            c=Command_base().get_command(command_id)['data']
-            print(data['group'])
-            data['group'][int(group_id)][int(place)]={'id':command_id,'name':c['name']}
-        try:
-            data['commands'].append(command_id)
-        except:
-            data['commands']=[]
-            data['commands'].append(command_id)
-        data=db.child('tournaments').child(tournament_id).set(data)
-        return {'status':'success','data':data}
+        status='success'
+        if not data['status']=='created':
+            status='set finished'
+        else:
+            bracket=data['bracket'][0]['games']
+            if t==1:
+                m_key=''
+                p_key=''
+                for match in bracket:
+                    for players in bracket[match]:
+                        if len(bracket[match][players]['id'])<3:
+                            m_key=match
+                            p_key=players
+                            break
+                
+                winner=False if p_key%2==0 else True
+                c=Command_base().get_command(command_id)['data']
+                bracket[m_key][p_key]={ 'id': command_id, 'name': c['name'], 'winner': winner }
+            elif t==2:
+                
+                place=''
+                group_id=''
+                c=Command_base().get_command(command_id)['data']
+                
+                print(data['group'])
+                for  index,group in enumerate(data['group']):
+                    print(group,index)
+                    for index2,p in enumerate(group) :
+                        if p=='free':
+                            place=index2
+                            group_id=index
+                            break
+                data['group'][int(group_id)][int(place)]={'id':command_id,'name':c['name']}
+            try:
+                data['commands'].append(command_id)
+            except:
+                data['commands']=[]
+                data['commands'].append(command_id)
+            if len(data['commands'])==int(data['count']):
+                data['status']='set finished'
+            data=db.child('tournaments').child(tournament_id).set(data)
+        return {'status':status,'data':data}
     def get_t(self,tournament_id):
         db=self.db
         

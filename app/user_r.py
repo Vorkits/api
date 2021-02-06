@@ -103,10 +103,13 @@ def get_commands():
 
     if id:
         r_data={}
-        data=f.get_user(id)['commands']
-        for i in data:
-            r_data[i]=Command_base().get_command(i)
-        return {'data':dict(r_data)}
+        try:
+            data=f.get_user(id)['commands']
+        except:
+            data={}
+        
+        r_data=Command_base().get_commands(list(data.keys()))
+        return r_data
     else:
         print('non args')
         return{'status':'error'},401
