@@ -32,7 +32,7 @@ def create_user(password,email,name,city):
         db.child("users").child(email).set(user_form)
         db.child("tokens").child(token).set({'user':email})
         db.child('cityes').child(city).child(email).set({'id':email,'name':name})
-        return {'status':'success','token':token},200
+        return {'status':'success'},200
     except Exception as e:
         print(e)
         return {'status':'error'},401
@@ -42,6 +42,10 @@ def sign_in_user(password,email):
         auth = firebase.auth()
         db = firebase.database()
         user=auth.sign_in_with_email_and_password(email, password)
+    
+        print(auth.get_account_info(user['idToken']))
+        if user['idToken']['users'][0]['emailVerified']==False:
+            return {'status':'you need confirm email validation',},401
         email=email.replace('.','&&')
         data=dict(db.child("users").child(email).get().val())
         if data.get('token',False):
@@ -51,7 +55,8 @@ def sign_in_user(password,email):
             db.child("users").child(email).set(data)
             db.child("tokens").child(data['token']).set({'user':email})
             return {'status':'success','token':data['token']},200
-    except:
+    except Exception as e:
+        print(e)
         return {'status':'error'},401
     
 def send_reset(email):
