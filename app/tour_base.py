@@ -4,7 +4,7 @@ import app.firebase as fr
 from app.com_fb import Command_base
 from app.Chat_base import Chat_base
 class Tournament_base(Firebase):
-    def create(self,date,count,owner,t,place):
+    def create(self,date,count,owner,t,place,name):
         db=self.db
         t_data={}
         t_data['date']=date
@@ -14,6 +14,7 @@ class Tournament_base(Firebase):
         t_data['commands']=[]
         t_data['count']=count
         t_data['type']=t
+        t_data['name']=name
         count=int(count)
         t=int(t)
         if t==2:
