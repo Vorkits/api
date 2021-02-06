@@ -20,11 +20,12 @@ def create():
     owner=form.get('owner')
     t=form.get('type')
     place=form.get('place')
+    name=form.get('name')
     print(place,date,t,owner,count)
-    if date and count and owner and t and place:
+    if date and count and owner and t and place and name:
         t=int(t)
         print('s')
-        return Tournament_base().create(date,count,owner,t,place)
+        return Tournament_base().create(date,count,owner,t,place,name)
     else:
         return {'status':'no args'},401
     
