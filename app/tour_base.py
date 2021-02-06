@@ -125,6 +125,7 @@ class Tournament_base(Firebase):
         winner=Command_base().get_command(winner)['data']
         data['status']='end'
         data['winner']={'id':w_id,'name':winner['name'],'photo':winner['photo']}
+        data=db.child('tournaments').child(tornament_id).set(data)
         return {'status':'success','data':dict(data)}
        
             
