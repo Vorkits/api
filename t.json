@@ -7,7 +7,7 @@ format form-data
     ('count')
     ('owner')
     ('type')
-    ('type')
+    ('place')
    statuses
       200-{
     "data": {data},

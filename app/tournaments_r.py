@@ -34,13 +34,11 @@ def join():
     # self,tournament_id,t,command_id,place=0,group_id=0,bracket_id=0
     tournament_id=form.get('tournament_id')
     command_id=form.get('command_id')
-    place=form.get('place')
     t=form.get('type')
-    group_id=form.get('group_id')
-    bracket_id=form.get('bracket_id')
-    if tournament_id and command_id and t and place and (group_id or bracket_id):
+    
+    if tournament_id and command_id and t :
         t=int(t)
-        return Tournament_base().join_command(tournament_id,t,command_id,place,group_id,bracket_id)
+        return Tournament_base().join_command(tournament_id,t,command_id)
     else:
         return {'status':'no args'},401
     
