@@ -59,11 +59,13 @@ class Tournament_base(Firebase):
     def join_command(self,tournament_id,t,command_id):
         db=self.db
         t=int(t)
+        с={}
         data=dict(db.child('tournaments').child(tournament_id).get().val())
         status='success'
         if not data['status']=='created':
-            status='set finished'
+            status='finished'
         else:
+            c=Command_base().get_command(command_id)['data']
             bracket=data['bracket'][0]['games']
             if t==1:
                 m_key=''
@@ -78,13 +80,13 @@ class Tournament_base(Firebase):
                             break
                 
                 winner=False if p_index%2==0 else True
-                c=Command_base().get_command(command_id)['data']
+                
                 bracket[m_key][p_key]={ 'id': command_id, 'name': c['name'], 'winner': winner }
             elif t==2:
                 
                 place=''
                 group_id=''
-                c=Command_base().get_command(command_id)['data']
+                
                 
                 print(data['group'])
                 for  index,group in enumerate(data['group']):
@@ -96,12 +98,13 @@ class Tournament_base(Firebase):
                             break
                 data['group'][int(group_id)][int(place)]={'id':command_id,'name':c['name']}
             try:
-                data['commands'].append(command_id)
+                print(data)
+                data['commands'].append(c)
             except:
                 data['commands']=[]
-                data['commands'].append(command_id)
-            if len(data['commands'])==int(data['count']):
-                data['status']='set finished'
+                data['commands'].append(c)
+            if len(data['commands'])>=int(data['count']):
+                data['status']='finished'
             data=db.child('tournaments').child(tournament_id).set(data)
         return {'status':status,'data':data}
     def get_t(self,tournament_id):
@@ -119,6 +122,7 @@ class Tournament_base(Firebase):
         data=db.child('tournaments').child(tornament_id).get().val()
         w_id=winner
         winner=Command_base().get_command(winner)['data']
+        data['status']='end'
         data['winner']={'id':w_id,'name':winner['name'],'photo':winner['photo']}
         return {'status':'success','data':dict(data)}
        
