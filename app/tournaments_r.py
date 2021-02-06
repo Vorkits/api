@@ -52,6 +52,12 @@ def get():
         return Tournament_base().get_t(tournament_id)
     else:
         return {'status':'no args'},401
+
+@tournament.route('/get_all',methods=['POST'])
+def get_all():
+    form=dict(request.form)
+    return Tournament_base().get_all()
+
     
 @tournament.route('/finish',methods=['POST'])
 def finish():
