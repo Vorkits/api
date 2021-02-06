@@ -1,0 +1,48 @@
+format form-data
+
+/tournaments
+
+  /create [POST] 
+    ('date')
+    ('count')
+    ('owner')
+    ('type')
+    ('type')
+   statuses
+      200-{
+    "data": {data},
+    "status": "success"
+}
+      401-{'status':'error'}
+
+  /join [POST] 
+    ('tournament_id')
+    ('command_id')
+    ('place')
+    ('type')
+    ('group_id') если с группами
+    ('bracket_id') если без
+
+    statuses
+      200-{
+    "data": {},
+    "status": "success"
+}
+      401-{'status':'error'}
+  /get [POST] 
+        
+        ('tournament_id')
+      
+      statuses
+        200-{'status':'success','data':{}}
+        401-{'status':'error'}
+
+  /finish [GET] 
+        ('tournament_id')
+        ('winner')
+      
+      statuses
+        200-
+            {'status':'success','data':data}
+        
+        401-{'status':'error'}
