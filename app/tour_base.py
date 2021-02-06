@@ -40,8 +40,8 @@ class Tournament_base(Firebase):
                 else:
                     games.append({
     
-                        f'player1': { 'id': f"{player_id}", 'name': f"Winner of {count*2}", 'winner': False },
-                        f'player2': { 'id': f"{player_id+1}", 'name': f"Winner of {count*2}", 'winner': True },
+                        f'player1': { 'id': f"{player_id}", 'name': f"Winner of 1/{count*2}", 'winner': False },
+                        f'player2': { 'id': f"{player_id+1}", 'name': f"Winner of 1/{count*2}", 'winner': True },
                     })
                 player_id+=2
             count=count//2
@@ -67,14 +67,16 @@ class Tournament_base(Firebase):
             if t==1:
                 m_key=''
                 p_key=''
-                for match in bracket:
-                    for players in bracket[match]:
-                        if len(bracket[match][players]['id'])<3:
-                            m_key=match
+                p_index=0
+                for index,match in enumerate( bracket):
+                    for index2,players in enumerate( match):
+                        if len(bracket[index][players]['id'])<3:
+                            m_key=index
                             p_key=players
+                            p_index=index2
                             break
                 
-                winner=False if p_key%2==0 else True
+                winner=False if p_index%2==0 else True
                 c=Command_base().get_command(command_id)['data']
                 bracket[m_key][p_key]={ 'id': command_id, 'name': c['name'], 'winner': winner }
             elif t==2:
