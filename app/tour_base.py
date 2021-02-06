@@ -75,7 +75,7 @@ class Tournament_base(Firebase):
         if not data['status']=='created':
             status='finished'
         elif allow==False:
-            status='joined'
+            return {'status':'command already joined'},402
         else:
             c=Command_base().get_command(command_id)['data']
             bracket=data['bracket'][0]['games']
