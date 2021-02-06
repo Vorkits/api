@@ -57,14 +57,25 @@ class Tournament_base(Firebase):
         db.child('tournaments').child(t_id).set(t_data)
         return {'status':'success','data':t_data}
     
+    
+    
     def join_command(self,tournament_id,t,command_id):
         db=self.db
         t=int(t)
         с={}
         data=dict(db.child('tournaments').child(tournament_id).get().val())
         status='success'
+        allow=True
+        try:
+            for i in data['commands']:
+                if i['id']==command_id:
+                    allow=False
+        except:
+            pass
         if not data['status']=='created':
             status='finished'
+        elif allow==False:
+            status='joined'
         else:
             c=Command_base().get_command(command_id)['data']
             bracket=data['bracket'][0]['games']
