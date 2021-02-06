@@ -13,6 +13,7 @@ class Tournament_base(Firebase):
         t_data['place']=place
         t_data['commands']=[]
         t_data['count']=count
+        t_data['type']=t
         count=int(count)
         t=int(t)
         if t==2:
@@ -107,6 +108,11 @@ class Tournament_base(Firebase):
         db=self.db
         
         data=db.child('tournaments').child(tournament_id).get().val()
+        return {'status':'success','data':dict(data)}
+    def get_all(self):
+        db=self.db
+        
+        data=db.child('tournaments').get().val()
         return {'status':'success','data':dict(data)}
     def finish_t(self,tornament_id,winner):
         db=self.db
