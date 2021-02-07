@@ -43,8 +43,9 @@ def sign_in_user(password,email):
         db = firebase.database()
         user=auth.sign_in_with_email_and_password(email, password)
     
-        print(auth.get_account_info(user['idToken']))
-        if user['idToken']['users'][0]['emailVerified']==False:
+        print()
+        user_info=auth.get_account_info(user['idToken'])
+        if user_info['users'][0]['emailVerified']==False:
             return {'status':'you need confirm email validation',},403
         email=email.replace('.','&&')
         data=dict(db.child("users").child(email).get().val())
