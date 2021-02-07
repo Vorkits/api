@@ -83,7 +83,7 @@ class Command_base(Firebase):
             return {'data':data}
                 
         except:
-            return {'status':'error'},401
+            return {'data':{}},200
     def set_command(self,player,command_id):
         db=self.db
         data=dict(db.child('users').child(player).get().val())

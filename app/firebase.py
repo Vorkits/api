@@ -167,7 +167,7 @@ def get_city(city):
         
     except Exception as e:
         print(e)
-        return {'status':'error'},401
+        return {}
 def get_user(email):
     try:
         
