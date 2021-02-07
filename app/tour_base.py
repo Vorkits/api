@@ -36,8 +36,8 @@ class Tournament_base(Firebase):
                 if prev==0:
                     games.append({
     
-                        f'player1': { 'id': f"{player_id}", 'name': f"{player_id}", 'winner': False },
-                        f'player2': { 'id': f"{player_id+1}", 'name': f"{player_id}", 'winner': True },
+                        f'player1': { 'id': f"{player_id}", 'name': f"Command {player_id}", 'winner': False },
+                        f'player2': { 'id': f"{player_id+1}", 'name': f"Command {player_id+1}", 'winner': True },
                     })
                 else:
                     games.append({
