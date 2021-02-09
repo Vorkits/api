@@ -7,6 +7,7 @@ from flask_cors import CORS
 from .command_r import commands
 from .chat_r import chat
 from .tournaments_r import tournament
+from .notification_r import notes
 app = Flask(__name__)
 CORS(app) # This will enable CORS for all routes
 
@@ -17,5 +18,6 @@ app.register_blueprint(game_r, url_prefix='/api/games')
 app.register_blueprint(chat, url_prefix='/api/games/chats')
 app.register_blueprint(commands, url_prefix='/api/commands')
 app.register_blueprint(tournament, url_prefix='/api/tournaments')
+app.register_blueprint(notes, url_prefix='/api/notes')
 if __name__ == '__main__':
     app.run()

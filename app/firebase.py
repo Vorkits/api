@@ -28,7 +28,8 @@ def create_user(password,email,name,city):
         email=email.replace('.','&&')
         photo='standart.jpg'
         photo=storage.child(f"avatars/{photo}").get_url(user['idToken'])
-        user_form={'name':name,'city':city,'token':token,'score':20,'level':1,'photo':photo,'balance':0}
+        notes={'games':{},'messages':{},'commands':{}}
+        user_form={'notes':notes,'name':name,'city':city,'token':token,'score':20,'level':1,'photo':photo,'balance':0}
         db.child("users").child(email).set(user_form)
         db.child("tokens").child(token).set({'user':email})
         db.child('cityes').child(city).child(email).set({'id':email,'name':name})

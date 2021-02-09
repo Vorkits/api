@@ -1,7 +1,7 @@
 import pyrebase
 import uuid
 import os
-import app.firebase as fr
+# import app.firebase as fr
 config = {
     "apiKey": "AIzaSyDYsYC0LnriZt1JxLKpFKV0HIfw2slT1ac",
     "authDomain": "orac-9d788.firebaseapp.com",
@@ -23,4 +23,5 @@ class Firebase:
         self.storage = firebase.storage()
         self.db = firebase.database()
         print('call')
+        
         

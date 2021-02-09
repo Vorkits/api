@@ -18,6 +18,7 @@ class Command_base(Firebase):
             command_data['owner']=player1
             command_data['matches']={}
             command_data['name']=name
+            command_data['status']='non confirm'
             command_data['photo']='https://firebasestorage.googleapis.com/v0/b/orac-9d788.appspot.com/o/avatars%2Fstandart.jpg?alt=media&token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjljZTVlNmY1MzBiNDkwMTFiYjg0YzhmYWExZWM1NGM1MTc1N2I2NTgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JhYy05ZDc4OCIsImF1ZCI6Im9yYWMtOWQ3ODgiLCJhdXRoX3RpbWUiOjE2MTIxOTk3NDEsInVzZXJfaWQiOiJVODBuN1R1MHBaTzRLazNaTmNtSHVrSDU0bzcyIiwic3ViIjoiVTgwbjdUdTBwWk80S2szWk5jbUh1a0g1NG83MiIsImlhdCI6MTYxMjE5OTc0MSwiZXhwIjoxNjEyMjAzMzQxLCJlbWFpbCI6InJlYXplcjM5MjMyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJyZWF6ZXIzOTIzMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.N0D1eBdd7ar8KLvisVWtQSqJwP-gKX6nTxrJ13pPfrnhNT6otIDgBX7QXFzWkIa8MeXtnMSkDRW2SBIYP9jedyGvsJALJv9KMrbdfBNvf5WY2mTvQguqEdtaNg0bwlKTVhJglntb6py7_bNPLZBgKVLolHy3Yh-ye5QHN2vMCKUlXfRWkB4qeX4UEtpRF-TyBg0VB-d47CjaHQP3GmeFNcHeRtYu0Z2kOtMY1AW2YjPRYuCUJ1GU8HIQZmWGun_Nvl-AwM_IB5RgVecnUEIfbeuhPkMEROPTbPMI-Js81IrbcLTgC4ItSnk3_zob3OzQS4Jho27wXVzucjvMIQCE8A'
             id=uuid.uuid4().hex
             command_data['id']=id
@@ -25,8 +26,27 @@ class Command_base(Firebase):
             db.child('cityes').child(owner_data['city']).child('commands').child(id).set(command_data)
             self.set_command(player1,id)
             self.set_command(player2,id)
+            self.set_note(player2,command_data['id'],player1)
             return {'data':command_data},200
     
+    
+    def set_note(self,player,command_id,player1):
+        db=self.db
+        notes=db.child('users').child(player).child('notes').child('commands').get().val()
+        if notes:
+            notes=dict(notes)
+            if len(notes>50):
+                notes={}
+            try:
+                notes['count']+=1
+            except:
+                notes['count']=1
+        else:
+            notes={}
+            notes['count']=1
+            
+        notes[command_id]={"confirmed":False,'id':command_id,'owner':player1}
+        db.child('users').child(player).child('notes').child('commands').set(notes)
     def get_command(self,id):
         try:
             db=self.db
