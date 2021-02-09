@@ -53,9 +53,9 @@ class Games_base(Firebase):
                 'hours':hour}
             
             self.set_match_to_user(command1['player1']['id'],match_id)
-            self.set_match_to_user(command1['player2']['id'],match_id)
+            self.set_match_to_user(command1['player2']['id'],match_id,note=True)
             self.set_match_to_user(command2['player1']['id'],match_id)
-            self.set_match_to_user(command2['player2']['id'],match_id)
+            self.set_match_to_user(command2['player2']['id'],match_id,note=True)
             self.set_match_to_command(player1,match_id)
             self.set_match_to_command(player2,match_id)
         db.child('matches').child(match_id).set(match_data)
