@@ -58,7 +58,7 @@ def confirm_command():
             return{'status':'error'},401
         
 @notes.route('/get',methods=['POST'])
-def confirm_command():
+def get():
     # Поставить статус, удалить в уведомлениях
     form=dict(request.form)
     id=form.get('id')
