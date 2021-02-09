@@ -10,12 +10,12 @@ class Notes_base(Firebase):
         notes=db.child('users').child(t).child('notes').child('messages').get().val()
         if notes:
             notes=dict(notes)
-            if len(notes>50):
+            if len(notes)>50:
                 notes={}
-                try:
-                    notes['count']+=1
-                except:
-                    notes['count']=1
+            try:
+                notes['count']+=1
+            except:
+                notes['count']=1
         else:
             notes={}
             notes['count']=1

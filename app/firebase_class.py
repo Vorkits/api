@@ -165,7 +165,7 @@ class Games_base(Firebase):
             notes=db.child('users').child(player).child('notes').child('games').get().val()
             if notes:
                 notes=dict(notes)
-                if len(notes>50):
+                if len(notes)>50:
                     notes={}
                 try:
                     notes['count']+=1
