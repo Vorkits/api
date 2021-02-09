@@ -36,7 +36,7 @@ class Games_base(Firebase):
             
             
             self.set_match_to_user(player1,match_id)
-            self.set_match_to_user(player2,match_id)
+            self.set_match_to_user(player2,match_id,note=True)
         elif t==2:
             command1=Command_base().get_command(player1)['data']
             command2=Command_base().get_command(player2)['data']
