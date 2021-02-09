@@ -68,13 +68,13 @@ class Notes_base(Firebase):
             notes['count']=0
         db.child('users').child(id).child('notes').child('commands').set(notes)
         
-        m_data=db.child('matches').child(command_id).get().val()
+        m_data=db.child('commands').child(command_id).get().val()
         try:
             m_data=dict(m_data)
         except:
             m_data={}
         m_data['status']='confirm'
-        db.child('matches').child(command_id).set(m_data)
+        db.child('commands').child(command_id).set(m_data)
         return {'status':'success'}
     def get(self,id):
         db=self.db
