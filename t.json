@@ -1,45 +1,48 @@
 format form-data
 
-/tournaments
+/notes
 
-  /create [POST] 
-    ('date')
-    ('count')
-    ('owner')
-    ('type')
-    ('place')
+  /send_message [POST] 
+    ('from')
+    ('to')
+    ('text')
    statuses
       200-{
-    "data": {data},
     "status": "success"
 }
       401-{'status':'error'}
 
-  /join [POST] 
-    ('tournament_id')
-    ('command_id')
-    ('place')
-    ('type')
-    ('group_id') если с группами
-    ('bracket_id') если без
+  /check_messages [POST] 
+    ('id')
+
 
     statuses
       200-{
-    "data": {},
     "status": "success"
 }
       401-{'status':'error'}
-  /get [POST] 
+  /confirm_game [POST] 
         
-        ('tournament_id')
+        ('game_id')
+        ('id')
       
       statuses
-        200-{'status':'success','data':{}}
+        200-{'status':'success'}
         401-{'status':'error'}
 
-  /finish [GET] 
-        ('tournament_id')
-        ('winner')
+  /confirm_command [POST] 
+        ('id')
+        ('command_id')
+      
+      statuses
+        200-
+            {'status':'success'}
+        
+        401-{'status':'error'}
+
+/get [POST] 
+        ('id')
+
       
       statuses
         200-

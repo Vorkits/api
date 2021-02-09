@@ -150,7 +150,7 @@ class Games_base(Firebase):
         except:
             return {}
         
-    def set_match_to_user(self,player,match_id):
+    def set_match_to_user(self,player,match_id,note=False):
         db=self.db
         
         userdata=db.child('users').child(player).child('matches').get().val()
@@ -161,6 +161,21 @@ class Games_base(Firebase):
             userdata={}
             userdata[match_id]=match_id
         db.child('users').child(player).child('matches').set(userdata)
+        if note:
+            notes=db.child('users').child(player).child('notes').child('games').get().val()
+            if notes:
+                notes=dict(notes)
+                if len(notes>50):
+                    notes={}
+                try:
+                    notes['count']+=1
+                except:
+                    notes['count']=1
+            else:
+                notes={}
+                notes['count']=1
+            notes[match_id]={"confirmed":False,'id':match_id}
+            db.child('users').child(player).child('notes').child('games').set(notes)
         return True
     def set_match_to_command(self,player,match_id):
             db=self.db
