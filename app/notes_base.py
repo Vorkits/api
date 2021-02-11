@@ -35,7 +35,7 @@ class Notes_base(Firebase):
         db.child('users').child(id).child('notes').child('messages').set(notes)
         return {'status':'success'}
     
-    def confirm_game(self,game_id,id):
+    def confirm_game(self,game_id,id,confirm=True):
         db=self.db
         notes=db.child('users').child(id).child('notes').child('games').get().val()
         if notes:
@@ -46,17 +46,19 @@ class Notes_base(Firebase):
             notes={}
             notes['count']=0
         db.child('users').child(id).child('notes').child('games').set(notes)
-        
-        m_data=db.child('matches').child(game_id).get().val()
-        try:
-            m_data=dict(m_data)
-        except:
-            m_data={}            
-        m_data['status']='confirm'
-        db.child('matches').child(game_id).set(m_data)
+        if confirm:
+            m_data=db.child('matches').child(game_id).get().val()
+            try:
+                m_data=dict(m_data)
+            except:
+                m_data={}            
+            m_data['status']='confirm'
+            db.child('matches').child(game_id).set(m_data)
+        else:
+            db.child('matches').child(game_id).remove()
         return {'status':'success'}
     
-    def confirm_command(self,command_id,id):
+    def confirm_command(self,command_id,id,confirm=True):
         db=self.db
         notes=db.child('users').child(id).child('notes').child('commands').get().val()
         if notes:
@@ -67,14 +69,16 @@ class Notes_base(Firebase):
             notes={}
             notes['count']=0
         db.child('users').child(id).child('notes').child('commands').set(notes)
-        
-        m_data=db.child('commands').child(command_id).get().val()
-        try:
-            m_data=dict(m_data)
-        except:
-            m_data={}
-        m_data['status']='confirm'
-        db.child('commands').child(command_id).set(m_data)
+        if confirm:
+            m_data=db.child('commands').child(command_id).get().val()
+            try:
+                m_data=dict(m_data)
+            except:
+                m_data={}
+            m_data['status']='confirm'
+            db.child('commands').child(command_id).set(m_data)
+        else:
+            db.child('commands').child(command_id).remove()
         return {'status':'success'}
     def get(self,id):
         db=self.db
