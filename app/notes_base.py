@@ -56,6 +56,9 @@ class Notes_base(Firebase):
             db.child('matches').child(game_id).set(m_data)
         else:
             db.child('matches').child(game_id).remove()
+            data=dict(db.child('users').child(id).child('matches').get().val())
+            data.pop(game_id)
+            db.child('users').child(id).child('matches').set(data)
         return {'status':'success'}
     
     def confirm_command(self,command_id,id,confirm=True):
@@ -79,6 +82,9 @@ class Notes_base(Firebase):
             db.child('commands').child(command_id).set(m_data)
         else:
             db.child('commands').child(command_id).remove()
+            data=dict(db.child('users').child(id).child('commands').get().val())
+            data.pop(command_id)
+            db.child('users').child(id).child('commands').set(data)
         return {'status':'success'}
     def get(self,id):
         db=self.db
