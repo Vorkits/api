@@ -39,8 +39,12 @@ def confirm_game():
     form=dict(request.form)
     id=form.get('id')
     game_id=form.get('game_id')
+    confirm=form.get('confirm')
+    if not confirm:
+        confirm=True
+    
     if game_id and id:
-        return Notes_base().confirm_game(game_id,id)
+        return Notes_base().confirm_game(game_id,id,confirm=int(confirm))
     else:
             print('non args')
             return{'status':'error'},401
@@ -51,8 +55,11 @@ def confirm_command():
     form=dict(request.form)
     id=form.get('id')
     command_id=form.get('command_id')
+    confirm=form.get('confirm')
+    if not confirm:
+        confirm=True
     if command_id and id:
-        return Notes_base().confirm_command(command_id,id)
+        return Notes_base().confirm_command(command_id,id,confirm=int(confirm))
     else:
             print('non args')
             return{'status':'error'},401
