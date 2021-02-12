@@ -21,11 +21,12 @@ def create():
     t=form.get('type')
     place=form.get('place')
     name=form.get('name')
+    price=form.get('price')
     print(place,date,t,owner,count)
-    if date and count and owner and t and place and name:
+    if date and count and owner and t and place and name and price:
         t=int(t)
         print('s')
-        return Tournament_base().create(date,count,owner,t,place,name)
+        return Tournament_base().create(date,count,owner,t,place,name,price)
     else:
         return {'status':'no args'},401
     

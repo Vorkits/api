@@ -18,7 +18,7 @@ auth = firebase.auth()
 storage = firebase.storage()
 
 db = firebase.database()
-def create_user(password,email,name,city):
+def create_user(password,email,name,city,age):
     try:
         auth = firebase.auth()
         db = firebase.database()
@@ -29,7 +29,7 @@ def create_user(password,email,name,city):
         photo='standart.jpg'
         photo=storage.child(f"avatars/{photo}").get_url(user['idToken'])
         notes={'games':{},'messages':{},'commands':{}}
-        user_form={'notes':notes,'name':name,'city':city,'token':token,'score':20,'level':1,'photo':photo,'balance':0}
+        user_form={'notes':notes,'name':name,'city':city,'token':token,'score':20,'level':1,'photo':photo,'balance':0,'age':age}
         db.child("users").child(email).set(user_form)
         db.child("tokens").child(token).set({'user':email})
         db.child('cityes').child(city).child(email).set({'id':email,'name':name})

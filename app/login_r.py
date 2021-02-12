@@ -9,11 +9,12 @@ def create_user():
     name=form.get('name',False)
     email=form.get('email',False)
     city=form.get('city',False)
+    age=form.get('age',False)
     
     password=form.get('password',False)
-    if form and name and city and password:
+    if form and name and city and password and age:
         city=city.lower()
-        user=f.create_user(password=form.get('password'),email=form.get('email'),name=name,city=city)
+        user=f.create_user(password=form.get('password'),email=form.get('email'),name=name,city=city,age=age)
         return user
     else:
         print('non args')
