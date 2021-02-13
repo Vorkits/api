@@ -48,3 +48,19 @@ def set_field():
         return Command_base().set_field(id,field,value)
     else:
         return {'status':'no args'},401
+    
+@commands.route('/upload_photo',methods=['POST'])
+def upload_photo():
+    if request.files :
+        image = request.files[list(request.files.keys())[0]]
+        print(UPLOADS_PATH)
+        id=list(request.files.keys())[0]
+        image.save(UPLOADS_PATH)
+        img = Image.open(UPLOADS_PATH) # (x,y) pixels
+        uid=uuid.uuid4().hex
+        img.convert("RGB").save(f'{uid}.jpg')
+        os.remove(UPLOADS_PATH)
+        return Command_base.photo(id,f'{uid}.jpg')
+    else:
+        print('non args')
+        return{'status':'error','desc':'non args'},401

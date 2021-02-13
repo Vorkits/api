@@ -1,6 +1,7 @@
 from app.firebase_init import Firebase
 import uuid
 import app.firebase as fr
+import os
 class Command_base(Firebase):
     
     def create_command(self,player1,player2,name):
@@ -112,5 +113,13 @@ class Command_base(Firebase):
         data['commands']=commands
         db.child('users').child(player).set(data)
         return True
+    def photo(self,command_id,photo):
+        
+        storage=self.storage
+        storage.child("commands").child(f'{photo}').put(photo)
+        os.remove(photo)  
+        photo_url=storage.child("commands").child(f'{photo}').get_url('2')
+        self.set_field(command_id,'photo',photo_url)
+        return {'status':'success'}
 
         
