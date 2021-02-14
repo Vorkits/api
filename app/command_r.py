@@ -56,7 +56,7 @@ def upload_photo():
         print(UPLOADS_PATH)
         id=list(request.files.keys())[0]
         image.save(UPLOADS_PATH)
-        img = Image.open(UPLOADS_PATH) # (x,y) pixels
+        img = Image.open(UPLOADS_PATH).resize((400,400))  # (x,y) pixels
         uid=uuid.uuid4().hex
         img.convert("RGB").save(f'{uid}.jpg')
         os.remove(UPLOADS_PATH)
