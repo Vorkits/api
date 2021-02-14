@@ -60,7 +60,7 @@ def upload_photo():
         uid=uuid.uuid4().hex
         img.convert("RGB").save(f'{uid}.jpg')
         os.remove(UPLOADS_PATH)
-        return Command_base.photo(id,f'{uid}.jpg')
+        return Command_base().photo(id,f'{uid}.jpg')
     else:
         print('non args')
         return{'status':'error','desc':'non args'},401
