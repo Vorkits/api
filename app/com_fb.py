@@ -92,7 +92,7 @@ class Command_base(Firebase):
     def set_field(self,id,field,value):
         try:
             db=self.db
-            data=self.get_command(id)['data']
+            data=dict(db.child('commands').child(id).get().val())
             data[field]=value
             db.child('commands').child(id).set(data)
         except:
