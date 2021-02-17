@@ -36,7 +36,7 @@ def join():
     # self,tournament_id,t,command_id,place=0,group_id=0,bracket_id=0
     tournament_id=form.get('tournament_id')
     command_id=form.get('command_id')
-    t=form.get('type')
+    t=form.get('type')  
     
     if tournament_id and command_id and t :
         t=int(t)

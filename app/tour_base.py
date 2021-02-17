@@ -3,6 +3,9 @@ import uuid
 import app.firebase as fr
 from app.com_fb import Command_base
 from app.Chat_base import Chat_base
+import redis
+import time
+r = redis.Redis(host='localhost', port=6379, db=0)
 class Tournament_base(Firebase):
     def create(self,date,count,owner,t,place,name,price):
         db=self.db
@@ -78,7 +81,19 @@ class Tournament_base(Firebase):
         elif allow==False:
             return {'status':'command already joined'},402
         else:
-            c=Command_base().get_command(command_id)['data']
+            c=dict(db.child('commands').child(command_id).get().val())
+            timenow=int(time.time())
+            
+            p1=c['player1'].replace('&&','.')
+            p2=c['player2'].replace('&&','.')
+            t=int(t)
+            addr=data['place']
+            tournament_date=int(data['date'])
+            print(tournament_date)
+            r.rpush('emails',f'{p1}:{timenow}:{tournament_date}:start:{addr}')
+            r.rpush('emails',f'{p2}:{timenow}:{tournament_date}:start:{addr}')
+            r.rpush('emails',f'{p1}:{tournament_date-86400}:{tournament_date}:1day:{addr}')
+            r.rpush('emails',f'{p2}:{tournament_date-86400}:{tournament_date}:1day:{addr}')
             bracket=data['bracket'][0]['games']
             if t==1:
                 m_key=''
@@ -101,9 +116,7 @@ class Tournament_base(Firebase):
                 group_id=''
                 
                 
-                print(data['group'])
                 for  index,group in enumerate(data['group']):
-                    print(group,index)
                     for index2,p in enumerate(group) :
                         if p=='free':
                             place=index2
@@ -111,7 +124,6 @@ class Tournament_base(Firebase):
                             break
                 data['group'][int(group_id)][int(place)]={'id':command_id,'name':c['name']}
             try:
-                print(data)
                 data['commands'].append(c)
             except:
                 data['commands']=[]
