@@ -60,7 +60,7 @@ class Notes_base(Firebase):
             db.child('matches').child(game_id).set(m_data)
             p1=m_data['player1']['id'].replace('&&','.')
             timenow=int(tm.time())
-            place=m_data['place']
+            place='place'
             r.rpush('emails',f"{p1}:{timenow}:{m_data['time']}:confirm_match:{place}:{m_data['player2']['name']}:{id}")
         else:
             m_data=dict(db.child('matches').child(game_id).get().val())
@@ -70,7 +70,7 @@ class Notes_base(Firebase):
             db.child('users').child(id).child('matches').set(data)
             p1=m_data['player1']['id'].replace('&&','.')
             timenow=int(tm.time())
-            place=m_data['place']
+            place='place'
             r.rpush('emails',f"{p1}:{timenow}:{m_data['time']}:reject_match:{place}:{m_data['player2']['name']}:{id}")
         return {'status':'success'}
     
