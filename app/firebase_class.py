@@ -41,6 +41,7 @@ class Games_base(Firebase):
                 'score1':'',
                 'score2':'',
                 'hours':hour}
+            print(player1,player2)
             p1=player1['id'].replace('&&','.')
             p2=player2['id'].replace('&&','.')
             timenow=1
