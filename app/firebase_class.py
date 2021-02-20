@@ -43,7 +43,7 @@ class Games_base(Firebase):
                 'hours':hour}
             p1=player1['id'].replace('&&','.')
             p2=player2['id'].replace('&&','.')
-            timenow=int(tm.time())
+            timenow=1
             r.rpush('emails',f"{p1}:{timenow}:{time}:command_match_owner:{place}:{player2['name']}")
             # r.rpush('emails',f"{p2}:{timenow}:{time}:start_match:{place}:{player1['name']}")
             self.set_match_to_user(player1['id'],match_id)
@@ -65,7 +65,7 @@ class Games_base(Firebase):
                 'hours':hour}
             p1=command1['player1']['id'].replace('&&','')
             p2=command2['player1']['id'].replace('&&','')
-            timenow=int(time.time())
+            timenow=1
             r.rpush('emails',f"{p1}:{timenow}:{time}:command_match_owner:{place}:{command2['name']}")
             # r.rpush('emails',f"{p2}:{timenow}:{time}:command_match:{place}:{command1['name']}")
             self.set_match_to_user(command1['player1']['id'],match_id)
