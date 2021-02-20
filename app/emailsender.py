@@ -84,7 +84,7 @@ while True:
         if timeout<now:
             
             date=datetime.fromtimestamp(int(t_date))
-            letter=letter.replace('#date#',str(date)).replace('#place#',str(addr)).replace('#user#',str(user)).replace('#user_id#',str(user_id))
+            letter=letter.replace('#date#',str(date)).replace('#place#',str('place')).replace('#user#',str(user)).replace('#user_id#',str(user_id))
             msg = MIMEMultipart()
             password = "Vorkit"
             msg['From'] ="euros04@mail.ru"
