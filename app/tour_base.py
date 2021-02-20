@@ -90,10 +90,10 @@ class Tournament_base(Firebase):
             addr=data['place']
             tournament_date=int(data['date'])
             print(tournament_date)
-            r.rpush('emails',f'{p1}:{timenow}:{tournament_date}:start:{addr}')
-            r.rpush('emails',f'{p2}:{timenow}:{tournament_date}:start:{addr}')
-            r.rpush('emails',f'{p1}:{tournament_date-86400}:{tournament_date}:1day:{addr}')
-            r.rpush('emails',f'{p2}:{tournament_date-86400}:{tournament_date}:1day:{addr}')
+            r.rpush('emails',f'{p1}:{timenow}:{tournament_date}:start:{addr}:user')
+            r.rpush('emails',f'{p2}:{timenow}:{tournament_date}:start:{addr}:user')
+            r.rpush('emails',f'{p1}:{tournament_date-25200}:{tournament_date}:1day:{addr}:user')
+            r.rpush('emails',f'{p2}:{tournament_date-25200}:{tournament_date}:1day:{addr}:user')
             bracket=data['bracket'][0]['games']
             if t==1:
                 m_key=''

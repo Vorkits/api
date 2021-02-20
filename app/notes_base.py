@@ -1,6 +1,10 @@
 from app.firebase_init import Firebase
 import uuid
 import app.firebase as fr
+import redis
+import time as tm
+r = redis.Redis(host='localhost', port=6379, db=0)
+
 class Notes_base(Firebase):
     
     def send_message(self,f,t,text):
@@ -54,11 +58,20 @@ class Notes_base(Firebase):
                 m_data={}            
             m_data['status']='confirm'
             db.child('matches').child(game_id).set(m_data)
+            p1=m_data['player1']['id'].replace('&&','.')
+            timenow=int(tm.time())
+            place=m_data['place']
+            r.rpush('emails',f"{p1}:{timenow}:{m_data['time']}:confirm_match:{place}:{m_data['player2']['name']}:{id}")
         else:
+            m_data=dict(db.child('matches').child(game_id).get().val())
             db.child('matches').child(game_id).remove()
             data=dict(db.child('users').child(id).child('matches').get().val())
             data.pop(game_id)
             db.child('users').child(id).child('matches').set(data)
+            p1=m_data['player1']['id'].replace('&&','.')
+            timenow=int(tm.time())
+            place=m_data['place']
+            r.rpush('emails',f"{p1}:{timenow}:{m_data['time']}:reject_match:{place}:{m_data['player2']['name']}:{id}")
         return {'status':'success'}
     
     def confirm_command(self,command_id,id,confirm=True):
