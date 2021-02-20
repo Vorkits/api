@@ -5,6 +5,10 @@ import app.firebase as fr
 from app.com_fb import Command_base
 from app.firebase_init import Firebase
 from app.Chat_base import Chat_base
+import redis
+import time as tm
+r = redis.Redis(host='localhost', port=6379, db=0)
+
 system_score={1:{'win':3,'lose':-1},
               2:{'win':3,'lose':-1},
               3:{'win':3,'lose':-1},
@@ -16,27 +20,34 @@ system_score={1:{'win':3,'lose':-1},
     
 class Games_base(Firebase):
     
-    def create_match(self,player1,player2,time,coart=False,t=1,hour=False):
+    def create_match(self,player1,player2,time,coart=False,t=1,hour=False,place=''):
         db=self.db
         match_id=uuid.uuid4().hex
         match_data={}
+        
         Chat_base().create_chat(match_id)
         if t==1:
+            player1=fr.get_user(player1)
+            player2=fr.get_user(player2)
             match_data={
                 'time':time,
                 'coart':coart,
-                'player1':fr.get_user(player1),
-                'player2':fr.get_user(player2),
+                'player1':player1,
+                'player2':player2,
                 'type':t,
+                'place':place,
                 'status':'start',
                 'winner':'',
                 'score1':'',
                 'score2':'',
                 'hours':hour}
-            
-            
-            self.set_match_to_user(player1,match_id)
-            self.set_match_to_user(player2,match_id,note=True)
+            p1=player1['id'].replace('&&','.')
+            p2=player2['id'].replace('&&','.')
+            timenow=int(tm.time())
+            r.rpush('emails',f"{p1}:{timenow}:{time}:command_match_owner:{place}:{player2['name']}")
+            # r.rpush('emails',f"{p2}:{timenow}:{time}:start_match:{place}:{player1['name']}")
+            self.set_match_to_user(player1['id'],match_id)
+            self.set_match_to_user(player2['id'],match_id,note=True)
         elif t==2:
             command1=Command_base().get_command(player1)['data']
             command2=Command_base().get_command(player2)['data']
@@ -47,11 +58,16 @@ class Games_base(Firebase):
                 'player2':command2,
                 'type':t,
                 'status':'start',
+                'place':place,
                 'winner':'',
                 'score1':'',
                 'score2':'',
                 'hours':hour}
-            
+            p1=command1['player1']['id'].replace('&&','')
+            p2=command2['player1']['id'].replace('&&','')
+            timenow=int(time.time())
+            r.rpush('emails',f"{p1}:{timenow}:{time}:command_match_owner:{place}:{command2['name']}")
+            # r.rpush('emails',f"{p2}:{timenow}:{time}:command_match:{place}:{command1['name']}")
             self.set_match_to_user(command1['player1']['id'],match_id)
             self.set_match_to_user(command1['player2']['id'],match_id)
             self.set_match_to_user(command2['player1']['id'],match_id,note=True)
@@ -152,8 +168,9 @@ class Games_base(Firebase):
         
     def set_match_to_user(self,player,match_id,note=False):
         db=self.db
-        
+        print(player)
         userdata=db.child('users').child(player).child('matches').get().val()
+        
         if userdata:
             userdata=dict(userdata)
             userdata[match_id]=match_id

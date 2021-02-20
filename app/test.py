@@ -8,13 +8,6 @@
 # for user in auth.list_users().iterate_all():
 #     print("Deleting user " + user.uid)
 #     auth.delete_user(user.uid)
-
 import redis
-from datetime import datetime
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import smtplib
-import time
 r = redis.Redis(host='localhost', port=6379, db=0)
-while True:
-     print(r.lpop('emails'))
+print(r.lindex('emails',0))
