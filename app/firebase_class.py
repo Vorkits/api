@@ -161,8 +161,9 @@ class Games_base(Firebase):
         db=self.db
         try:
             data=dict(db.child('users').child(user).child('matches').get().val())
+            matches=dict(db.child('matches').get().val())
             for i in data.keys():
-                data[i]=self.get_match(i)
+                data[i]=matches(i)
             return data
         except:
             return {}
