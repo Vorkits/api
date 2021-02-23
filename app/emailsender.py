@@ -4,17 +4,22 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 import time
+from smtplib import SMTPException
 r = redis.Redis(host='localhost', port=6379, db=0)
-domain='http://82.146.45.20'
+domain = 'http://82.146.45.20'
 server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
 server.login("euros04@mail.ru", 'Spore005')
-def safe_list_get (l, idx, default):
+
+
+def safe_list_get(l, idx, default):
     try:
         return l[idx]
     except IndexError:
         return default
-templates={
-    'start':f"""Hello, you have registered for the tournament on    Confirmation mail
+
+
+templates = {
+    'start': f"""Hello, you have registered for the tournament on    Confirmation mail
 Dear user, you’ve just signed up for the tournament
 The tournament will take place the #place# , #date# 
 Best regards
@@ -24,13 +29,13 @@ Caro User, hai appena preso parte al torneo da noi organizzato
 Il torneo avrà luogo #place# , #date#
 Distinti saluti 
 """,
-    '1day':"""Dear user, you paddle tournament will start today at #date# , #place# 
+    '1day': """Dear user, you paddle tournament will start today at #date# , #place# 
 Kinds regards
 
 Caro User, il tuo torneo di padel comincerà oggi  #date# , #place# 
 Distinti saluti 
 """,
-'command_match_owner':"""Dear user, you sent a message to #user# in order to have  a match the day #date# , #place#  
+    'command_match_owner': """Dear user, you sent a message to #user# in order to have  a match the day #date# , #place#  
 You will be informed when your opponent will accept or not your invitation, in order to organize a match the day you both agreed for . 
 Kinds regards 
 
@@ -38,7 +43,7 @@ Caro User, hai appena inviato un invito per un match all’user #user# una propo
 Riceverai una mail di conferma quando il tuo avversario risponderà e potrete organizzare il vostro match il giorno e la data da voi scelti
 Distinti saluti
 """,
-'reject_match':f"""Dear User, 
+    'reject_match': f"""Dear User, 
 Unfortunately your opponent refused to have a match with you
 Send him a message to propose another timeframe 
 {domain}/OtherProfile/:#user_id#
@@ -54,7 +59,7 @@ Oppure organizza un altro match con un altro player
 {domain}/players
 Distinti saluti 
 """,
-'confirm_match':f"""Dear user,
+    'confirm_match': f"""Dear user,
 Great news, your opponent has just accepted the invite you sent him 
 Contact him in order to coordinate where having the match 
 Best regards 
@@ -64,37 +69,43 @@ Ottime notizie, il tuo avversario ha appena accettato di avere un match con te
 Contattato per fissare dove avere il match
 Distinti saluti 
 {domain}/OtherProfile/:#user_id#
-"""
-}
+"""}
 while True:
     try:
-        letter=r.lindex('emails',0).decode('utf-8').split(':')
-        email=letter[0]
+        time.sleep(1)
+        letter = r.lindex('emails', 0)
         print(letter)
-        now=time.time()
-        timeout=int(letter[1])
-        t_date=letter[2]
-        addr=letter[4]
-        user=letter[5]
-        user_id=safe_list_get(letter,6,'')
-        letter=templates[letter[3]]
-        
-        print(user,user_id)
+        letter = letter.decode('utf-8').split(':')
+        email = letter[0]
+        # print(letter)
+        now = time.time()
+        timeout = int(letter[1])
+        t_date = letter[2]
+        addr = letter[4]
+        user = letter[5]
+        user_id = safe_list_get(letter, 6, '')
+        letter = templates[letter[3]]
+
+        print(user, user_id)
         # print(addr,t_date,timeout)
-        if timeout<now:
-            
-            date=datetime.fromtimestamp(int(t_date))
-            letter=letter.replace('#date#',str(date)).replace('#place#',str('place')).replace('#user#',str(user)).replace('#user_id#',str(user_id))
+        if timeout < now:
+
+            date = datetime.fromtimestamp(int(t_date))
+            letter = letter.replace('#date#', str(date)).replace('#place#', str(
+                'place')).replace('#user#', str(user)).replace('#user_id#', str(user_id))
             msg = MIMEMultipart()
             password = "Vorkit"
-            msg['From'] ="euros04@mail.ru"
+            msg['From'] = "euros04@mail.ru"
             msg['To'] = email
             msg['Subject'] = "Paddle notification"
             msg.attach(MIMEText(letter, 'plain'))
-            server.sendmail(msg['From'], msg['To'], msg.as_string())
+            try:
+                server.sendmail(msg['From'], msg['To'], msg.as_string())
+            except:
+                server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
+                server.login("euros04@mail.ru", 'Spore005')
+                server.sendmail(msg['From'], msg['To'], msg.as_string())
             r.lpop('emails')
-    except:
+    except Exception as e:
+        print(e)
         r.lpop('emails')
-    
-    
-    

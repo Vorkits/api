@@ -22,6 +22,7 @@ def create_user(password,email,name,city,age):
     try:
         auth = firebase.auth()
         db = firebase.database()
+        auth.s
         user=auth.create_user_with_email_and_password(email, password)
         auth.send_email_verification(user['idToken'])
         token=uuid.uuid4().hex
