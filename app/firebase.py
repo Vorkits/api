@@ -1,6 +1,8 @@
 import pyrebase
 import uuid
 import os
+from app.firebase_init import Firebase
+import redis
 config = {
     "apiKey": "AIzaSyDYsYC0LnriZt1JxLKpFKV0HIfw2slT1ac",
     "authDomain": "orac-9d788.firebaseapp.com",
@@ -16,16 +18,24 @@ config = {
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 storage = firebase.storage()
+r = redis.Redis(host='localhost', port=6379, db=0)
 
 db = firebase.database()
 def create_user(password,email,name,city,age):
     try:
         auth = firebase.auth()
         db = firebase.database()
-        auth.s
         user=auth.create_user_with_email_and_password(email, password)
-        auth.send_email_verification(user['idToken'])
+        
         token=uuid.uuid4().hex
+        settings=Firebase().auth_admin.ActionCodeSettings(f"http://82.146.45.20/user/:{token}")
+        link=Firebase().auth_admin.generate_email_verification_link(email,action_code_settings=settings).replace(':','*')
+        import time
+        timenow=int(time.time())
+        r.rpush('emails',f"{email}:{timenow}:{timenow}:validation:place:{link}:id")
+        # auth.send_email_verification(user['idToken'])
+        
+        
         email=email.replace('.','&&')
         photo='standart.jpg'
         photo=storage.child(f"avatars/{photo}").get_url(user['idToken'])
