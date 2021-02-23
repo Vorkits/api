@@ -69,7 +69,10 @@ Ottime notizie, il tuo avversario ha appena accettato di avere un match con te
 Contattato per fissare dove avere il match
 Distinti saluti 
 {domain}/OtherProfile/:#user_id#
+""",'validation': f"""Dear user, you have registered in paddle platform, please confirm your email by link.
+    #user#
 """}
+
 while True:
     try:
         time.sleep(1)
@@ -82,7 +85,7 @@ while True:
         timeout = int(letter[1])
         t_date = letter[2]
         addr = letter[4]
-        user = letter[5]
+        user = letter[5].replace('*',':')
         user_id = safe_list_get(letter, 6, '')
         letter = templates[letter[3]]
 
