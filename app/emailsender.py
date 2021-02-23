@@ -105,6 +105,7 @@ while True:
             try:
                 server.sendmail(msg['From'], msg['To'], msg.as_string())
             except:
+                server.close()
                 server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
                 server.login("euros04@mail.ru", 'Spore005')
                 server.sendmail(msg['From'], msg['To'], msg.as_string())
