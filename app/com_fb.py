@@ -57,6 +57,14 @@ class Command_base(Firebase):
             return {'data':dict(data)}
         except:
             return {'status':'error'},401
+    def delete_command(self,id):
+        try:
+            db=self.db
+            data=db.child('commands').child(id).remove()
+            print('delete')
+            return {'status':'success'}
+        except:
+            return {'status':'error'},401
     def get_commands(self,ids):
         # try:
             db=self.db

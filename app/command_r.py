@@ -29,6 +29,15 @@ def get():
         return Command_base().get_command(id)
     else:
         return {'status':'no args'},401
+@commands.route('/delete',methods=['GET'])
+def delete():
+    form=dict(request.args)
+    id=form.get('id')
+
+    if id:
+        return Command_base().delete_command(id)
+    else:
+        return {'status':'no args'},401
 @commands.route('/get_city',methods=['GET'])
 def get_city():
     form=dict(request.args)
