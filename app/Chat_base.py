@@ -3,10 +3,38 @@ import uuid
 import app.firebase as fr
 from hashlib import sha256
 import time 
+import json
+
 class Chat_base(Firebase):
-    def create_chat(self,id):
+    def create_chat(self,id,users):
         db=self.db
+        users=json.loads(users)
+        print(users)
+        for i in users:
+            user_db=dict(db.child('users').child(i).get().val())
+            try:
+                chats=user_db['chats']
+            except:
+                chats={}
+            chats[id]=id
+            user_db['chats']=chats
+            db.child('users').child(i).set(user_db)
         db.child('chats').child(id).set({'status':''})
+        return {'status':'success'}
+    def add_chat(self,id,user):
+        db=self.db
+        users=json.loads(users)
+    
+        user_db=dict(db.child('users').child(user).get().val())
+        try:
+            chats=user_db['chats']
+        except:
+            chats={}
+        chats[id]=id
+        user_db['chats']=chats
+        db.child('users').child(user).set(user_db)
+        # chat_db=dict(db.child('chats').child(id).get().val())
+
         return {'status':'success'}
     def get_chat(self,id):
         db=self.db

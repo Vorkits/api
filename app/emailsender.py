@@ -74,11 +74,14 @@ Distinti saluti
 """}
 
 while True:
-    try:
+    # try:
         time.sleep(1)
         letter = r.lindex('emails', 0)
         print(letter)
-        letter = letter.decode('utf-8').split(':')
+        try:
+            letter = letter.decode('utf-8').split(':')
+        except:
+            continue
         email = letter[0]
         # print(letter)
         now = time.time()
@@ -110,6 +113,6 @@ while True:
                 server.login("euros04@mail.ru", 'Spore005')
                 server.sendmail(msg['From'], msg['To'], msg.as_string())
             r.lpop('emails')
-    except Exception as e:
-        print(e)
-        r.lpop('emails')
+    # except Exception as e:
+    #     print(e)
+    #     r.lpop('emails')

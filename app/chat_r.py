@@ -15,8 +15,10 @@ rpath=dirname(realpath(__file__))
 def create():
     form=dict(request.form)
     id=form.get('id')
-    if id:
-        return Chat_base().create_chat(id)
+    users=form.get('users')
+    if id and users:
+        print(users)
+        return Chat_base().create_chat(id,users)
     else:
         return {'status':'no args'},401
     
@@ -38,5 +40,15 @@ def send():
     owner=form.get('owner')
     if id and owner and message:
         return Chat_base().send_message(id,message,owner)
+    else:
+        return {'status':'no args'},401
+    
+@chat.route('/add_chat',methods=['POST'])
+def send():
+    form=dict(request.form)
+    id=form.get('id')
+    user=form.get('user')
+    if id and user:
+        return Chat_base().add_chat(id,user)
     else:
         return {'status':'no args'},401
