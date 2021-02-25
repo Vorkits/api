@@ -72,27 +72,29 @@ class Command_base(Firebase):
             r_data={}
             all_data=dict(db.child('commands').get().val())
             for i in ids:
+                try:
+                    data=all_data[i]
+                    if not players_data.get(data['player1']):
+                        
+                        p_data=fr.get_user(data['player1'])
+                        
+                        players_data[data['player1']]=p_data
+                        data['player1']=p_data
+                    else:
+                        data['player1']=players_data[data['player1']]
+                        
+                    if not players_data.get(data['player2']):
+                        p_data=fr.get_user(data['player2'])
+                        
+                        players_data[data['player2']]=p_data
+                        data['player2']=p_data
+                    else:
+                        data['player2']=players_data[data['player2']]
+                    r_data[i]=data
+                except:
+                    pass
                 
-                data=all_data[i]
-                if not players_data.get(data['player1']):
-                    
-                    p_data=fr.get_user(data['player1'])
-                    
-                    players_data[data['player1']]=p_data
-                    data['player1']=p_data
-                else:
-                    data['player1']=players_data[data['player1']]
-                    
-                if not players_data.get(data['player2']):
-                    p_data=fr.get_user(data['player2'])
-                    
-                    players_data[data['player2']]=p_data
-                    data['player2']=p_data
-                else:
-                    data['player2']=players_data[data['player2']]
-                    
                 
-                r_data[i]=data
             print(r_data)
             return {'data':dict(r_data)} 
         # except:
