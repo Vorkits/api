@@ -44,7 +44,7 @@ def send():
         return {'status':'no args'},401
     
 @chat.route('/add_chat',methods=['POST'])
-def send():
+def add_chat():
     form=dict(request.form)
     id=form.get('id')
     user=form.get('user')
