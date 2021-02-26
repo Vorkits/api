@@ -86,7 +86,7 @@ while True:
         # print(letter)
         now = time.time()
         timeout = int(letter[1])
-        t_date = letter[2]
+        t_date = letter[2] 
         addr = letter[4]
         user = letter[5].replace('*',':')
         user_id = safe_list_get(letter, 6, '')

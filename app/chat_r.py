@@ -16,9 +16,10 @@ def create():
     form=dict(request.form)
     id=form.get('id')
     users=form.get('users')
+    name=form.get('name')
     if id and users:
         print(users)
-        return Chat_base().create_chat(id,users)
+        return Chat_base().create_chat(id,users,name)
     else:
         return {'status':'no args'},401
     

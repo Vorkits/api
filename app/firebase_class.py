@@ -27,7 +27,7 @@ class Games_base(Firebase):
         
         
         if t==1:
-            Chat_base().create_chat(match_id,f"""["{player1}","{player2}"]""")
+            Chat_base().create_chat(match_id,f"""["{player1}","{player2}"]""",f'match {match_id}')
             player1=fr.get_user(player1)
             player2=fr.get_user(player2)
             match_data={
@@ -76,7 +76,7 @@ class Games_base(Firebase):
             self.set_match_to_user(command2['player2']['id'],match_id,note=True)
             self.set_match_to_command(player1,match_id)
             self.set_match_to_command(player2,match_id)
-            Chat_base().create_chat(match_id,f"""["{command2['player2']['id']}","{command2['player1']['id']}","command1['player2']['id']","command1['player1']['id']"]""")
+            Chat_base().create_chat(match_id,f"""["{command2['player2']['id']}","{command2['player1']['id']}","command1['player2']['id']","command1['player1']['id']"]""",f'match {match_id}')
         db.child('matches').child(match_id).set(match_data)
         return (match_id,match_data)
     def change_field(self,field,value,match_id):

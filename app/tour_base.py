@@ -57,7 +57,7 @@ class Tournament_base(Firebase):
         t_data['bracket']=branch_data
         t_id=uuid.uuid4().hex
         t_data['id']=t_id
-        Chat_base().create_chat(t_id,f"""["{owner}"]""")
+        Chat_base().create_chat(t_id,f"""["{owner}"]""",f'tournament {t_id}')
         db.child('tournaments').child(t_id).set(t_data)
         return {'status':'success','data':t_data}
     

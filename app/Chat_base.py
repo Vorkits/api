@@ -6,10 +6,11 @@ import time
 import json
 
 class Chat_base(Firebase):
-    def create_chat(self,id,users):
+    def create_chat(self,id,users,name=''):
         db=self.db
         users=json.loads(users)
         print(users)
+        chat_name=''
         for i in users:
             user_db=dict(db.child('users').child(i).get().val())
             try:
@@ -18,13 +19,13 @@ class Chat_base(Firebase):
                 chats={}
             chats[id]=id
             user_db['chats']=chats
+            chat_name+=user_db['name']+','
             db.child('users').child(i).set(user_db)
-        db.child('chats').child(id).set({'status':''})
+
+        db.child('chats').child(id).set({'status':'','chat_name':name,'users':chat_name})
         return {'status':'success'}
     def add_chat(self,id,user):
-        db=self.db
-        users=json.loads(users)
-    
+        db=self.db    
         user_db=dict(db.child('users').child(user).get().val())
         try:
             chats=user_db['chats']
