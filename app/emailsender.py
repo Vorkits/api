@@ -8,8 +8,8 @@ from smtplib import SMTPException
 import redis
 r = redis.Redis(host='localhost', port=6379, db=0)
 domain = 'http://82.146.45.20'
-server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
-server.login("paddlepaddle@mail.ru", 'Spore005')
+server = smtplib.SMTP_SSL('smtp.yandex.ru: 465')
+server.login("reazer37@yandex.ru", 'spore0005')
 
 
 def safe_list_get(l, idx, default):
