@@ -9,7 +9,7 @@ import redis
 r = redis.Redis(host='localhost', port=6379, db=0)
 domain = 'http://82.146.45.20'
 server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
-server.login("euros03@mail.ru", 'Spore005')
+server.login("paddlepaddle@mail.ru", 'Spore005')
 
 
 def safe_list_get(l, idx, default):
@@ -141,17 +141,20 @@ while True:
                 'place')).replace('#user#', str(user)).replace('#user_id#', str(user_id))
             msg = MIMEMultipart()
             password = "Vorkit"
-            msg['From'] = "euros04@mail.ru"
+            msg['From'] = "paddlepaddle@mail.ru"
             msg['To'] = email
             msg['Subject'] = "Paddle notification"
             msg.attach(MIMEText(letter, 'plain'))
             try:
                 server.sendmail(msg['From'], msg['To'], msg.as_string())
             except:
-                server.close()
-                server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
-                server.login("euros04@mail.ru", 'Spore005')
-                server.sendmail(msg['From'], msg['To'], msg.as_string())
+                try:
+                    server.close()
+                    server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
+                    server.login("paddlepaddle@mail.ru", 'Spore005')
+                    server.sendmail(msg['From'], msg['To'], msg.as_string())
+                except:
+                    pass
             r.lpop('emails')
     # except Exception as e:
     #     print(e)
