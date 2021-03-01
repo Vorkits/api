@@ -93,11 +93,19 @@ class Notes_base(Firebase):
                 m_data={}
             m_data['status']='confirm'
             db.child('commands').child(command_id).set(m_data)
+            p1=m_data['player1']['id'].replace('&&','.')
+            timenow=int(tm.time())
+            place='place'
+            r.rpush('emails',f"{p1}:{timenow}:{m_data['time']}:confirm_command:{place}:{m_data['player2']['name']}:{id}")
         else:
             db.child('commands').child(command_id).remove()
             data=dict(db.child('users').child(id).child('commands').get().val())
             data.pop(command_id)
             db.child('users').child(id).child('commands').set(data)
+            p1=m_data['player1']['id'].replace('&&','.')
+            timenow=int(tm.time())
+            place='place'
+            r.rpush('emails',f"{p1}:{timenow}:{m_data['time']}:confirm_command:{place}:{m_data['player2']['name']}:{id}")
         return {'status':'success'}
     def get(self,id):
         db=self.db

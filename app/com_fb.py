@@ -2,6 +2,8 @@ from app.firebase_init import Firebase
 import uuid
 import app.firebase as fr
 import os
+r = redis.Redis(host='localhost', port=6379, db=0)
+
 class Command_base(Firebase):
     
     def create_command(self,player1,player2,name):
@@ -28,6 +30,11 @@ class Command_base(Firebase):
             self.set_command(player1,id)
             self.set_command(player2,id)
             self.set_note(player2,command_data['id'],player1)
+            p1=player1.replace('&&','.')
+            timenow=1
+            time=1
+            place='place'
+            r.rpush('emails',f"{p1}:{timenow}:{time}:command_owner:{place}:name:{player1}")
             return {'data':command_data},200
     
     

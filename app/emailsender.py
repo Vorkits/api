@@ -71,7 +71,44 @@ Distinti saluti
 {domain}/OtherProfile/:#user_id#
 """,'validation': f"""Dear user, you have registered in paddle platform, please confirm your email by link.
     #user#
-"""}
+"""
+,
+
+
+
+ 'command_owner': """Dear user, you sent a message to #user_id# in order to have a couple
+You will be informed when your opponent will accept or not your invitation, in order to organize a match the day you both agreed for . 
+Kinds regards 
+
+Caro User, hai appena inviato un invito per un match all’user #user_id# una proposta di couple
+Riceverai una mail di conferma quando il tuo avversario risponderà e potrete organizzare il vostro match il giorno e la data da voi scelti
+Distinti saluti
+""",
+    'reject_command': f"""Dear User, 
+Unfortunately your opponent refused to have a couple with you
+Send him a message to propose another timeframe 
+{domain}/OtherProfile/:#user_id#
+Or find another player to our site.
+{domain}/players
+Best regards.
+
+Caro User, 
+Sfortunatamente il tuo avversario ha rifiutato l’orario ed il girono da te proposti
+Contattalo per pattuire un altro giorno ed ora
+{domain}/OtherProfile/:#user_id#
+Oppure organizza un altro match con un altro player
+{domain}/players
+Distinti saluti 
+""",
+    'confirm_command': f"""Dear user,
+Great news, your opponent has just accepted the couple
+{domain}/OtherProfile/:#user_id#
+Caro User, 
+Ottime notizie, il tuo avversario ha appena accettato di avere un match con te
+Contattato per fissare dove avere il match
+Distinti saluti 
+{domain}/OtherProfile/:#user_id#
+""",}
 
 while True:
     # try:
