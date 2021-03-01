@@ -2,6 +2,7 @@ from app.firebase_init import Firebase
 import uuid
 import app.firebase as fr
 import os
+import redis
 r = redis.Redis(host='localhost', port=6379, db=0)
 
 class Command_base(Firebase):

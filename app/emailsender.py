@@ -5,10 +5,11 @@ from email.mime.text import MIMEText
 import smtplib
 import time
 from smtplib import SMTPException
+import redis
 r = redis.Redis(host='localhost', port=6379, db=0)
 domain = 'http://82.146.45.20'
 server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
-server.login("euros04@mail.ru", 'Spore005')
+server.login("euros03@mail.ru", 'Spore005')
 
 
 def safe_list_get(l, idx, default):
@@ -76,11 +77,11 @@ Distinti saluti
 
 
 
- 'command_owner': """Dear user, you sent a message to #user_id# in order to have a couple
+ 'command_owner': f"""Dear user, you sent a message to {domain}/OtherProfile/:#user_id# in order to have a couple
 You will be informed when your opponent will accept or not your invitation, in order to organize a match the day you both agreed for . 
 Kinds regards 
 
-Caro User, hai appena inviato un invito per un match all’user #user_id# una proposta di couple
+Caro User, hai appena inviato un invito per un match all’user {domain}/OtherProfile/:#user_id# una proposta di couple
 Riceverai una mail di conferma quando il tuo avversario risponderà e potrete organizzare il vostro match il giorno e la data da voi scelti
 Distinti saluti
 """,
@@ -132,8 +133,10 @@ while True:
         print(user, user_id)
         # print(addr,t_date,timeout)
         if timeout < now:
-
-            date = datetime.fromtimestamp(int(t_date))
+            try:
+                date = datetime.fromtimestamp(int(t_date))
+            except:
+                date=''
             letter = letter.replace('#date#', str(date)).replace('#place#', str(
                 'place')).replace('#user#', str(user)).replace('#user_id#', str(user_id))
             msg = MIMEMultipart()
