@@ -145,17 +145,17 @@ while True:
             msg['To'] = email
             msg['Subject'] = "Paddle notification"
             msg.attach(MIMEText(letter, 'plain'))
-            try:
-                server.sendmail(msg['From'], msg['To'], msg.as_string())
-            except Exception as e:
-                try:
-                    print(e)
-                    server.close()
-                    server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
-                    server.login("reazer37@yandex.ru", 'Spore005')
-                    server.sendmail(msg['From'], msg['To'], msg.as_string())
-                except:
-                    pass
+            # try:
+            server.sendmail(msg['From'], msg['To'], msg.as_string())
+            # except Exception as e:
+            #     try:
+            #         print(e,'probleeem')
+            #         server.close()
+            #         server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
+            #         server.login("reazer37@yandex.ru", 'Spore005')
+            #         server.sendmail(msg['From'], msg['To'], msg.as_string())
+            #     except:
+            #         pass
             r.lpop('emails')
     # except Exception as e:
     #     print(e)
