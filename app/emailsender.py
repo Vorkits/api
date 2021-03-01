@@ -141,17 +141,18 @@ while True:
                 'place')).replace('#user#', str(user)).replace('#user_id#', str(user_id))
             msg = MIMEMultipart()
             password = "Vorkit"
-            msg['From'] = "paddlepaddle@mail.ru"
+            msg['From'] = "reazer37@yandex.ru"
             msg['To'] = email
             msg['Subject'] = "Paddle notification"
             msg.attach(MIMEText(letter, 'plain'))
             try:
                 server.sendmail(msg['From'], msg['To'], msg.as_string())
-            except:
+            except Exception as e:
                 try:
+                    print(e)
                     server.close()
                     server = smtplib.SMTP_SSL('smtp.mail.ru: 465')
-                    server.login("paddlepaddle@mail.ru", 'Spore005')
+                    server.login("reazer37@yandex.ru", 'Spore005')
                     server.sendmail(msg['From'], msg['To'], msg.as_string())
                 except:
                     pass
