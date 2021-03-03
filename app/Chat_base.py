@@ -11,6 +11,7 @@ class Chat_base(Firebase):
         users=json.loads(users)
         print(users)
         chat_name=''
+        users_array=[]
         for i in users:
             user_db=dict(db.child('users').child(i).get().val())
             try:
@@ -18,11 +19,12 @@ class Chat_base(Firebase):
             except:
                 chats={}
             chats[id]=id
+            users_array.append(i)
             user_db['chats']=chats
             chat_name+=user_db['name']+','
             db.child('users').child(i).set(user_db)
 
-        db.child('chats').child(id).set({'status':'','chat_name':name,'users':chat_name})
+        db.child('chats').child(id).set({'status':'','chat_name':name,'users':chat_name,'users_id':users_array})
         return {'status':'success'}
     def add_chat(self,id,user):
         db=self.db    
