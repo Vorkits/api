@@ -24,9 +24,9 @@ def create():
         return {'status':'no args'},401
     
     
-@chat.route('/get',methods=['GET'])
+@chat.route('/get',methods=['POST'])
 def get():
-    form=dict(request.args)
+    form=dict(request.form)
     id=form.get('id')
     user=form.get('user')
     if id and user:
