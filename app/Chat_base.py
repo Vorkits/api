@@ -36,8 +36,10 @@ class Chat_base(Firebase):
         chats[id]=id
         user_db['chats']=chats
         db.child('users').child(user).set(user_db)
-        # chat_db=dict(db.child('chats').child(id).get().val())
-
+        chat_db=dict(db.child('chats').child(id).get().val())
+        chat_db['users_id'].append(user)
+        chat_db['users']+=user_db['name']+','
+        db.child('chats').child(id).set(chat_db)
         return {'status':'success'}
     def get_chat(self,id):
         db=self.db
