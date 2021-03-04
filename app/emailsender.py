@@ -153,7 +153,7 @@ while True:
                     server = smtplib.SMTP_SSL('smtp.yandex.ru: 465')
                     server.login("reazer37@yandex.ru", 'spore0005')
                     server.sendmail(msg['From'], msg['To'], msg.as_string())
-
+                    continue
             r.lpop('emails')
     # except Exception as e:
     #     print(e)
