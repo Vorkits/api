@@ -28,8 +28,9 @@ def create():
 def get():
     form=dict(request.args)
     id=form.get('id')
-    if id:
-        return Chat_base().get_chat(id)
+    user=form.get('user')
+    if id and user:
+        return Chat_base().get_chat(id,user)
     else:
         return {'status':'no args'},401
 
