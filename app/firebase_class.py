@@ -65,8 +65,8 @@ class Games_base(Firebase):
                 'score1':'',
                 'score2':'',
                 'hours':hour}
-            p1=command1['player1']['id'].replace('&&','')
-            p2=command2['player1']['id'].replace('&&','')
+            p1=command1['player1']['id'].replace('&&','.')
+            p2=command2['player1']['id'].replace('&&','.')
             timenow=1
             r.rpush('emails',f"{p1}:{timenow}:{time}:command_match_owner:{place}:{command2['name']}")
             # r.rpush('emails',f"{p2}:{timenow}:{time}:command_match:{place}:{command1['name']}")
