@@ -112,7 +112,7 @@ Distinti saluti
 """,}
 
 while True:
-    # try:
+    try:
         time.sleep(1)
         letter = r.lindex('emails', 0)
         print(letter)
@@ -155,6 +155,6 @@ while True:
                     server.sendmail(msg['From'], msg['To'], msg.as_string())
                     continue
             r.lpop('emails')
-    # except Exception as e:
-    #     print(e)
-    #     r.lpop('emails')
+    except Exception as e:
+        print(e)
+        r.lpop('emails')
