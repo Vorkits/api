@@ -76,7 +76,6 @@ class Games_base(Firebase):
             self.set_match_to_user(command2['player2']['id'],match_id,note=True)
             self.set_match_to_command(player1,match_id)
             self.set_match_to_command(player2,match_id)
-            player1=
             # Chat_base().create_chat(match_id,f"""["{command2['player2']['id']}","{command2['player1']['id']}","command1['player2']['id']","command1['player1']['id']"]""",f'match {match_id}')
         db.child('matches').child(match_id).set(match_data)
         return (match_id,match_data)
