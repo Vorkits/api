@@ -86,12 +86,13 @@ class Notes_base(Firebase):
             notes={}
             notes['count']=0
         db.child('users').child(id).child('notes').child('commands').set(notes)
+        m_data=db.child('commands').child(command_id).get().val()
+        try:
+            m_data=dict(m_data)
+        except:
+            m_data={}
         if confirm:
-            m_data=db.child('commands').child(command_id).get().val()
-            try:
-                m_data=dict(m_data)
-            except:
-                m_data={}
+            
             m_data['status']='confirm'
             db.child('commands').child(command_id).set(m_data)
             p1=m_data['player1'].replace('&&','.')
@@ -99,6 +100,7 @@ class Notes_base(Firebase):
             place='place'
             r.rpush('emails',f"{p1}:{timenow}:time:confirm_command:{place}:name:{id}")
         else:
+            
             db.child('commands').child(command_id).remove()
             data=dict(db.child('users').child(id).child('commands').get().val())
             data.pop(command_id)
@@ -106,7 +108,7 @@ class Notes_base(Firebase):
             p1=m_data['player1'].replace('&&','.')
             timenow=int(tm.time())
             place='place'
-            r.rpush('emails',f"{p1}:{timenow}:time:confirm_command:{place}:name:{id}")
+            r.rpush('emails',f"{p1}:{timenow}:time:reject_command:{place}:name:{id}")
         return {'status':'success'}
     def get(self,id):
         db=self.db
